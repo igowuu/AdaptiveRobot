@@ -1,3 +1,10 @@
+# AdaptiveRobot - FRC architecture
+# Copyright (c) 2026 Jacob Taylor (igowu) <https://github.com/igowuu>
+# Code from: <https://github.com/igowuu/AdaptiveRobot.git>
+
+# Licensed under the MIT License.
+# See https://opensource.org/licenses/MIT for details.
+
 from typing import final
 from abc import abstractmethod, ABC
 
@@ -106,4 +113,5 @@ class AdaptiveComponent(ABC):
         """
         Method automatically called every loop in the program.
         """
+
         ...
