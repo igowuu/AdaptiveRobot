@@ -247,8 +247,8 @@ You can choose if you want some features, but don't want others.
 
 * Subsystems own hardware
 * Everything else that is binded to the robot is a Component
-* Controls requests
-* Requests are resolved per-axis
+* Control files request actions
+* Requests are resolved per-axis in subsystems
 * Priorities decide which request wins
 * The subsystem is the final authority
 * Mixing auto, teleop, and safety becomes predictable
@@ -257,4 +257,4 @@ You can choose if you want some features, but don't want others.
 
 And the best part? This works for *any type of robot, ever*. 
 
-So no matter what your robot looks like, you're going to have a boss codebase by using this. ;3
+So no matter what your robot looks like, you're going to have a boss codebase by using this.
