@@ -1,5 +1,9 @@
 # AdaptiveRobot (Request-Based Architecture)
 
+![Python](https://img.shields.io/badge/python-3.11-blue)
+![RobotPy](https://img.shields.io/badge/RobotPy-2026-blue)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 ## The issue
 
 In typical FRC robot code:
@@ -55,6 +59,13 @@ Requests are made per-axis. This means that for each type of motion of your subs
 So think of it like this:
 In a class of students, the teacher asks a question, and multiple students raise their hand. The student with the most priority in the teachers eyes will be picked, and all the rest of the students will be ignored. In a nutshell, the system acts as the teacher, picking the request with the most priority over all others.
 
+### Additional safety
+
+All requests should be cleared at the end of execute() per axis by the user. 
+
+In the case that this fails to happen, requests have a set (and configurable) timeout, in which they will expire if they are not fulfilled within that duration. 
+This further prevents faulty or unintended requests from persisting if brownout or any other discrepancies occur.
+
 ## Why do all of this?
 
 *Safety, debuggability, and flexability.*
@@ -70,9 +81,9 @@ Though mentioned briefly above, clarification here is necessary:
 - Each component has an optional publish_telemetry() implementation. publish_telemetry() runs right before execute(), making it easier (and encouraging users) to use telemetry per-component.
 - Each component has a required execute() method, which runs automatically every iteration to reduce boilerplate and prevent hidden dependencies or misuse. **execute() is the sole source of truth within all components**.
 - Each component has built-in useful methods, including (but not limited to):
-    - publish_value() - Publishes a value to NetworkTables, given a key and a value. The type doesn't need additional methods; if a type is not supported, type checking will notify you.
-    - tunable() - Defines and automatically updates a value that can be tuned through NetworkTables and reflects the value in the codebase, given a directory and a default value.
-    - tunablePID() - Defines and automatically updates a PIDController object through NetworkTables and reflects the object in the codebase, given a directory and default PID values.
+    - **publish_value()** - Publishes a value to NetworkTables, given a key and a value. The type doesn't need additional methods; if a type is not supported, type checking will notify you.
+    - **tunable()** - Defines and automatically updates a value that can be tuned through NetworkTables and reflects the value in the codebase, given a directory and a default value.
+    - **tunablePID()** - Defines and automatically updates a PIDController object through NetworkTables and reflects the object in the codebase, given a directory and default PID values.
 
 ## Summary:
 
