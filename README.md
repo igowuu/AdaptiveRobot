@@ -2,259 +2,82 @@
 
 ## The issue
 
-In FRC, robots almost never do just one action at a time.
+In typical FRC robot code:
+- It's hard to coordinate multiple subsystems in teleop + auto.
+- Each subsystem often has lots of boilerplate: PID setup, tunables, telemetry, deadbands, etc.
+- Limited dynamic control: adding new input sources, changing priorities, or testing in sim often requires changing multiple files.
+- Limited structural mutability: widely-used architectures generally enforce a strict structure of the codebase.
+- Safety is not guaranteed: teleop commands can accidentally override autonomous actions or move motors past limits.
+- Telemetry and tunable values are often a pain to add manually.
 
-At any given moment, your robot might be:
+## What is request-based?
 
-* driving with a joystick
-* running an autonomous routine
-* trying to stay safe (brownout protection, emergency stop, etc.)
-* having auton work in correlation with teleop
+- Each method that typically requests motion within a subsystem becomes a setter rather than directly commanding hardware.
+- Hardware is commanded by a single method called within the execute() method each iteration. execute() is called automatically by the Adaptive scheduler.
+- Requests from the setter methods may be rejected or accepted based on priority.
 
-The problem is that all of these systems want to control the same hardware.
+Here's how:
 
-Traditionally, teams solve this with:
-
-* conditional chains
-* mode flags (`isAuto`, `isTeleop`, `isClimbing`, etc.)
-* or a traditional scheduler
-
-That works, but it tends to:
-
-* hide where motor outputs actually come from
-* make it hard to mix behaviors (for ex, auto rotation + manual driving)
-* be confusing on what's being executed and what isn't
-
-AdaptiveRobot answers this:
-
-> **Who is allowed to control each part of a subsystem right now?**
-
----
-
-## Idea
-
-Instead of control files directly setting motor outputs, everything makes requests.
-
-* Components *request* motion
-* The subsystem itself *decides* what actually happens
-* Conflicts are resolved by priority
-
-Nothing else is allowed to directly touch a subsystems motors.
-
-Think of it less like commands and more like raising your hand in class.
-You request something by raising your hand, and hope that the teacher calls on you.
-If you have the biggest priority, you'll be called on to answer; if not, you'll be ignored.
-This is exactly how this whole architecture works, but rather than students raising their hands, different modes with set priorities are being chosen upon.
-
----
-
-## Subsystems
-
-A subsystem is:
-
-* one logical chunk of the robot
-* responsible for exactly one place where hardware is written
-* allowed to publish intent, telemetry, and tunables
+- You define priorities at the top of the file. Generally, safety requests should have priority (and therefore a greater value) over all other controls.
+- Each request (setter) method assigns one of these modes to their request.
 
 For example:
+`"Drive forward with a voltage of 9 volts, mode=TELEOP"`
 
-* `Drivetrain` → owns drivetrain motors
-* `Shooter` → owns shooter motors
-* `Vision` → owns cameras, but never motors
-* `AutoAlign` (not a subsystem!) → never writes motors directly, only makes requests
+So what happens if multiple requests are made in an iteration?
 
-So here's a rule:
+Only one request will be accepted, and the rest will gracefully expire or be explicitly cleared.
 
-> **All hardware writes must originate from exactly one subsystem per loop.
-> Everything else can only publish intent.**
-
-That rule elimanates a LOT of bugs.
-
-## Components
-
-A component is:
-
-* any part of the bot that needs to be executed. So not helpers and whatnot.
-* a subsystem. A subsystem *is* a specific type of component.
-* a file that is tied closely to the main robot class.
-
-Most files in the codebase should be components, let aside simple utilities.
-
----
-
-## The request system (the big part)
-
-### Why separate axes?
-
-The tankdrive drivetrain doesn’t just drive with a chassis object - it has multiple independent axes:
-
-* forward/backward (linear velocity)
-* rotation (angular velocity)
-
-These don’t always need to come from the same source.
-
-Here's an example:
-
-> Imagine a turreted robot (or even just a drivetrain).
->
-> * Auto wants to control *rotation* to aim at a target
-> * The driver still wants to control *linear movement.*
->
-> If both try to control the same thing, then very bad things will happen.
-> If they control *different axes*, then there's no conflict.
-
-So instead of drive commands, the drivetrain exposes axis requests. More on axis requests below.
-
----
-
-### Axis requests
-
-An axis request is just:
-
-* a value (like linear motion or rotation, in your specified units)
-* an assigned priority
-* a source name (for debugging / telemetry)
-
-For example:
-
-* Teleop joystick:
-
-  * forward axis -> priority `TELEOP`
-  * rotation axis -> priority `TELEOP`
-* Auto routine:
-
-  * rotation axis → priority `AUTO`
-* Safety system:
-
-  * forward axis → priority `SAFETY`
-  * rotation axis → priority `SAFETY`
-
-Each priority (`TELEOP`, `AUTO`, `SAFETY`) is assigned to a value by you. So, for example, `SAFETY` value > `AUTO` value > `TELEOP value` -> So safety requests are prioritized, then auto, then teleop.
-
-Every loop, the subsystem:
-
-1. collects all requests
-2. picks the highest-priority request per axis
-3. ignores the rest
-4. drives the robot based on the winner for each axis
-
----
-
-### Priority-based conflict resolution
-
-Priorities are explicit and boring (but that's a really good thing!)
-
-```python
+*Here's what an example of a priority enum would look like:*
+```
+# Higher enum value = higher priority to override other requests
+# In this case, SAFETY requests can override AUTO requests. SAFETY and AUTO requests can override TELEOP requests.
 class DrivePriority(Enum):
     SAFETY = 3
     AUTO = 2
     TELEOP = 1
 ```
 
-Higher number = more important.
+And let's say that these two requests were made:
 
-This means:
+`"Drive forward with a voltage of 10 volts, mode=AUTO"`
+`"STOP all drivetrain movement, mode=SAFETY"`
 
-* Safety requests alway win over everything else
-* Auto can override the driver (teleop) when needed
-* Teleop can't override anything
+The request order would not matter, as long as they were both made this iteration. 
+The stop request from the SAFETY mode would be executed rather than the AUTO request (or any other requests made that iteration) because it has a larger priority.
 
-And because this happens every loop, you can easily blend control
+Requests are made per-axis. This means that for each type of motion of your subsystem (omega, vertical motion), requests will be handled for each of them individually within execute().
 
----
+### But what if multiple requests of the same priority are requested in an iteration?
 
-## What a subsystem actually does
+- The most recent request will always win when resolving the winning request.
 
-A subystem is the **final authority** on movement.
+So think of it like this:
+In a class of students, the teacher asks a question, and multiple students raise their hand. The student with the most priority in the teachers eyes will be picked, and all the rest of the students will be ignored. In a nutshell, the system acts as the teacher, picking the request with the most priority over all others.
 
-It:
+## Why do all of this?
 
-* owns all motors, sensors, and other hardware
-* resolves axis requests every loop
+*Safety, debuggability, and flexability.*
+- Per-axis requests enable different movements to be commanded separately. So, in other words, you'll have the ability to program a cool robot turret where the driver controls linear motion and an autonomous sequence controls the robot angle to face towards a target. Easily.
+- The same hardware will only be able to be commanded once per loop, no matter what, solving many conflicting behavior and dramatically increasing bot safety.
+- execute() is the single source of truth within your codebase. If something goes wrong, it's there. This makes debugging much easier for your team.
 
-Other code never sets motor outputs directly.
-They just say things like:
+## Other features:
 
-> "I wanna to go forward at 2 m/s, priority AUTO."
+Though mentioned briefly above, clarification here is necessary:
 
-The subsystem decides if that actually happens.
+- All components inherit from AdaptiveComponent.
+- Each component has an optional publish_telemetry() implementation. publish_telemetry() runs right before execute(), making it easier (and encouraging users) to use telemetry per-component.
+- Each component has a required execute() method, which runs automatically every iteration to reduce boilerplate and prevent hidden dependencies or misuse. **execute() is the sole source of truth within all components**.
+- Each component has built-in useful methods, including (but not limited to):
+    - publish_value() - Publishes a value to NetworkTables, given a key and a value. The type doesn't need additional methods; if a type is not supported, type checking will notify you.
+    - tunable() - Defines and automatically updates a value that can be tuned through NetworkTables and reflects the value in the codebase, given a directory and a default value.
+    - tunablePID() - Defines and automatically updates a PIDController object through NetworkTables and reflects the object in the codebase, given a directory and default PID values.
 
----
+## Summary:
 
-## Telemetry and debugging 
+This is a great pick for teams that would like more control over their codebase, while prioritizing safety to consistently ensure reliability during competitions.
 
-Because every request has:
+The best way to understand the structure and benefits of it is by looking at examples. I highly encourage you to look at this three-subsystem bot to understand the full architecture. The codebase can be found here: https://github.com/igowuu/5113-Perry
 
-* a value
-* a priority
-* a source
-
-…the drivetrain can publish:
-
-* which request won
-* who lost
-* what mode is currently in control
-
-This makes debugging SO much easier than guessing which command is running.
-
-When something goes wrong, you don’t ask:
-
-> "Why is the robot spinning?"
-
-You look at NetworkTables and see:
-
-> "Rotation request from AutoAlign, priority AUTO."
-
----
-
-## AdaptiveRobot
-
-`AdaptiveRobot` is a thin wrapper around `TimedRobot` that:
-
-* manages components
-* enforces update order
-* centralizes telemetry
-* supports tunable constants cleanly
-
-Each loop:
-
-1. components publish telemetry
-2. components execute
-3. tunable values update *after* execution
-
-This keeps behavior predictable.
-
----
-
-## Why this isn’t Command-based
-
-Command-based is great.
-But it isn't flexible enough for *the best of the best of teams (FRC 5113)*.
-
-This architecture:
-
-* favors continuous intent over discrete commands
-* makes mixing behaviors easy
-* scales super well as robots grow
-
-You can still structure your code cleanly, however you want. 
-Everything in this architecture is optional. 
-You can choose if you want some features, but don't want others.
-
----
-
-## Summary
-
-* Subsystems own hardware
-* Everything else that is binded to the robot is a Component
-* Control files request actions
-* Requests are resolved per-axis in subsystems
-* Priorities decide which request wins
-* The subsystem is the final authority
-* Mixing auto, teleop, and safety becomes predictable
-
----
-
-And the best part? This works for *any type of robot, ever*. 
-
-So no matter what your robot looks like, you're going to have a boss codebase by using this.
+Thank you for taking your time to read this. I'd love to hear any feedback on this, so contact me if you'd like. To reach out, contact me through my discord: `"igowu."`
