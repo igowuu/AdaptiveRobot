@@ -1,7 +1,5 @@
 # AdaptiveRobot Framework
 
-> Industrial autonomous, component-oriented, telemetry, and safety-first control.
-
 ## Quick Links
 
 - [Robot Guide](docs/features/ROBOT_GUIDE.md)
