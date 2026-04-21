@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "adaptive-robot"
+version = "0.2.0"
+description = "An adaptive robot framework for FRC"
+requires-python = ">=3.10"
+dependencies = [
+    "robotpy>=2026.2.1",
+    "pyfrc>=2026.0.1",
+    "phoenix6>=26.1.1",
+    "Pint>=0.25.2",
+    "pynetconsole>=2.0.4",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=9.0.0",
+    "pytest-reraise>=2.1.2",
+]
+
+[tool.setuptools]
+packages = ["adaptive_robot"]
