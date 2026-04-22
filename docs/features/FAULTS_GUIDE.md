@@ -121,7 +121,7 @@ class Fault:
     description: str               # Human-readable fault description
     timestamp: float               # FPGA timestamp when fault occurred
     exception_type: str | None     # Name of the exception (if any)
-    traceback: str | None          # Full traceback (if exception provided)
+    traceback: str | None          # Full backtrace (if exception provided)
 ```
 
 **Common Usage:**
@@ -150,7 +150,7 @@ Creates and raises a `FaultException`.
 - `component`: The component raising the fault (usually `self`), or `None` for global faults
 - `severity`: The fault severity level (`FaultSeverity.WARNING`, `.ERROR`, or `.CRITICAL`)
 - `description`: A readable description of the fault
-- `exception`: Optional exception object to capture for logging (automatically extracts traceback)
+- `exception`: Optional exception object to capture for logging (automatically captures backtrace)
 
 **Raises:**
 - `FaultException`: Always raised with the created `Fault` object

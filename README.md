@@ -1,7 +1,4 @@
 # AdaptiveRobot Framework
-
-> Industrial autonomous, component-oriented, telemetry, and safety-first control.
-
 ## Quick Links
 
 - [Robot Guide](docs/features/ROBOT_GUIDE.md)
@@ -26,6 +23,7 @@ AdaptiveRobot is an alternative python framework for building FRC robot code wit
 - **Faults** - Fault detection, logging, component health
 - **Autonomous** - Generator-based asynchronous command sequences
 
+A breif public polify note: This is a BETA project, the API is subject to unannounced breaking changes untill 1.0, after that we will not change the API mid season, and when we do it will be with at least a migration guide, preferable an automatic migrator.
 ---
 
 **Developers:**
@@ -39,7 +37,15 @@ AdaptiveRobot is an alternative python framework for building FRC robot code wit
     <a href="https://github.com/igowuu">igowuu</a>
   </div>
 </div>
-
+<div style="width:100px;">
+  <a href="https://github.com/chaseyalon">
+    <img width="100" height="100" src="https://avatars.githubusercontent.com/u/149000633?s=400&v=4">
+  </a>
+  <div>
+    <a>&nbsp;&nbsp;&nbsp;&nbsp;</a>
+    <a href="https://github.com/chaseyalon">ChaseYalon</a>
+  </div>
+</div>
 ---
 
 ## License
