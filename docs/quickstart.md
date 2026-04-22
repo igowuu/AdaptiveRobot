@@ -143,4 +143,3 @@ class MyComponent(AdaptiveComponent):
         )
 ```
 Faults are handled by the `FaultManager` class, which sits above the robot in the component heirerarchy. `FaultManager` is provided by `AdaptiveRobot` and end users should rarley touch it, but if you look in the full fault docs, you can see how to do it. When you raise a fault it is caught by `FaultManager`, if it is `Critical`, the fault robot is disabled. If it is an `Error` the component is marked as unhealty and `on_faulted_periodic` is called every cycle. After the max unealthy cyclces (configurable, 10 by default) the component is disabled. Warnings are logged and control returns to the component. Errors can and should be explicitly caught by components if possible, that said you can also handle errors in `on_faulted_periodic`. 
-
