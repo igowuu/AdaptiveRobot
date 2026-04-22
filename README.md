@@ -23,6 +23,7 @@ AdaptiveRobot is an alternative python framework for building FRC robot code wit
 - **Faults** - Fault detection, logging, component health
 - **Autonomous** - Generator-based asynchronous command sequences
 
+A breif public polify note: This is a BETA project, the API is subject to unannounced breaking changes untill 1.0, after that we will not change the API mid season, and when we do it will be with at least a migration guide, preferable an automatic migrator.
 ---
 
 **Developers:**
@@ -42,7 +43,7 @@ AdaptiveRobot is an alternative python framework for building FRC robot code wit
   </a>
   <div>
     <a>&nbsp;&nbsp;&nbsp;&nbsp;</a>
-    <a href="https://github.com/chaseyalon">igowuu</a>
+    <a href="https://github.com/chaseyalon">ChaseYalon</a>
   </div>
 </div>
 ---
