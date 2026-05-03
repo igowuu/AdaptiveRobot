@@ -5,7 +5,7 @@
 # Licensed under the MIT License.
 # See https://opensource.org/licenses/MIT for details.
 
-from typing import final
+from typing import final, TypeAlias
 
 import wpilib
 
@@ -14,11 +14,21 @@ from wpimath.units import seconds
 from adaptive_robot.telemetry.telemetry import TelemetryPublisher
 from adaptive_robot.telemetry.struct_telemetry import TelemetryStructPublisher
 from adaptive_robot.adaptive_component.adaptive_component import AdaptiveComponent
-from adaptive_robot.adaptive_component.component_scheduler import ComponentScheduler
 from adaptive_robot.autonomous.async_actions import AsyncAction
 from adaptive_robot.autonomous.action_scheduler import ActionScheduler
 from adaptive_robot.faults.fault_scheduler import FaultLogger
 from adaptive_robot.fault_manager import FaultManager
+
+from adaptive_robot.interfaces.telemetry_interface.telemetry_publishable import TelemetryPublishable
+from adaptive_robot.interfaces.telemetry_interface.telemetry_subscheduler import TelemetrySubscheduler
+from adaptive_robot.interfaces.tunable_interface.tunable_publishable import TunablePublishable
+from adaptive_robot.interfaces.tunable_interface.tunable_subscheduler import TunableSubscheduler
+from adaptive_robot.tunable.tunable_value import TunablePersistenceManager
+from adaptive_robot.interfaces.schedulable_interface.schedulable import Schedulable
+from adaptive_robot.interfaces.schedulable_interface.schedulable_subscheduler import SchedulableSubscheduler
+
+
+SUPPORTED_INTERFACE: TypeAlias = TelemetryPublishable | TunablePublishable | Schedulable
 
 
 class RobotDisable(Exception):
@@ -57,60 +67,193 @@ class AdaptiveRobot(wpilib.TimedRobot):
 
         self._fault_logger = FaultLogger(fault_logging_folder)
 
-        self._components: list[AdaptiveComponent] = []
-        self._component_scheduler: ComponentScheduler | None = None
+        self._telemetry_publishables: list[TelemetryPublishable] = []
+        self._tunable_publishables: list[TunablePublishable] = []
+        self._schedulables: list[Schedulable] = []
+
+        self._telemetry_subscheduler: TelemetrySubscheduler | None = None
+        self._tunable_subscheduler: TunableSubscheduler | None = None
+        self._schedulable_subscheduler: SchedulableSubscheduler | None = None
 
         self._fault_manager: FaultManager | None = None
 
         self._scheduler_initialized = False
 
-    def _auto_register_components(self) -> None:
+    def _discover_interface_implementers(self, interface_type: type[SUPPORTED_INTERFACE]) -> list[SUPPORTED_INTERFACE]:
         """
-        Automatically discovers and registers all AdaptiveComponents into the scheduler.  
-        This is called before the ComponentScheduler initializes, so components
-        created before robotPeriodic() are automatically scheduled without manual add_component() calls.
+        Recursively discovers all objects in the robot that implement the given interface.
+        Avoids circular references and the robot itself.
+        
+        :param interface_type: The interface class to search for (TelemetryPublishable, TunablePublishable, or Schedulable).
+        :returns: List of all discovered implementers.
         """
-        for attr_value in self.__dict__.values():
-            if isinstance(attr_value, AdaptiveComponent) and attr_value not in self._components:
-                self._components.append(attr_value)
+        implementers: list[SUPPORTED_INTERFACE] = []
+        visited: set[int] = set()
+        
+        def traverse(obj: object) -> None:
+            if id(obj) in visited:
+                return
 
+            visited.add(id(obj))
+
+            if isinstance(obj, interface_type):
+                implementers.append(obj)
+            
+            # Recursively traverse object's attributes
+            if hasattr(obj, '__dict__'):
+                try:
+                    for attr_value in obj.__dict__.values():
+                        if attr_value is not None and not isinstance(attr_value, type):
+                            traverse(attr_value)
+                except (AttributeError, RuntimeError):
+                    pass
+
+        traverse(self)
+        return implementers
+    
+    def _auto_discover_all_interfaces(self) -> None:
+        """
+        Auto-discovers all objects implementing TelemetryPublishable, TunablePublishable, and Schedulable.
+        Objects can also be manually registered before this is called.
+        Called after onRobotInit() but before subscheduler initialization.
+        """
+        # Discover and add to existing lists
+        for obj in self._discover_interface_implementers(TelemetryPublishable):
+            if isinstance(obj, TelemetryPublishable) and obj not in self._telemetry_publishables:
+                self._telemetry_publishables.append(obj)
+        
+        for obj in self._discover_interface_implementers(TunablePublishable):
+            if isinstance(obj, TunablePublishable) and obj not in self._tunable_publishables:
+                self._tunable_publishables.append(obj)
+        
+        for obj in self._discover_interface_implementers(Schedulable):
+            if isinstance(obj, Schedulable) and obj not in self._schedulables:
+                self._schedulables.append(obj)
+
+    @final
+    def register_telemetry_publishable(self, obj: TelemetryPublishable) -> None:
+        """
+        Manually registers a TelemetryPublishable object to have its telemetry published.
+        Must be registered before robotPeriodic() is first called.
+        
+        :param obj: The TelemetryPublishable to register.
+        :raises RuntimeError: If called after scheduler initialization.
+        """
+        if self._scheduler_initialized:
+            raise RuntimeError(
+                "Cannot register objects after scheduler initialization. "
+                "Register objects in robotInit() before the scheduler starts."
+            )
+        if obj not in self._telemetry_publishables:
+            self._telemetry_publishables.append(obj)
+
+    @final
+    def unregister_telemetry_publishable(self, obj: TelemetryPublishable) -> None:
+        """
+        Unregisters a TelemetryPublishable object. Can only be called before robotPeriodic().
+        
+        :param obj: The TelemetryPublishable to unregister.
+        :raises RuntimeError: If called after scheduler initialization.
+        """
+        if self._scheduler_initialized:
+            raise RuntimeError(
+                "Cannot unregister objects after scheduler initialization. "
+                "Unregister objects in robotInit() before the scheduler starts."
+            )
+        if obj in self._telemetry_publishables:
+            self._telemetry_publishables.remove(obj)
+
+    @final
+    def register_tunable_publishable(self, obj: TunablePublishable) -> None:
+        """
+        Manually registers a TunablePublishable object to have its tunables managed.
+        Must be registered before robotPeriodic() is first called.
+        
+        :param obj: The TunablePublishable to register.
+        :raises RuntimeError: If called after scheduler initialization.
+        """
+        if self._scheduler_initialized:
+            raise RuntimeError(
+                "Cannot register objects after scheduler initialization. "
+                "Register objects in robotInit() before the scheduler starts."
+            )
+        if obj not in self._tunable_publishables:
+            self._tunable_publishables.append(obj)
+
+    @final
+    def unregister_tunable_publishable(self, obj: TunablePublishable) -> None:
+        """
+        Unregisters a TunablePublishable object. Can only be called before robotPeriodic().
+        
+        :param obj: The TunablePublishable to unregister.
+        :raises RuntimeError: If called after scheduler initialization.
+        """
+        if self._scheduler_initialized:
+            raise RuntimeError(
+                "Cannot unregister objects after scheduler initialization. "
+                "Unregister objects in robotInit() before the scheduler starts."
+            )
+        if obj in self._tunable_publishables:
+            self._tunable_publishables.remove(obj)
+
+    @final
+    def register_schedulable(self, obj: Schedulable) -> None:
+        """
+        Manually registers a Schedulable object to be scheduled each iteration.
+        Must be registered before robotPeriodic() is first called.
+        
+        :param obj: The Schedulable to register.
+        :raises RuntimeError: If called after scheduler initialization.
+        """
+        if self._scheduler_initialized:
+            raise RuntimeError(
+                "Cannot register objects after scheduler initialization. "
+                "Register objects in robotInit() before the scheduler starts."
+            )
+        if obj not in self._schedulables:
+            self._schedulables.append(obj)
+
+    @final
+    def unregister_schedulable(self, obj: Schedulable) -> None:
+        """
+        Unregisters a Schedulable object. Can only be called before robotPeriodic().
+        
+        :param obj: The Schedulable to unregister.
+        :raises RuntimeError: If called after scheduler initialization.
+        """
+        if self._scheduler_initialized:
+            raise RuntimeError(
+                "Cannot unregister objects after scheduler initialization. "
+                "Unregister objects in robotInit() before the scheduler starts."
+            )
+        if obj in self._schedulables:
+            self._schedulables.remove(obj)
+    
+    # Backward compatibility aliases for AdaptiveComponent
     @final
     def register_component(self, component: AdaptiveComponent) -> None:
         """
-        Manually registers a component to be scheduled.  
-        Components must be registered before robotPeriodic() is first called.  
-        If the specified component is already registered into the scheduler,
-        the call will be ignored.  
+        Manually registers a component (AdaptiveComponent) to be scheduled.
+        Components are AdaptiveComponent instances which implement all three interfaces.
         
         :param component: The AdaptiveComponent to register.
         :raises RuntimeError: If called after scheduler initialization.
         """
-        if self._scheduler_initialized:
-            raise RuntimeError(
-                "Cannot register components after scheduler initialization. "
-                "Register components in robotInit() before the scheduler starts."
-            )
-        if component not in self._components:
-            self._components.append(component)
+        self.register_schedulable(component)
+        self.register_telemetry_publishable(component)
+        self.register_tunable_publishable(component)
 
     @final
     def unregister_component(self, component: AdaptiveComponent) -> None:
         """
-        Unregisters a component from being scheduled.  
-        Components can only be unregistered before robotPeriodic() is first called.  
-        If the specified component is not registered into the scheduler,
-        the call will be ignored.  
+        Unregisters a component (AdaptiveComponent) from being scheduled.
         
         :param component: The AdaptiveComponent to unregister.
         :raises RuntimeError: If called after scheduler initialization.
         """
-        if self._scheduler_initialized:
-            raise RuntimeError(
-                "Cannot unregister components after scheduler initialization. "
-                "Unregister components in robotInit() before the scheduler starts."
-            )
-        if component in self._components:
-            self._components.remove(component)
+        self.unregister_schedulable(component)
+        self.unregister_telemetry_publishable(component)
+        self.unregister_tunable_publishable(component)
 
     @final
     def schedule_action(self, action: AsyncAction, name: str) -> str | None:
@@ -147,22 +290,42 @@ class AdaptiveRobot(wpilib.TimedRobot):
     def robotInit(self) -> None:
         """
         Calls the onRobotInit hook.  
-        Auto-discovers components and sets up the ComponentScheduler.  
+        Auto-discovers all interface implementers and initializes all three subschedulers.  
+        Sets up the FaultManager to coordinate all schedulers.  
         Marks the scheduler as fully initialized.  
         """
-        self.onRobotInit()
-        self._auto_register_components()
-
-        self._component_scheduler = ComponentScheduler(
-            self._components,
+        try:
+            self.onRobotInit()
+        except Exception as e:
+            wpilib.reportError(f"Error in onRobotInit: {e}")
+        
+        # Auto-discover all TelemetryPublishable, TunablePublishable, and Schedulable objects
+        self._auto_discover_all_interfaces()
+        
+        # Create subschedulers with discovered objects
+        self._telemetry_subscheduler = TelemetrySubscheduler(
             self._telemetry_publisher,
-            self._telemetry_struct_publisher
+            self._telemetry_struct_publisher,
+            self._telemetry_publishables
         )
+        
+        self._tunable_subscheduler = TunableSubscheduler(
+            self._tunable_publishables
+        )
+        
+        self._schedulable_subscheduler = SchedulableSubscheduler(
+            self._schedulables
+        )
+        
+        # Create FaultManager to coordinate all subschedulers
         self._fault_manager = FaultManager(
-            component_scheduler=self._component_scheduler, 
+            schedulable_subscheduler=self._schedulable_subscheduler,
+            telemetry_subscheduler=self._telemetry_subscheduler,
+            tunable_subscheduler=self._tunable_subscheduler,
             action_scheduler=self._action_scheduler, 
             fault_logger=self._fault_logger
         )
+        
         self._scheduler_initialized = True
 
     @final
@@ -185,20 +348,21 @@ class AdaptiveRobot(wpilib.TimedRobot):
         if should_disable:
             raise RobotDisable("CRITICAL Fault raised. Robot has been cleanly disabled.")
 
-        self.onRobotPeriodic()
+        try:
+            self.onRobotPeriodic()
+        except Exception as e:
+            wpilib.reportError(f"Error in onRobotPeriodic: {e}")
 
     @final
     def disabledInit(self) -> None:
         """
-        Cancels all Actions, if there are any.
-        Resets all components to HEALTHY.
-        Calls the onDisabledInit hook.
+        Cancels all Actions, resets all Schedulables to HEALTHY, and calls the onDisabledInit hook.
 
-        :raises RuntimeError: If the ComponentScheduler was never initialized.
+        :raises RuntimeError: If the SchedulableSubscheduler was never initialized.
         """
-        if self._component_scheduler is None:
+        if self._schedulable_subscheduler is None:
             raise RuntimeError(
-                "ComponentScheduler was not initialized! This should be automatically set up in robotInit(). "
+                "SchedulableSubscheduler was not initialized! This should be automatically set up in robotInit(). "
                 "Ensure robotInit() is being called by WPILib's TimedRobot base class and that you're not calling "
                 "disabledInit() before robotInit()."
             )
@@ -209,9 +373,9 @@ class AdaptiveRobot(wpilib.TimedRobot):
             wpilib.reportWarning(f"Error cancelling actions during disabledInit: {e}")
 
         try:
-            self._component_scheduler.reset_all_component_health()
+            self._schedulable_subscheduler.reset_all_schedulable_health()
         except Exception as e:
-            wpilib.reportError(f"Error resetting component health during disabledInit: {e}")
+            wpilib.reportError(f"Error resetting schedulable health during disabledInit: {e}")
 
         try:
             self.onDisabledInit()
@@ -231,6 +395,11 @@ class AdaptiveRobot(wpilib.TimedRobot):
             self.onDisabledExit()
         except Exception as e:
             wpilib.reportError(f"Error in onDisabledExit: {e}")
+        finally:
+            try:
+                TunablePersistenceManager.save_all()
+            except Exception as e:
+                wpilib.reportWarning(f"Error saving tunables during disabledExit: {e}")
 
     @final
     def teleopInit(self) -> None:

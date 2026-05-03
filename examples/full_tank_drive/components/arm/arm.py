@@ -5,7 +5,7 @@ from components.arm.arm_constants import ArmFF, ArmPID
 from components.arm.arm_io.io_base import ArmIOBase
 from components.arm.arm_constants import ArmConstants
 
-from adaptive_robot import AdaptiveComponent, AxisController, BasicPriority
+from adaptive_robot import AdaptiveComponent, RequestArbitrator, BasicPriority
 from adaptive_robot.utils.math_utils import clamp
 
 
@@ -15,7 +15,6 @@ class Arm(AdaptiveComponent):
     Uses PID control to reach requested angles with gravity compensation.
     """
     def __init__(self, io: ArmIOBase) -> None:
-        super().__init__()
         self.io = io
 
         self.arm_position_ff = ArmFeedforward(
@@ -31,7 +30,7 @@ class Arm(AdaptiveComponent):
             directory="Tunables/Arm/ArmPID"
         )
 
-        self.angle_controller = AxisController()
+        self.angle_controller = RequestArbitrator()
 
     def request_angle(
         self,

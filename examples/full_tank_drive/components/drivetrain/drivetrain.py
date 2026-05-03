@@ -16,7 +16,7 @@ from components.drivetrain.drivetrain_constants import (
     DriveRightPID
 )
 
-from adaptive_robot import AdaptiveComponent, AxisController, BasicPriority
+from adaptive_robot import AdaptiveComponent, RequestArbitrator, BasicPriority
 
 
 class DriveMode(Enum):
@@ -26,7 +26,6 @@ class DriveMode(Enum):
 
 class Drivetrain(AdaptiveComponent):
     def __init__(self, io: DrivetrainIOBase) -> None:
-        super().__init__()
         self.io = io
 
         self.odometry = DifferentialDriveOdometry(
@@ -61,8 +60,8 @@ class Drivetrain(AdaptiveComponent):
             kA=DriveRightFF.KA
         )
 
-        self.linear_velocity_controller = AxisController()
-        self.angular_velocity_controller = AxisController()
+        self.linear_velocity_controller = RequestArbitrator()
+        self.angular_velocity_controller = RequestArbitrator()
 
         self.drive_mode = DriveMode.CLOSED_LOOP
 
@@ -138,7 +137,7 @@ class Drivetrain(AdaptiveComponent):
         resolved_linear = self.linear_velocity_controller.resolve()
         self.publish_value("Drivetrain/resolvedLinear/value", resolved_linear.value)
         self.publish_value("Drivetrain/resolvedLinear/source", resolved_linear.source)
-        self.publish_value("Drivetrain/resolv1edLinear/priority", resolved_linear.priority)
+        self.publish_value("Drivetrain/resolvedLinear/priority", resolved_linear.priority)
 
         resolved_angular = self.angular_velocity_controller.resolve()
         self.publish_value("Drivetrain/resolvedAngular/value", resolved_angular.value)
@@ -146,6 +145,7 @@ class Drivetrain(AdaptiveComponent):
         self.publish_value("Drivetrain/resolvedAngular/priority", resolved_angular.priority)
 
         self.publish_value("Drivetrain/sensorData/leftVelocity", self.io.get_left_velocity())
+        SmartDashboard.putNumber("Drivetrain/sensorData/leftVelocitySD", self.io.get_left_velocity())
         self.publish_value("Drivetrain/sensorData/rightVelocity", self.io.get_right_velocity())
         self.publish_value("Drivetrain/sensorData/leftVoltage", self.io.get_left_voltage())
         self.publish_value("Drivetrain/sensorData/rightVoltage", self.io.get_right_voltage())

@@ -33,7 +33,7 @@ class Fault:
     consecutive_count is only used during logging to indicate how many
     iterations had this identical fault. Set automatically by FaultLogger.
     """
-    component: str | None
+    schedulable: str | None
     severity: FaultSeverity
     description: str
     timestamp: float

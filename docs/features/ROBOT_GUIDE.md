@@ -132,17 +132,103 @@ All mode transitions follow the pattern: `Init` -> `Periodic` -> `Exit`
 ## Component Management
 
 ### Auto-Discovery
-By default, components created as instance variables in `onRobotInit()` are automatically discovered and scheduled:
+
+By default, any objects implementing `Schedulable`, `TelemetryPublishable`, or `TunablePublishable` that are created as instance variables in `onRobotInit()` are automatically discovered and scheduled:
 
 ```python
 def onRobotInit(self):
-    self.drivetrain = Drivetrain()   # Auto-discovered
+    self.drivetrain = Drivetrain()   # Auto-discovered (implements all interfaces)
     self.intake = Intake()           # Auto-discovered
 ```
 
+The discovery traverses object attributes recursively to find implementers. An object that connects to an object with an interface will be discovered, in other words. There just must be some initalization of attatchment in onRobotInit(). Objects stored in lists/dicts require manual registration.
+
+### Interface-Based Registration
+
+For fine-grained control, manually register objects by interface:
+
+##### `register_schedulable(obj: Schedulable) -> None`
+
+Manually registers a `Schedulable` object to be scheduled each iteration.
+
+**Parameters:**
+- `obj`: The Schedulable to register
+
+**Returns:** None
+
+**Constraints:**
+- Must be called in `__init__()` or `onRobotInit()` (before first `robotPeriodic()`)
+- Raises RuntimeError if registered after scheduler initialization
+
+**Example:**
+```python
+def onRobotInit(self):
+    self.my_scheduler = MyCustomSchedulable()
+    self.register_schedulable(self.my_scheduler)
+```
+
+##### `unregister_schedulable(obj: Schedulable) -> None`
+
+Unregisters a `Schedulable` object from being scheduled.
+
+**Parameters:**
+- `obj`: The Schedulable to unregister
+
+**Returns:** None
+
+**Constraints:**
+- Must be called before scheduler initialization
+- Ignored if not registered
+
+##### `register_telemetry_publishable(obj: TelemetryPublishable) -> None`
+
+Manually registers a `TelemetryPublishable` object for telemetry publication.
+
+**Parameters:**
+- `obj`: The TelemetryPublishable to register
+
+**Returns:** None
+
+**Constraints:**
+- Must be called before scheduler initialization
+
+##### `unregister_telemetry_publishable(obj: TelemetryPublishable) -> None`
+
+Unregisters a `TelemetryPublishable` object from telemetry publication.
+
+**Parameters:**
+- `obj`: The TelemetryPublishable to unregister
+
+**Returns:** None
+
+##### `register_tunable_publishable(obj: TunablePublishable) -> None`
+
+Manually registers a `TunablePublishable` object for tunable management.
+
+**Parameters:**
+- `obj`: The TunablePublishable to register
+
+**Returns:** None
+
+**Constraints:**
+- Must be called before scheduler initialization
+
+##### `unregister_tunable_publishable(obj: TunablePublishable) -> None`
+
+Unregisters a `TunablePublishable` object from tunable management.
+
+**Parameters:**
+- `obj`: The TunablePublishable to unregister
+
+**Returns:** None
+
+### Component Convenience Methods
+
+`AdaptiveComponent` is a convenience class that implements all three interfaces. You can also use the legacy convenience methods for backward compatibility:
+
 ##### `register_component(component: AdaptiveComponent) -> None`
 
-Manually registers a component to be scheduled.
+Manually registers a component (AdaptiveComponent) to be scheduled. This is equivalent to registering it for all three interfaces.
 
 **Parameters:**
 - `component`: The AdaptiveComponent to register

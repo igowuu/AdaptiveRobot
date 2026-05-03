@@ -1,7 +1,9 @@
 import wpilib
 
 from adaptive_robot.interfaces.faultable import Faultable
-from adaptive_robot.adaptive_component.component_scheduler import ComponentScheduler
+from adaptive_robot.interfaces.schedulable_interface.schedulable_subscheduler import SchedulableSubscheduler
+from adaptive_robot.interfaces.telemetry_interface.telemetry_subscheduler import TelemetrySubscheduler
+from adaptive_robot.interfaces.tunable_interface.tunable_subscheduler import TunableSubscheduler
 from adaptive_robot.autonomous.action_scheduler import ActionScheduler
 from adaptive_robot.faults.fault_scheduler import FaultLogger
 from adaptive_robot.faults.faults import Fault, FaultException, FaultSeverity
@@ -14,11 +16,16 @@ class FaultManager(Faultable):
     """
     def __init__(
         self, 
-        component_scheduler: ComponentScheduler, 
+        schedulable_subscheduler: SchedulableSubscheduler,
+        telemetry_subscheduler: TelemetrySubscheduler,
+        tunable_subscheduler: TunableSubscheduler,
         action_scheduler: ActionScheduler, 
         fault_logger: FaultLogger
     ) -> None:
-        self._component_scheduler = component_scheduler
+        self._schedulable_subscheduler = schedulable_subscheduler
+        self._telemetry_subscheduler = telemetry_subscheduler
+        self._tunable_subscheduler = tunable_subscheduler
+
         self._action_scheduler = action_scheduler
         self._fault_logger = fault_logger
         self._faults_this_iter: list[Fault] = []
@@ -30,7 +37,9 @@ class FaultManager(Faultable):
         :returns True: If the robot should disable (CRITICAL fault raised).
         """
         try:
-            self._component_scheduler.run(enabled)
+            self._tunable_subscheduler.run()
+            self._telemetry_subscheduler.run()
+            self._schedulable_subscheduler.run(enabled)
             self._action_scheduler.run()
             return False
         except FaultException as e:

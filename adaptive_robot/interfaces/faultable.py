@@ -7,7 +7,7 @@ import wpilib
 from adaptive_robot.faults.faults import Fault, FaultException, FaultSeverity
 
 if TYPE_CHECKING:
-    from adaptive_robot.adaptive_component.adaptive_component import AdaptiveComponent
+    from adaptive_robot.interfaces.schedulable_interface.schedulable import Schedulable
 
 
 class Faultable(ABC):
@@ -18,13 +18,13 @@ class Faultable(ABC):
     @final
     def raise_fault(
         self, 
-        component: "AdaptiveComponent | None",
+        schedulable: "Schedulable | None",
         severity: FaultSeverity,
         description: str,
         exception: Exception | None = None
     ) -> None:
         """
-        Creates and raises a Fault with standardized format for an optional component.
+        Creates and raises a Fault with standardized format for an optional schedulable.
 
         :raises: FaultException.
         """
@@ -33,7 +33,7 @@ class Faultable(ABC):
 
         fault_exception = FaultException(
             Fault(
-                component=component.__class__.__name__ if component else None,
+                schedulable=schedulable.__class__.__name__ if schedulable else None,
                 severity=severity,
                 description=description,
                 timestamp=wpilib.Timer.getFPGATimestamp(),

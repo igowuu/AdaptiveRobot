@@ -15,8 +15,6 @@ class DrivetrainController(AdaptiveComponent):
         drivetrain: Drivetrain, 
         controller: Joystick
     ) -> None:
-        super().__init__()
-
         self.drivetrain = drivetrain
         self.controller = controller
 

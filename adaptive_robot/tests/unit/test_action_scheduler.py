@@ -37,7 +37,7 @@ def create_fault_exception_action() -> AsyncAction:
     """
     yield
     fault = Fault(
-        component=None,
+        schedulable=None,
         severity=FaultSeverity.CRITICAL,
         description="Test fault exception",
         timestamp=0.0,

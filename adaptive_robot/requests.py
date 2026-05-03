@@ -7,7 +7,7 @@ from wpimath.units import seconds
 
 
 @dataclass(frozen=True)
-class AxisRequest:
+class Request:
     """
     Stores internal and accessible values for each individual request.
     """
@@ -27,10 +27,9 @@ class BasicPriority(Enum):
     TELEOP = 1
 
 
-class AxisController:
+class RequestArbitrator:
     """
-    Manages a single logical axis via request-based arbitration.  
-    One active request allowed per axis.
+    Manages a single entity via request-based arbitration.
     """
     def __init__(
         self,
@@ -39,18 +38,18 @@ class AxisController:
         default_source: str = 'default'
     ) -> None:
         """
-        Creates an AxisController object, used to manage, add, and configure requests each iteration
+        Creates an RequestArbitrator object, used to manage, add, and configure requests each iteration
         in robot components.
         
-        :param default_value: The default value that the AxisController will reset to if no persisting
+        :param default_value: The default value that the RequestArbitrator will reset to if no persisting
         requests are made.
-        :param default_priority: The default priority that the AxisController will reset to if no 
+        :param default_priority: The default priority that the RequestArbitrator will reset to if no 
         persisting requests are made.
-        :param default_source: The default source that the AxisController will reset to if no 
+        :param default_source: The default source that the RequestArbitrator will reset to if no 
         persisting requests are made.
         """
-        self._requests: dict[str, AxisRequest] = {}
-        self._default = AxisRequest(default_value, default_priority, float('inf'), default_source)
+        self._requests: dict[str, Request] = {}
+        self._default = Request(default_value, default_priority, float('inf'), default_source)
 
         self._enabled = True
         self._prev_request = self._default
@@ -93,10 +92,10 @@ class AxisController:
         timeout: seconds = 0.2
     ) -> None:
         """
-        Submits a request to the AxisController.
+        Submits a request to the RequestArbitrator.
 
         :param value: The assigned value to the request.
-        :param priority: The priority that the request has against other requests in the AxisController.
+        :param priority: The priority that the request has against other requests in the RequestArbitrator.
         The priority should ideally be positive and must be different than the default priority.
         :param source: The name assigned to the request. Must be alphanumeric with underscores, max 50 chars.
         :param timeout: The duration (in seconds) that this request remains active. Must be larger than zero
@@ -108,7 +107,7 @@ class AxisController:
         if timeout <= 0 or timeout > 10.0:
             raise ValueError(
                 f"Timeout must be larger than 0s and smaller than 10.0s, got {timeout}s. "
-                f"This parameter controls how long a request remains active in the AxisController."
+                f"This parameter controls how long a request remains active in the RequestArbitrator."
             )
         
         if not self._enabled:
@@ -118,7 +117,7 @@ class AxisController:
         self._validate_source(source)
         self._validate_priority(priority)
 
-        request = AxisRequest(
+        request = Request(
             value=value,
             priority=priority,
             source=source,
@@ -129,17 +128,17 @@ class AxisController:
 
     def clear(self) -> None:
         """
-        Clears all pending requests in the AxisController.
+        Clears all pending requests in the RequestArbitrator.
         """
         self._requests.clear()
 
-    def resolve(self) -> AxisRequest:
+    def resolve(self) -> Request:
         """
-        Returns the request with the highest priority within the AxisController object.  
+        Returns the request with the highest priority within the RequestArbitrator object.  
         If requests have the same highest priority, returns the most recent request (by timestamp).
         If requests are made in the same iteration (same timestamp), returns the most recently 
         inserted request (tie-breaker).  
-        If the AxisController is disabled, always returns the default request.
+        If the RequestArbitrator is disabled, always returns the default request.
         """
         if not self._enabled:
             self._prev_request = self._default
@@ -147,7 +146,7 @@ class AxisController:
 
         now = Timer.getFPGATimestamp()
 
-        valid_requests: list[AxisRequest] = []
+        valid_requests: list[Request] = []
 
         for source, request in list(self._requests.items()):
             if now - request.timestamp > request.timeout:
@@ -170,17 +169,17 @@ class AxisController:
 
     def set_enabled(self, enabled: bool) -> None:
         """
-        Sets the enabled state of the AxisController based on the given bool.
+        Sets the enabled state of the RequestArbitrator based on the given bool.
         """
         self._enabled = enabled
 
     def is_enabled(self) -> bool:
         """
-        Returns the enabled state of the AxisController.
+        Returns the enabled state of the RequestArbitrator.
         """
         return self._enabled
 
-    def get_default_request(self) -> AxisRequest:
+    def get_default_request(self) -> Request:
         """
         Returns the default request used when no valid requests are present.
         """
@@ -188,13 +187,13 @@ class AxisController:
 
     def get_pending_request_count(self) -> int:
         """
-        Returns the number of currently pending requests in the controller.
+        Returns the number of currently pending requests in the arbitrator.
         """
         return len(self._requests)
 
     @property
-    def last_request(self) -> AxisRequest:
+    def last_request(self) -> Request:
         """
-        Returns the most recent resolved request of the AxisController.
+        Returns the most recent resolved request of the RequestArbitrator.
         """
         return self._prev_request

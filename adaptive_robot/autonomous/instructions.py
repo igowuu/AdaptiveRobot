@@ -75,7 +75,8 @@ class TimeoutInstruction(Instruction):
                 self.current_instruction.cleanup()
             return True
         
-        if self.current_instruction and self.current_instruction.is_complete():
+        # Auto-advance nested actions that yield None until we get an instruction or completion
+        while self.current_instruction is None or self.current_instruction.is_complete():
             try:
                 self.current_instruction = next(self.action)
             except StopIteration:
@@ -106,11 +107,22 @@ class RaceInstruction(Instruction):
         self.current_instructions: list[Instruction | None] = [None] * len(actions)
         self.completed_indices: set[int] = set()
 
-        for i, action in enumerate(self.actions):
+        for i, _ in enumerate(self.actions):
+            self._advance_action(i)
+    
+    def _advance_action(self, index: int) -> None:
+        """Auto-advance action until we get a real instruction or it completes."""
+        while index not in self.completed_indices:
             try:
-                self.current_instructions[i] = next(action)
+                instruction = next(self.actions[index])
+                if instruction is not None:  # Got a real instruction
+                    self.current_instructions[index] = instruction
+                    return
+                # else: action yielded None, keep advancing
             except StopIteration:
-                self.completed_indices.add(i)
+                self.completed_indices.add(index)
+                self.current_instructions[index] = None
+                return
     
     def is_complete(self) -> bool:
         if len(self.completed_indices) > 0:
@@ -118,8 +130,9 @@ class RaceInstruction(Instruction):
         
         for i, instruction in enumerate(self.current_instructions):
             if i not in self.completed_indices and instruction and instruction.is_complete():
-                self.completed_indices.add(i)
-                return True
+                self._advance_action(i)
+                if i in self.completed_indices:
+                    return True
         
         return False
     
@@ -147,11 +160,8 @@ class ParallelInstruction(Instruction):
         self.current_instructions: list[Instruction | None] = [None] * len(actions)
         self.completed_indices: set[int] = set()
 
-        for i, action in enumerate(self.actions):
-            try:
-                self.current_instructions[i] = next(action)
-            except StopIteration:
-                self.completed_indices.add(i)
+        for i, _ in enumerate(self.actions):
+            self._advance_action(i)
     
     def is_complete(self) -> bool:
         return len(self.completed_indices) == len(self.actions)
@@ -163,12 +173,19 @@ class ParallelInstruction(Instruction):
     
     def _advance_action(self, index: int) -> None:
         """
-        Advances action at index to next instruction.
+        Advances action at index to next instruction, auto-skipping None yields.
         """
-        try:
-            self.current_instructions[index] = next(self.actions[index])
-        except StopIteration:
-            self.completed_indices.add(index)
+        while index not in self.completed_indices:
+            try:
+                instruction = next(self.actions[index])
+                if instruction is not None:  # Got a real instruction
+                    self.current_instructions[index] = instruction
+                    return
+                # else: action yielded None, keep advancing
+            except StopIteration:
+                self.completed_indices.add(index)
+                self.current_instructions[index] = None
+                return
     
     def update(self) -> None:
         """

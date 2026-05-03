@@ -1,19 +1,16 @@
 # pyright: reportPrivateUsage=false
 
 from unittest.mock import Mock
-import logging
 
-from adaptive_robot.adaptive_component.adaptive_component import AdaptiveComponent, ComponentContext
-from adaptive_robot.telemetry.telemetry import TelemetryPublisher
-from adaptive_robot.telemetry.struct_telemetry import TelemetryStructPublisher
+from adaptive_robot.adaptive_component.adaptive_component import AdaptiveComponent
 
 
 class MockAdaptiveComponent(AdaptiveComponent):
     """
     Fake AdaptiveComponent implementation for testing.
     """
-    def __init__(self, context: ComponentContext | None = None) -> None:
-        super().__init__(context)
+    def __init__(self) -> None:
+        super().__init__()
         self.execute_called = False
         self.publish_telemetry_called = False
         self.on_faulted_called = False
@@ -39,70 +36,8 @@ class TestAdaptiveComponentInitialization:
         component = MockAdaptiveComponent()
         
         assert component.is_healthy() == True
-        assert component._context == None
-    
-    def test_component_with_context(self) -> None:
-        """
-        Tests creating an adaptive component with context.
-        """
-        telemetry = Mock(spec=TelemetryPublisher)
-        struct_telemetry = Mock(spec=TelemetryStructPublisher)
-        logger = logging.getLogger(__name__)
-        
-        context = ComponentContext(
-            telemetry=telemetry,
-            struct_telemetry=struct_telemetry,
-            logger=logger
-        )
-        component = MockAdaptiveComponent(context)
-        
-        assert component.is_healthy() == True
-        assert component._context == context
-
-
-class TestAdaptiveComponentTunables:
-    """
-    Tests for tunable value management.
-    """
-    def test_tunable_registration(self) -> None:
-        """
-        Tests that tunables are properly registered to the context.
-        """
-        telemetry = Mock(spec=TelemetryPublisher)
-        struct_telemetry = Mock(spec=TelemetryStructPublisher)
-        logger = logging.getLogger(__name__)
-        
-        context = ComponentContext(
-            telemetry=telemetry,
-            struct_telemetry=struct_telemetry,
-            logger=logger
-        )
-        component = MockAdaptiveComponent(context)
-
-        tunable = component.tunable("test/value", 0.5)
-
-        assert tunable in context.tunables
-        assert len(context.tunables) == 1
-    
-    def test_tunable_pid_registration(self) -> None:
-        """
-        Tests that tunable PIDs are properly registered to the context.
-        """
-        telemetry = Mock(spec=TelemetryPublisher)
-        struct_telemetry = Mock(spec=TelemetryStructPublisher)
-        logger = logging.getLogger(__name__)
-        
-        context = ComponentContext(
-            telemetry=telemetry,
-            struct_telemetry=struct_telemetry,
-            logger=logger
-        )
-        component = MockAdaptiveComponent(context)
-
-        pid = component.tunablePID(1.0, 0.5, 0.2, "test/pid")
-
-        assert pid in context.tunable_pids
-        assert len(context.tunable_pids) == 1
+        assert component.tunable_context == None
+        assert component.telemetry_context == None
 
 
 class TestAdaptiveComponentHealthManagement:
@@ -126,50 +61,6 @@ class TestAdaptiveComponentHealthManagement:
         
         component.set_health(True)
         assert component.is_healthy() is True
-
-
-class TestAdaptiveComponentPublishMethods:
-    """
-    Tests for telemetry publishing methods.
-    """
-    def test_publish_value(self) -> None:
-        """
-        Tesst publishing a value to telemetry.
-        """
-        telemetry = Mock(spec=TelemetryPublisher)
-        struct_telemetry = Mock(spec=TelemetryStructPublisher)
-        logger = logging.getLogger(__name__)
-        
-        context = ComponentContext(
-            telemetry=telemetry,
-            struct_telemetry=struct_telemetry,
-            logger=logger
-        )
-        component = MockAdaptiveComponent(context)
-        
-        component.publish_value("test/key", 42)
-        
-        telemetry.put_value.assert_called_once_with("test/key", 42)
-    
-    def test_publish_struct_value(self) -> None:
-        """
-        Tests publishing a struct value to telemetry.
-        """
-        telemetry = Mock(spec=TelemetryPublisher)
-        struct_telemetry = Mock(spec=TelemetryStructPublisher)
-        logger = logging.getLogger(__name__)
-        
-        context = ComponentContext(
-            telemetry=telemetry,
-            struct_telemetry=struct_telemetry,
-            logger=logger
-        )
-        component = MockAdaptiveComponent(context)
-        
-        struct_obj = Mock()
-        component.publish_struct_value("test/struct", struct_obj)
-        
-        struct_telemetry.put_struct_value.assert_called_once_with("test/struct", struct_obj)
 
 
 class TestAdaptiveRobotComponentManagement:

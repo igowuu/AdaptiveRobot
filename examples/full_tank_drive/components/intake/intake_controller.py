@@ -7,7 +7,6 @@ from adaptive_robot import AdaptiveComponent, BasicPriority
 
 class IntakeController(AdaptiveComponent):
     def __init__(self, intake: Intake, controller: Joystick) -> None:
-        super().__init__()
         self.controller = controller
 
         self.intake = intake

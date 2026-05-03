@@ -54,7 +54,7 @@ class ActionScheduler(Subscheduler):
                     self._cleanup_action(name)
                 
                 self.raise_fault(
-                    component=None, 
+                    schedulable=None, 
                     severity=FaultSeverity.CRITICAL, 
                     description=(
                         f"Unknown fault in ActionScheduler raised: {e}\n"
@@ -72,7 +72,7 @@ class ActionScheduler(Subscheduler):
         except Exception as e:
             self._cleanup_action(name)
             self.raise_fault(
-                component=None,
+                schedulable=None,
                 severity=FaultSeverity.CRITICAL,
                 description=(
                     f"Instruction.step() failed for action {name}: {e}\n"
@@ -115,7 +115,7 @@ class ActionScheduler(Subscheduler):
             raise
         except Exception as e:
             self.raise_fault(
-                component=None, 
+                schedulable=None, 
                 severity=FaultSeverity.CRITICAL, 
                 description=(
                     f"Unknown fault in ActionScheduler raised: {e}"
@@ -145,7 +145,7 @@ class ActionScheduler(Subscheduler):
                 raise
             except Exception as e:
                 self.raise_fault(
-                    component=None, 
+                    schedulable=None, 
                     severity=FaultSeverity.CRITICAL, 
                     description=(
                         f"Unknown fault in ActionScheduler raised: {e}"

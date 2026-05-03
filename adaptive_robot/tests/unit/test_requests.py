@@ -1,15 +1,15 @@
-from adaptive_robot.requests import AxisController
+from adaptive_robot.requests import RequestArbitrator
 
 
-class TestAxisControllerInitialization:
+class TestRequestArbitratorInitialization:
     """
-    Tests for AxisController initialization.
+    Tests for RequestArbitrator initialization.
     """
     def test_default_initialization(self) -> None:
         """
-        Tests default AxisController creation.
+        Tests default RequestArbitrator creation.
         """
-        controller = AxisController()
+        controller = RequestArbitrator()
         default = controller.get_default_request()
         assert default.value == 0.0
         assert default.priority == -1
@@ -19,9 +19,9 @@ class TestAxisControllerInitialization:
     
     def test_initialization_with_custom_defaults(self) -> None:
         """
-        Tests AxisController with custom defaults.
+        Tests RequestArbitrator with custom defaults.
         """
-        controller = AxisController(
+        controller = RequestArbitrator(
             default_value=0.5,
             default_priority=5,
             default_source='custom'
@@ -35,11 +35,11 @@ class TestAxisControllerInitialization:
         """
         Tests accessing last_request property.
         """
-        controller = AxisController()
+        controller = RequestArbitrator()
         assert controller.last_request == controller.get_default_request()
 
 
-class TestAxisControllerRequests:
+class TestRequestArbitratorRequests:
     """
     Tests for request submission and management.
     """
@@ -47,7 +47,7 @@ class TestAxisControllerRequests:
         """
         Tests submitting a single request.
         """
-        controller = AxisController()
+        controller = RequestArbitrator()
         controller.request(value=0.5, priority=10, source="motor1")
         
         resolved = controller.resolve()
@@ -59,7 +59,7 @@ class TestAxisControllerRequests:
         """
         Tests that highest priority request wins.
         """
-        controller = AxisController()
+        controller = RequestArbitrator()
         controller.request(value=0.3, priority=5, source="low")
         controller.request(value=0.8, priority=15, source="high")
         controller.request(value=0.5, priority=10, source="medium")
@@ -72,7 +72,7 @@ class TestAxisControllerRequests:
         """
         Tests that with same priority, most recent request wins.
         """
-        controller = AxisController()
+        controller = RequestArbitrator()
         controller.request(value=0.3, priority=10, source="first")
         controller.request(value=0.8, priority=10, source="second")
         
@@ -84,7 +84,7 @@ class TestAxisControllerRequests:
         """
         Tests clearing all requests.
         """
-        controller = AxisController()
+        controller = RequestArbitrator()
         controller.request(value=0.5, priority=10, source="test")
         controller.clear()
         
@@ -95,7 +95,7 @@ class TestAxisControllerRequests:
         """
         Tests that same source overwrites previous request.
         """
-        controller = AxisController()
+        controller = RequestArbitrator()
         controller.request(value=0.3, priority=10, source="motor")
         controller.request(value=0.8, priority=10, source="motor")
         
@@ -103,7 +103,7 @@ class TestAxisControllerRequests:
         assert resolved.value == 0.8
 
 
-class TestAxisControllerEnabled:
+class TestRequestArbitratorEnabled:
     """
     Tests for enabled/disabled state.
     """
@@ -111,7 +111,7 @@ class TestAxisControllerEnabled:
         """
         Tests that requests are cleared when request() is called while disabled.
         """
-        controller = AxisController()
+        controller = RequestArbitrator()
         controller.request(value=0.5, priority=10, source="test")
 
         controller.set_enabled(False)
@@ -125,7 +125,7 @@ class TestAxisControllerEnabled:
         """
         Tests that new requests are ignored when disabled.
         """
-        controller = AxisController()
+        controller = RequestArbitrator()
         controller.set_enabled(False)
         controller.request(value=0.5, priority=10, source="test")
         
@@ -135,7 +135,7 @@ class TestAxisControllerEnabled:
         """
         Tests that re-enabling accepts requests again.
         """
-        controller = AxisController()
+        controller = RequestArbitrator()
         controller.set_enabled(False)
         controller.set_enabled(True)
         
@@ -144,7 +144,7 @@ class TestAxisControllerEnabled:
         assert resolved.value == 0.5
 
 
-class TestAxisControllerLastRequest:
+class TestRequestArbitratorLastRequest:
     """
     Tests for last_request tracking.
     """
@@ -152,7 +152,7 @@ class TestAxisControllerLastRequest:
         """
         Tests that last_request persists after resolve.
         """
-        controller = AxisController()
+        controller = RequestArbitrator()
         controller.request(value=0.5, priority=10, source="test")
         
         resolved = controller.resolve()
@@ -162,13 +162,13 @@ class TestAxisControllerLastRequest:
         """
         Tests last_request when using default.
         """
-        controller = AxisController()
+        controller = RequestArbitrator()
         _ = controller.resolve()
         
         assert controller.last_request == controller.get_default_request()
 
 
-class TestAxisControllerComplexScenarios:
+class TestRequestArbitratorComplexScenarios:
     """
     Tests for complex scenarios and edge cases.
     """
@@ -176,7 +176,7 @@ class TestAxisControllerComplexScenarios:
         """
         Tests arbitration with multiple sources and priorities.
         """
-        controller = AxisController()
+        controller = RequestArbitrator()
 
         controller.request(value=0.2, priority=1, source="drivetrain")
         controller.request(value=-0.8, priority=20, source="arm")
@@ -190,7 +190,7 @@ class TestAxisControllerComplexScenarios:
         """
         Tests that multiple requests are resolved by priority.
         """
-        controller = AxisController()
+        controller = RequestArbitrator()
         
         controller.request(value=0.8, priority=20, source="high_priority")
         controller.request(value=0.3, priority=5, source="low_priority")

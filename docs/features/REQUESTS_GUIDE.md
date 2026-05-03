@@ -1,23 +1,23 @@
-# AxisController & Requests
+# RequestArbitrator & Requests
 
 ## Overview
 
-The request-based arbitration system provides a clean way to manage competing commands to a single axis or subsystem. Multiple sources (teleop, autonomous, safety systems) can submit requests with different priorities, and the `AxisController` automatically selects the highest-priority active request each iteration.
+The request-based arbitration system provides a clean way to manage competing commands to a single source. Multiple sources (teleop, autonomous, safety systems) can submit requests with different priorities, and the `RequestArbitrator` automatically selects the highest-priority active request each iteration.
 
 This eliminates the need for complex conditional logic and makes it easy to add new command sources without breaking existing code.
 
 ## Quick Start
 
-Create an AxisController for each axis (e.g. vx, vy, and omega would be separate) and submit requests from different sources:
+Create an RequestArbitrator for each source (e.g. vx, vy, and omega would be separate) and submit requests from different sources:
 
 ```python
-from adaptive_robot import AdaptiveComponent, AxisController, BasicPriority
+from adaptive_robot import AdaptiveComponent, RequestArbitrator, BasicPriority
 
 class Intake(AdaptiveComponent):
     def __init__(self) -> None:
         super().__init__()
 
-        self.percent_controller = AxisController()
+        self.percent_controller = RequestArbitrator()
         self.motor = ...
 
     def request_percent(
@@ -40,13 +40,13 @@ class Intake(AdaptiveComponent):
 
 ---
 
-## AxisController
+## RequestArbitrator
 
 ### Constructor
 
 #### `__init__(default_value: float = 0.0, default_priority: int = -1, default_source: str = 'default') -> None`
 
-Creates an AxisController to manage request-based arbitration for a single axis.
+Creates an RequestArbitrator to manage request-based arbitration for a single source.
 
 **Parameters:**
 - `default_value`: The value returned when no active requests exist (default: `0.0`)
@@ -56,7 +56,7 @@ Creates an AxisController to manage request-based arbitration for a single axis.
 **Example:**
 ```python
 # Drivetrain speed controller defaults to 0.0 at priority -1
-speed_controller = AxisController(
+speed_controller = RequestArbitrator(
     default_value=0.0,
     default_priority=-1,
     default_source="drivetrain_speed"
@@ -66,13 +66,13 @@ speed_controller = AxisController(
 ### Core Concepts
 
 #### Request Arbitration
-When multiple requests are active, the AxisController selects the winner based on:
+When multiple requests are active, the RequestArbitrator selects the winner based on:
 1. **Highest priority** wins
 2. **If tied**, the most recently submitted request wins (newer timestamp)
 3. **If same iteration** (tied timestamps), the most recently inserted wins
 
 #### Timeout Behavior
-Each request has a timeout. If a request is not resubmitted before its timeout expires, it is automatically removed. This prevents stale requests from controlling the axis.
+Each request has a timeout. If a request is not resubmitted before its timeout expires, it is automatically removed. This prevents stale requests from controlling the source.
 
 **Example:**
 ```python
@@ -89,13 +89,13 @@ speed_controller.request(
 
 ---
 
-## AxisRequest
+## Request
 
 The immutable data class that represents a single request.
 
 ```python
 @dataclass(frozen=True)
-class AxisRequest:
+class Request:
     value: float              # The commanded value
     priority: int             # Priority relative to other requests
     timeout: seconds = 0.2    # How long this request remains active
@@ -143,13 +143,13 @@ self.controller.request(
 
 ---
 
-## AxisController API
+## RequestArbitrator API
 
 ### Submitting Requests
 
 ##### `request(value: float, priority: int, source: str = "unknown", timeout: seconds = 0.2) -> None`
 
-Submits a request to the AxisController. If a request with the same source already exists, it is replaced.
+Submits a request to the RequestArbitrator. If a request with the same source already exists, it is replaced.
 
 **Parameters:**
 - `value`: The commanded value for this request
@@ -175,7 +175,7 @@ def onTeleopPeriodic(self) -> None:
 
 ### Resolving Requests
 
-##### `resolve() -> AxisRequest`
+##### `resolve() -> Request`
 
 Returns the currently active request based on arbitration rules. Automatically removes timed-out requests.
 
@@ -184,7 +184,7 @@ Returns the currently active request based on arbitration rules. Automatically r
 2. If tied, most recent timestamp wins
 3. If no valid requests, returns the default request
 
-**Returns:** The winning `AxisRequest`
+**Returns:** The winning `Request`
 
 **Example:**
 ```python
@@ -211,7 +211,7 @@ def onDisabledInit(self) -> None:
 
 ##### `set_enabled(enabled: bool) -> None`
 
-Enables or disables the AxisController. When disabled, `resolve()` always returns the default request and `request()` calls are ignored.
+Enables or disables the RequestArbitrator. When disabled, `resolve()` always returns the default request and `request()` calls are ignored.
 
 **Parameters:**
 - `enabled`: True to enable, False to disable
@@ -239,7 +239,7 @@ if not self.speed_controller.is_enabled():
 
 ### Introspection
 
-##### `get_default_request() -> AxisRequest`
+##### `get_default_request() -> Request`
 
 Returns the default request used when no valid requests are active.
 
@@ -279,8 +279,8 @@ print(f"Last source: {prev.source}")
 class Drivetrain(AdaptiveComponent):
     def __init__(self) -> None:
         super().__init__()
-        self.left_speed = AxisController()
-        self.right_speed = AxisController()
+        self.left_speed = RequestArbitrator()
+        self.right_speed = RequestArbitrator()
     
     def onTeleopPeriodic(self) -> None:
         left = self.joystick.getLeftY()

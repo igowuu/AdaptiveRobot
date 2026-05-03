@@ -2,19 +2,19 @@ import time
 import math
 import pytest
 
-from adaptive_robot.requests import AxisController
+from adaptive_robot.requests import RequestArbitrator
 from adaptive_robot.adaptive_component.adaptive_component import AdaptiveComponent
 
 
-class TestAdversarialAxisController:
+class TestAdversarialRequestArbitrator:
     """
-    Tests designed to break AxisController.
+    Tests designed to break RequestArbitrator.
     """
     def test_concurrent_request_and_clear(self) -> None:
         """
         Try to cause race conditions by mixing requests and clears.
         """
-        controller = AxisController()
+        controller = RequestArbitrator()
         
         for i in range(50):
             if i % 2 == 0:
@@ -29,7 +29,7 @@ class TestAdversarialAxisController:
         """
         Tests very large priority differences.
         """
-        controller = AxisController()
+        controller = RequestArbitrator()
 
         controller.request(value=0.5, priority=-2147483648, source="lowest")  # Min 32-bit int
         controller.request(value=0.8, priority=0, source="zero")
@@ -42,7 +42,7 @@ class TestAdversarialAxisController:
         """
         Tests with a huge number of sources all at once.
         """
-        controller = AxisController()
+        controller = RequestArbitrator()
 
         for i in range(10000):
             controller.request(
@@ -59,7 +59,7 @@ class TestAdversarialAxisController:
         """
         Tests requesting with NaN values.
         """
-        controller = AxisController()
+        controller = RequestArbitrator()
 
         nan_value = float('nan')
         controller.request(value=nan_value, priority=10, source="nan")
@@ -77,7 +77,7 @@ class TestAdversarialTimeouts:
         """
         Tests request timing out between request and resolve.
         """
-        controller = AxisController()
+        controller = RequestArbitrator()
         
         controller.request(value=0.5, priority=10, source="ephemeral", timeout=0.001)
 
@@ -93,7 +93,7 @@ class TestAdversarialTimeouts:
         """
         Tests request with zero timeout.
         """
-        controller = AxisController()
+        controller = RequestArbitrator()
         
         # Zero timeout should raise
         with pytest.raises(ValueError):
@@ -103,7 +103,7 @@ class TestAdversarialTimeouts:
         """
         Tests interactions between timeout and priority logic.
         """
-        controller = AxisController()
+        controller = RequestArbitrator()
 
         controller.request(value=0.9, priority=100, source="timeout_high", timeout=0.005)
   
@@ -145,7 +145,7 @@ class TestAdversarialMemoryBehavior:
         """
         Tests accumulating huge numbers of requests.
         """
-        controller = AxisController()
+        controller = RequestArbitrator()
 
         for i in range(100000):
             controller.request(
@@ -164,7 +164,7 @@ class TestAdversarialMemoryBehavior:
         """
         Tests with extremely long source names.
         """
-        controller = AxisController()
+        controller = RequestArbitrator()
 
         long_source = "x" * 1000
 
@@ -180,7 +180,7 @@ class TestAdversarialPriorityHandling:
         """
         Tests updating same source with different priorities.
         """
-        controller = AxisController()
+        controller = RequestArbitrator()
 
         for i in range(100):
             controller.request(value=0.5, priority=i, source="variable")
@@ -193,7 +193,7 @@ class TestAdversarialPriorityHandling:
         """
         Tests that timestamp tiebreaker works correctly.
         """
-        controller = AxisController()
+        controller = RequestArbitrator()
 
         controller.request(value=0.1, priority=10, source="first")
         first_timestamp = controller._requests["first"].timestamp # type: ignore

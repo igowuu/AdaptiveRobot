@@ -1,4 +1,4 @@
-from adaptive_robot import AdaptiveComponent, BasicPriority, AxisController
+from adaptive_robot import AdaptiveComponent, BasicPriority, RequestArbitrator
 
 from wpilib import RobotController
 from wpimath.units import percent
@@ -8,10 +8,9 @@ from components.intake.intake_io.io_base import IntakeIOBase
 
 class Intake(AdaptiveComponent):
     def __init__(self, io: IntakeIOBase) -> None:
-        super().__init__()
         self.io = io
 
-        self.percent_controller = AxisController()
+        self.percent_controller = RequestArbitrator()
 
     def request_percent(
         self,

@@ -1,12 +1,12 @@
 # AdaptiveRobot Framework
 
-> Industrial autonomous, component-oriented, telemetry, and safety-first control.
+> Autonomous, component-oriented, telemetry, and safety-first control.
 
 ## Quick Links
 
 - [Robot Guide](docs/features/ROBOT_GUIDE.md)
-- [Components Guide](docs/features/COMPONENTS_GUIDE.md)
-- [Requests Guide](docs/features//REQUESTS_GUIDE.md)
+- [Interface Guide](docs/features/INTERFACE_GUIDE.md)
+- [Requests Guide](docs/features/REQUESTS_GUIDE.md)
 - [Faults Guide](docs/features/FAULTS_GUIDE.md)
 - [Actions Guide](docs/features/ACTIONS_GUIDE.md)
 - [Motivation](docs/MOTIVATION.md)
@@ -19,8 +19,8 @@
 
 ## Overview
 
-AdaptiveRobot is an alternative python framework for building FRC robot code with:
-- **Components** - Components attatched to the robot scheduler with lifecycle hooks
+AdaptiveRobot is an alternative python framework for building FRC robot code, based upon
+- **Interfaces and Components** - Allows any class to communicate with NT, publish tunables, faults, and access lifecycle methods.
 - **Telemetry** - Built-in dashboard telemetry and logging
 - **Tuning** - Live parameter adjustment with NetworkTables
 - **Faults** - Fault detection, logging, component health

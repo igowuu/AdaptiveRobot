@@ -21,9 +21,10 @@ from actions.trajectories.taxi import taxi_drive
 
 
 class MyRobot(AdaptiveRobot):
-    def onRobotInit(self) -> None:
+    def __init__(self) -> None:
         super().__init__()
 
+    def onRobotInit(self) -> None:
         self.controller = Joystick(0)
 
         if self.isSimulation():
@@ -35,6 +36,7 @@ class MyRobot(AdaptiveRobot):
             self.arm_io = RealArmIO()
             self.intake_io = RealIntakeIO()
         
+        # All subclasses of AdaptiveComponent are auto-discovered into the scheduler.
         self.drivetrain = Drivetrain(self.drivetrain_io)
         self.arm = Arm(self.arm_io)
         self.intake = Intake(self.intake_io)

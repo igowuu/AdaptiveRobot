@@ -4,7 +4,7 @@
 
 `AsyncAction` is a generator-based system for writing autonomous routines. Instead of managing state machines manually, you write routines as generator code. The framework handles scheduling, cancellation, and error management.
 
-This allows multi-step autonomous groups and singular actions to use native python syntax instead of a verbose scheduler.
+This allows multi-step autonomous groups and singular actions to use native python syntax.
 
 ## Quick Start
 
@@ -48,7 +48,7 @@ class MyRobot(AdaptiveRobot):
 AsyncAction = Generator[Instruction | None, None, Any]
 ```
 
-An `AsyncAction` is a Python generator function that:
+An `AsyncAction` is a Python generator function that
 - **Uses `yield from`** to delegate to other generators (helper functions or component actions)
 - **Yields `None`** or an `Instruction` to pause/wait
 - **Completes** when the function returns (via implicit `StopIteration`)

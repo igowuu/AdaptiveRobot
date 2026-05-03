@@ -1,10 +1,16 @@
-# AdaptiveComponent
+# Interfaces
 
 ## Overview
 
-`AdaptiveComponent` is the base class for all robot subsystems, hardware managers, and any class that needs to be scheduled with access to the lifecycle utilities each iteration. Each component manages a specific part of your robot and runs on a lifecycle. The framework automatically schedules component execution, manages their health, publishes telemetry, and updates tunable parameters every iteration.
+AdaptiveRobot is built on four core interfaces that allow flexible robot architecture without forcing a single inheritance model. Instead of everything inheriting from one base class, components can implement the specific capabilities they need.
 
-Components hold logic for specific mechanisms so that your codebase does not get cluttered during development.
+**Core Interfaces:**
+- `Schedulable` - Lifecycle hooks and health tracking for iterative execution
+- `TelemetryPublishable` - Publish sensor data to NetworkTables each iteration
+- `TunablePublishable` - Expose tunable parameters adjustable via NetworkTables
+- `Faultable` - Report faults to the fault system
+
+`AdaptiveComponent` is a convenience class that inherits all four interfaces. You can either extend `AdaptiveComponent` or implement the specific interfaces your class needs.
 
 ## Quick Start
 
@@ -35,13 +41,26 @@ class MyRobot(AdaptiveRobot):
         self.drivetrain = Drivetrain()  # Auto-discovered into scheduler
 ```
 
+Or, implement only the interfaces you need:
+
+```python
+from adaptive_robot import Schedulable, TelemetryPublishable
+
+class MyCustomSubsystem(Schedulable, TelemetryPublishable):
+    def execute(self) -> None:
+        pass
+    
+    def publish_telemetry(self) -> None:
+        pass
+```
+
 ---
 
-## AdaptiveComponent Lifecycle
+## Schedulable Interface
 
-### Component Hooks
+### Lifecycle
 
-Components follow a lifecycle that runs every robot iteration (50Hz by default):
+`Schedulable` objects follow a lifecycle that runs every robot iteration (50Hz by default):
 
 #### `on_enabled() -> None`
 
@@ -81,7 +100,7 @@ Called every iteration before `execute()`.
 
 - **When**: Every robot loop (50Hz by default)
 - **Purpose**: Publish sensor readings and state to NetworkTables
-- **Use**: Log motor speeds, positions, currents, temperatures, resolved AxisRequests
+- **Use**: Log motor speeds, positions, currents, temperatures, resolved Requests
 
 **Example:**
 ```python
@@ -102,7 +121,7 @@ Called every iteration after `publish_telemetry()`.
 **Example:**
 ```python
 def execute(self) -> None:
-    # Get the active request from the axis controller
+    # Get the active request from the request arbitrator
     speed_request = self.speed_controller.resolve()
     
     # Command hardware
@@ -147,25 +166,34 @@ def on_faulted_periodic(self) -> None:
 ### Execution Order Each Iteration
 
 ```
-1. Update Tunable Values
-2. Publish Telemetry (all components)
-3. Call Activation Methods (on_enabled/on_disabled)
-4. Execute Components (execute or on_faulted_periodic)
+1. Update Tunable Values (TunablePublishable)
+2. Publish Telemetry (TelemetryPublishable)
+3. Call Activation Methods (Schedulable: on_enabled/on_disabled)
+4. Execute Schedulables (Schedulable: execute or on_faulted_periodic)
+5. Run Actions (AsyncAction)
 ```
 
-### ComponentContext
+### Interface Contexts
 
-The `ComponentContext` is automatically injected into each component (completely internally) and provides access to:
+Each interface uses a context object to manage shared state:
 
+**TelemetryContext** - Injected into each `TelemetryPublishable`
 ```python
 @dataclass
-class ComponentContext:
-    telemetry: TelemetryPublisher           # Publish simple cached values (int, float, str, bool)
-    struct_telemetry: TelemetryStructPublisher  # Publish WPIStruct objects (Pose3d, etc)
-    logger: logging.Logger                    # Logging instance
-    tunables: list[TunableValue]              # Tunable parameters
+class TelemetryContext:
+    telemetry: TelemetryPublisher           # Publish simple cached values
+    struct_telemetry: TelemetryStructPublisher  # Publish WPIStruct objects
+```
+
+**TunableContext** - Injected into each `TunablePublishable`
+```python
+@dataclass
+class TunableContext:
+    tunables: list[TunableValue]           # Tunable parameters
     tunable_pids: list[TunablePIDController]  # Tunable PID controllers
 ```
+
+These are automatically injected and managed by the framework.
 
 ---
 
@@ -366,16 +394,16 @@ class Motor(AdaptiveComponent):
 
 ## Common Patterns
 
-### Multi-Source Control with AxisController
+### Multi-Source Control with RequestArbitrator
 
 ```python
-from adaptive_robot.requests import AxisController, BasicPriority
+from adaptive_robot.requests import RequestArbitrator, BasicPriority
 
 class Drivetrain(AdaptiveComponent):
     def __init__(self) -> None:
         super().__init__()
-        self.left_speed = AxisController()
-        self.right_speed = AxisController()
+        self.left_speed = RequestArbitrator()
+        self.right_speed = RequestArbitrator()
         self.left_motor = PWMSparkMax(0)
         self.right_motor = PWMSparkMax(1)
     

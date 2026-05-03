@@ -15,8 +15,6 @@ class ArmController(AdaptiveComponent):
         arm: Arm, 
         controller: Joystick
     ) -> None:
-        super().__init__()
-
         self.arm = arm
         self.controller = controller
 

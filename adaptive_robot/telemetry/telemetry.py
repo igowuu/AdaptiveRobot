@@ -31,7 +31,7 @@ class TelemetryPublisher(Faultable):
         """
         if decimal_places < 0:
             message = f"Decimal places must be non-negative, got {decimal_places}"
-            self._raise_fault(None, FaultSeverity.ERROR, message, None)
+            self.raise_fault(None, FaultSeverity.ERROR, message, None)
             return
 
         self._per_key_rounding[key] = decimal_places
@@ -62,7 +62,7 @@ class TelemetryPublisher(Faultable):
 
         except Exception as e:
             message = f"NT publish failed for key='{key}', value='{value}': {e}"
-            self._raise_fault(None, FaultSeverity.ERROR, message, e)
+            self.raise_fault(None, FaultSeverity.ERROR, message, e)
     
     def _round(self, key: str, value: float) -> float:
         """
