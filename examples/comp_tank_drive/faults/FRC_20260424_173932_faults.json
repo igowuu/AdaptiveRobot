@@ -1,0 +1,2690 @@
+[
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [SUPPLY_CURRENT_LIMIT] on motor '1'",
+    "timestamp": 4.1697679999999995,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [BOOT_DURING_ENABLE] on motor '1'",
+    "timestamp": 4.1710199999999995,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [BRIDGE_BROWNOUT] on motor '1'",
+    "timestamp": 4.17337,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [DEVICE_TEMP] on motor '1'",
+    "timestamp": 4.17485,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [FIELD] on motor '1'",
+    "timestamp": 4.176854,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [FORWARD_HARD_LIMIT] on motor '1'",
+    "timestamp": 4.178344,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [FORWARD_SOFT_LIMIT] on motor '1'",
+    "timestamp": 4.180477,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [FUSED_SENSOR_OUT_OF_SYNC] on motor '1'",
+    "timestamp": 4.183351,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [HARDWARE] on motor '1'",
+    "timestamp": 4.184663,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [MISSING_DIFFERENTIAL_FX] on motor '1'",
+    "timestamp": 4.185994,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [MISSING_HARD_LIMIT_REMOTE] on motor '1'",
+    "timestamp": 4.18717,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [MISSING_SOFT_LIMIT_REMOTE] on motor '1'",
+    "timestamp": 4.188135,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [OVER_SUPPLY_VOLTAGE] on motor '1'",
+    "timestamp": 4.189279,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [PROCESSOR_TEMP] on motor '1'",
+    "timestamp": 4.197049,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [REMOTE_SENSOR_DATA_INVALID] on motor '1'",
+    "timestamp": 4.199218999999999,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [REMOTE_SENSOR_POS_OVERFLOW] on motor '1'",
+    "timestamp": 4.200864999999999,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [REMOTE_SENSOR_RESET] on motor '1'",
+    "timestamp": 4.202271,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [REVERSE_HARD_LIMIT] on motor '1'",
+    "timestamp": 4.204561,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [REVERSE_SOFT_LIMIT] on motor '1'",
+    "timestamp": 4.209096,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [STATIC_BRAKE_DISABLED] on motor '1'",
+    "timestamp": 4.211091,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [STATOR_CURRENT_LIMIT] on motor '1'",
+    "timestamp": 4.2136569999999995,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [UNDERVOLTAGE] on motor '1'",
+    "timestamp": 4.215024,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [UNLICENSED_FEATURE_IN_USE] on motor '1'",
+    "timestamp": 4.216353,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [UNSTABLE_SUPPLY_VOLTAGE] on motor '1'",
+    "timestamp": 4.21796,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [SUPPLY_CURRENT_LIMIT] on motor '2'",
+    "timestamp": 4.219536,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [BOOT_DURING_ENABLE] on motor '2'",
+    "timestamp": 4.221287,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [BRIDGE_BROWNOUT] on motor '2'",
+    "timestamp": 4.227676,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [DEVICE_TEMP] on motor '2'",
+    "timestamp": 4.230592,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [FIELD] on motor '2'",
+    "timestamp": 4.233817,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [FORWARD_HARD_LIMIT] on motor '2'",
+    "timestamp": 4.237767,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [FORWARD_SOFT_LIMIT] on motor '2'",
+    "timestamp": 4.239415999999999,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [FUSED_SENSOR_OUT_OF_SYNC] on motor '2'",
+    "timestamp": 4.240622999999999,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [HARDWARE] on motor '2'",
+    "timestamp": 4.241809,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [MISSING_DIFFERENTIAL_FX] on motor '2'",
+    "timestamp": 4.243662,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [MISSING_HARD_LIMIT_REMOTE] on motor '2'",
+    "timestamp": 4.245609,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [MISSING_SOFT_LIMIT_REMOTE] on motor '2'",
+    "timestamp": 4.247352,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [OVER_SUPPLY_VOLTAGE] on motor '2'",
+    "timestamp": 4.248682,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [PROCESSOR_TEMP] on motor '2'",
+    "timestamp": 4.2499389999999995,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [REMOTE_SENSOR_DATA_INVALID] on motor '2'",
+    "timestamp": 4.250039,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [REMOTE_SENSOR_POS_OVERFLOW] on motor '2'",
+    "timestamp": 4.250068,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [REMOTE_SENSOR_RESET] on motor '2'",
+    "timestamp": 4.250093,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [REVERSE_HARD_LIMIT] on motor '2'",
+    "timestamp": 4.250116,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [REVERSE_SOFT_LIMIT] on motor '2'",
+    "timestamp": 4.250145,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [STATIC_BRAKE_DISABLED] on motor '2'",
+    "timestamp": 4.250182,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [STATOR_CURRENT_LIMIT] on motor '2'",
+    "timestamp": 4.2502059999999995,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [UNDERVOLTAGE] on motor '2'",
+    "timestamp": 4.250229,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [UNLICENSED_FEATURE_IN_USE] on motor '2'",
+    "timestamp": 4.250251,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [UNSTABLE_SUPPLY_VOLTAGE] on motor '2'",
+    "timestamp": 4.250273,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [SUPPLY_CURRENT_LIMIT] on motor '3'",
+    "timestamp": 4.252033,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [BOOT_DURING_ENABLE] on motor '3'",
+    "timestamp": 4.2521379999999995,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [BRIDGE_BROWNOUT] on motor '3'",
+    "timestamp": 4.2521759999999995,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [DEVICE_TEMP] on motor '3'",
+    "timestamp": 4.252199,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [FIELD] on motor '3'",
+    "timestamp": 4.252222,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [FORWARD_HARD_LIMIT] on motor '3'",
+    "timestamp": 4.252244999999999,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [FORWARD_SOFT_LIMIT] on motor '3'",
+    "timestamp": 4.252267,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [FUSED_SENSOR_OUT_OF_SYNC] on motor '3'",
+    "timestamp": 4.2522899999999995,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [HARDWARE] on motor '3'",
+    "timestamp": 4.2523159999999995,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [MISSING_DIFFERENTIAL_FX] on motor '3'",
+    "timestamp": 4.252338,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [MISSING_HARD_LIMIT_REMOTE] on motor '3'",
+    "timestamp": 4.252359,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [MISSING_SOFT_LIMIT_REMOTE] on motor '3'",
+    "timestamp": 4.252377,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [OVER_SUPPLY_VOLTAGE] on motor '3'",
+    "timestamp": 4.252397,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [PROCESSOR_TEMP] on motor '3'",
+    "timestamp": 4.2524169999999994,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [REMOTE_SENSOR_DATA_INVALID] on motor '3'",
+    "timestamp": 4.252437,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [REMOTE_SENSOR_POS_OVERFLOW] on motor '3'",
+    "timestamp": 4.252458,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [REMOTE_SENSOR_RESET] on motor '3'",
+    "timestamp": 4.252479,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [REVERSE_HARD_LIMIT] on motor '3'",
+    "timestamp": 4.252503,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [REVERSE_SOFT_LIMIT] on motor '3'",
+    "timestamp": 4.2525249999999994,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [STATIC_BRAKE_DISABLED] on motor '3'",
+    "timestamp": 4.252549999999999,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [STATOR_CURRENT_LIMIT] on motor '3'",
+    "timestamp": 4.252572,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [UNDERVOLTAGE] on motor '3'",
+    "timestamp": 4.2525949999999995,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [UNLICENSED_FEATURE_IN_USE] on motor '3'",
+    "timestamp": 4.252619,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [UNSTABLE_SUPPLY_VOLTAGE] on motor '3'",
+    "timestamp": 4.252641,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [SUPPLY_CURRENT_LIMIT] on motor '4'",
+    "timestamp": 4.252702,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [BOOT_DURING_ENABLE] on motor '4'",
+    "timestamp": 4.252731,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [BRIDGE_BROWNOUT] on motor '4'",
+    "timestamp": 4.2527539999999995,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [DEVICE_TEMP] on motor '4'",
+    "timestamp": 4.252776,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [FIELD] on motor '4'",
+    "timestamp": 4.252794,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [FORWARD_HARD_LIMIT] on motor '4'",
+    "timestamp": 4.252815,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [FORWARD_SOFT_LIMIT] on motor '4'",
+    "timestamp": 4.25284,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [FUSED_SENSOR_OUT_OF_SYNC] on motor '4'",
+    "timestamp": 4.252861,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [HARDWARE] on motor '4'",
+    "timestamp": 4.2528809999999995,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [MISSING_DIFFERENTIAL_FX] on motor '4'",
+    "timestamp": 4.252904,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [MISSING_HARD_LIMIT_REMOTE] on motor '4'",
+    "timestamp": 4.252924,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [MISSING_SOFT_LIMIT_REMOTE] on motor '4'",
+    "timestamp": 4.252943999999999,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [OVER_SUPPLY_VOLTAGE] on motor '4'",
+    "timestamp": 4.252965,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [PROCESSOR_TEMP] on motor '4'",
+    "timestamp": 4.2529829999999995,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [REMOTE_SENSOR_DATA_INVALID] on motor '4'",
+    "timestamp": 4.2530019999999995,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [REMOTE_SENSOR_POS_OVERFLOW] on motor '4'",
+    "timestamp": 4.2530209999999995,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [REMOTE_SENSOR_RESET] on motor '4'",
+    "timestamp": 4.253045,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [REVERSE_HARD_LIMIT] on motor '4'",
+    "timestamp": 4.253063,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [REVERSE_SOFT_LIMIT] on motor '4'",
+    "timestamp": 4.253082,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [STATIC_BRAKE_DISABLED] on motor '4'",
+    "timestamp": 4.253101,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [STATOR_CURRENT_LIMIT] on motor '4'",
+    "timestamp": 4.253132,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [UNDERVOLTAGE] on motor '4'",
+    "timestamp": 4.253159,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [UNLICENSED_FEATURE_IN_USE] on motor '4'",
+    "timestamp": 4.253181,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [UNSTABLE_SUPPLY_VOLTAGE] on motor '4'",
+    "timestamp": 4.2532049999999995,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [SUPPLY_CURRENT_LIMIT] on motor '5'",
+    "timestamp": 4.331859,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [BOOT_DURING_ENABLE] on motor '5'",
+    "timestamp": 4.3372969999999995,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [BRIDGE_BROWNOUT] on motor '5'",
+    "timestamp": 4.3389619999999995,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [DEVICE_TEMP] on motor '5'",
+    "timestamp": 4.340725,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [FIELD] on motor '5'",
+    "timestamp": 4.343367,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [FORWARD_HARD_LIMIT] on motor '5'",
+    "timestamp": 4.349527999999999,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [FORWARD_SOFT_LIMIT] on motor '5'",
+    "timestamp": 4.352976,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [FUSED_SENSOR_OUT_OF_SYNC] on motor '5'",
+    "timestamp": 4.355224,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [HARDWARE] on motor '5'",
+    "timestamp": 4.357672,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [MISSING_DIFFERENTIAL_FX] on motor '5'",
+    "timestamp": 4.363363,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [MISSING_HARD_LIMIT_REMOTE] on motor '5'",
+    "timestamp": 4.3656109999999995,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [MISSING_SOFT_LIMIT_REMOTE] on motor '5'",
+    "timestamp": 4.36759,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [OVER_SUPPLY_VOLTAGE] on motor '5'",
+    "timestamp": 4.369711,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [PROCESSOR_TEMP] on motor '5'",
+    "timestamp": 4.371443,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [REMOTE_SENSOR_DATA_INVALID] on motor '5'",
+    "timestamp": 4.37541,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [REMOTE_SENSOR_POS_OVERFLOW] on motor '5'",
+    "timestamp": 4.380075,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [REMOTE_SENSOR_RESET] on motor '5'",
+    "timestamp": 4.382864,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [REVERSE_HARD_LIMIT] on motor '5'",
+    "timestamp": 4.384228,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [REVERSE_SOFT_LIMIT] on motor '5'",
+    "timestamp": 4.3854049999999996,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [STATIC_BRAKE_DISABLED] on motor '5'",
+    "timestamp": 4.387683,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [STATOR_CURRENT_LIMIT] on motor '5'",
+    "timestamp": 4.3905829999999995,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [UNDERVOLTAGE] on motor '5'",
+    "timestamp": 4.392796,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [UNLICENSED_FEATURE_IN_USE] on motor '5'",
+    "timestamp": 4.397101999999999,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [UNSTABLE_SUPPLY_VOLTAGE] on motor '5'",
+    "timestamp": 4.399487,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [SUPPLY_CURRENT_LIMIT] on motor '5'",
+    "timestamp": 4.402517,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [BOOT_DURING_ENABLE] on motor '5'",
+    "timestamp": 4.405870999999999,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [BRIDGE_BROWNOUT] on motor '5'",
+    "timestamp": 4.407179,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [DEVICE_TEMP] on motor '5'",
+    "timestamp": 4.408593,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [FIELD] on motor '5'",
+    "timestamp": 4.413031,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [FORWARD_HARD_LIMIT] on motor '5'",
+    "timestamp": 4.415039,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [FORWARD_SOFT_LIMIT] on motor '5'",
+    "timestamp": 4.416333,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [FUSED_SENSOR_OUT_OF_SYNC] on motor '5'",
+    "timestamp": 4.417713,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [HARDWARE] on motor '5'",
+    "timestamp": 4.418766,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [MISSING_DIFFERENTIAL_FX] on motor '5'",
+    "timestamp": 4.4203269999999995,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [MISSING_HARD_LIMIT_REMOTE] on motor '5'",
+    "timestamp": 4.421529,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [MISSING_SOFT_LIMIT_REMOTE] on motor '5'",
+    "timestamp": 4.422753999999999,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [OVER_SUPPLY_VOLTAGE] on motor '5'",
+    "timestamp": 4.423623,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [PROCESSOR_TEMP] on motor '5'",
+    "timestamp": 4.424556,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [REMOTE_SENSOR_DATA_INVALID] on motor '5'",
+    "timestamp": 4.426107,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [REMOTE_SENSOR_POS_OVERFLOW] on motor '5'",
+    "timestamp": 4.429708,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [REMOTE_SENSOR_RESET] on motor '5'",
+    "timestamp": 4.431147999999999,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [REVERSE_HARD_LIMIT] on motor '5'",
+    "timestamp": 4.432265,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [REVERSE_SOFT_LIMIT] on motor '5'",
+    "timestamp": 4.433165,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [STATIC_BRAKE_DISABLED] on motor '5'",
+    "timestamp": 4.434377,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [STATOR_CURRENT_LIMIT] on motor '5'",
+    "timestamp": 4.437746,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [UNDERVOLTAGE] on motor '5'",
+    "timestamp": 4.439449,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [UNLICENSED_FEATURE_IN_USE] on motor '5'",
+    "timestamp": 4.440581,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [UNSTABLE_SUPPLY_VOLTAGE] on motor '5'",
+    "timestamp": 4.441778,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [SUPPLY_CURRENT_LIMIT] on motor '6'",
+    "timestamp": 4.446044,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [BOOT_DURING_ENABLE] on motor '6'",
+    "timestamp": 4.447348,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [BRIDGE_BROWNOUT] on motor '6'",
+    "timestamp": 4.4486,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [DEVICE_TEMP] on motor '6'",
+    "timestamp": 4.449860999999999,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [FIELD] on motor '6'",
+    "timestamp": 4.451757,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [FORWARD_HARD_LIMIT] on motor '6'",
+    "timestamp": 4.453056,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [FORWARD_SOFT_LIMIT] on motor '6'",
+    "timestamp": 4.454345,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [FUSED_SENSOR_OUT_OF_SYNC] on motor '6'",
+    "timestamp": 4.45578,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [HARDWARE] on motor '6'",
+    "timestamp": 4.46057,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [MISSING_DIFFERENTIAL_FX] on motor '6'",
+    "timestamp": 4.463222,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [MISSING_HARD_LIMIT_REMOTE] on motor '6'",
+    "timestamp": 4.464652,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [MISSING_SOFT_LIMIT_REMOTE] on motor '6'",
+    "timestamp": 4.4716569999999995,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [OVER_SUPPLY_VOLTAGE] on motor '6'",
+    "timestamp": 4.473388,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [PROCESSOR_TEMP] on motor '6'",
+    "timestamp": 4.474455,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [REMOTE_SENSOR_DATA_INVALID] on motor '6'",
+    "timestamp": 4.475499,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [REMOTE_SENSOR_POS_OVERFLOW] on motor '6'",
+    "timestamp": 4.480125,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [REMOTE_SENSOR_RESET] on motor '6'",
+    "timestamp": 4.481573,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [REVERSE_HARD_LIMIT] on motor '6'",
+    "timestamp": 4.483635,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [REVERSE_SOFT_LIMIT] on motor '6'",
+    "timestamp": 4.484802,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [STATIC_BRAKE_DISABLED] on motor '6'",
+    "timestamp": 4.486361,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [STATOR_CURRENT_LIMIT] on motor '6'",
+    "timestamp": 4.487527,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [UNDERVOLTAGE] on motor '6'",
+    "timestamp": 4.488576,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [UNLICENSED_FEATURE_IN_USE] on motor '6'",
+    "timestamp": 4.489592,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [UNSTABLE_SUPPLY_VOLTAGE] on motor '6'",
+    "timestamp": 4.490703,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [SUPPLY_CURRENT_LIMIT] on motor '6'",
+    "timestamp": 4.49193,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [BOOT_DURING_ENABLE] on motor '6'",
+    "timestamp": 4.496697,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [BRIDGE_BROWNOUT] on motor '6'",
+    "timestamp": 4.498089,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [DEVICE_TEMP] on motor '6'",
+    "timestamp": 4.499523,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [FIELD] on motor '6'",
+    "timestamp": 4.5006949999999994,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [FORWARD_HARD_LIMIT] on motor '6'",
+    "timestamp": 4.501685999999999,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [FORWARD_SOFT_LIMIT] on motor '6'",
+    "timestamp": 4.502749,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [FUSED_SENSOR_OUT_OF_SYNC] on motor '6'",
+    "timestamp": 4.50382,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [HARDWARE] on motor '6'",
+    "timestamp": 4.505133,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [MISSING_DIFFERENTIAL_FX] on motor '6'",
+    "timestamp": 4.506419999999999,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [MISSING_HARD_LIMIT_REMOTE] on motor '6'",
+    "timestamp": 4.507537999999999,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [MISSING_SOFT_LIMIT_REMOTE] on motor '6'",
+    "timestamp": 4.508482,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [OVER_SUPPLY_VOLTAGE] on motor '6'",
+    "timestamp": 4.513332,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [PROCESSOR_TEMP] on motor '6'",
+    "timestamp": 4.513478999999999,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [REMOTE_SENSOR_DATA_INVALID] on motor '6'",
+    "timestamp": 4.513504999999999,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [REMOTE_SENSOR_POS_OVERFLOW] on motor '6'",
+    "timestamp": 4.51354,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [REMOTE_SENSOR_RESET] on motor '6'",
+    "timestamp": 4.51356,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [REVERSE_HARD_LIMIT] on motor '6'",
+    "timestamp": 4.513579,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [REVERSE_SOFT_LIMIT] on motor '6'",
+    "timestamp": 4.513593999999999,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [STATIC_BRAKE_DISABLED] on motor '6'",
+    "timestamp": 4.5136069999999995,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [STATOR_CURRENT_LIMIT] on motor '6'",
+    "timestamp": 4.513622,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [UNDERVOLTAGE] on motor '6'",
+    "timestamp": 4.51364,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [UNLICENSED_FEATURE_IN_USE] on motor '6'",
+    "timestamp": 4.513653,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [UNSTABLE_SUPPLY_VOLTAGE] on motor '6'",
+    "timestamp": 4.513666,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [SUPPLY_CURRENT_LIMIT] on motor '7'",
+    "timestamp": 4.517685,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [BOOT_DURING_ENABLE] on motor '7'",
+    "timestamp": 4.520035,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [BRIDGE_BROWNOUT] on motor '7'",
+    "timestamp": 4.521526,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [DEVICE_TEMP] on motor '7'",
+    "timestamp": 4.522684,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [FIELD] on motor '7'",
+    "timestamp": 4.5237609999999995,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [FORWARD_HARD_LIMIT] on motor '7'",
+    "timestamp": 4.525119999999999,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [FORWARD_SOFT_LIMIT] on motor '7'",
+    "timestamp": 4.5299309999999995,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [FUSED_SENSOR_OUT_OF_SYNC] on motor '7'",
+    "timestamp": 4.531244,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [HARDWARE] on motor '7'",
+    "timestamp": 4.532412,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [MISSING_DIFFERENTIAL_FX] on motor '7'",
+    "timestamp": 4.534066999999999,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [MISSING_HARD_LIMIT_REMOTE] on motor '7'",
+    "timestamp": 4.536453,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [MISSING_SOFT_LIMIT_REMOTE] on motor '7'",
+    "timestamp": 4.538034,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [OVER_SUPPLY_VOLTAGE] on motor '7'",
+    "timestamp": 4.539219999999999,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [PROCESSOR_TEMP] on motor '7'",
+    "timestamp": 4.540372,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [REMOTE_SENSOR_DATA_INVALID] on motor '7'",
+    "timestamp": 4.541640999999999,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [REMOTE_SENSOR_POS_OVERFLOW] on motor '7'",
+    "timestamp": 4.547535,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [REMOTE_SENSOR_RESET] on motor '7'",
+    "timestamp": 4.550180999999999,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [REVERSE_HARD_LIMIT] on motor '7'",
+    "timestamp": 4.551902,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [REVERSE_SOFT_LIMIT] on motor '7'",
+    "timestamp": 4.553178,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [STATIC_BRAKE_DISABLED] on motor '7'",
+    "timestamp": 4.554383,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [STATOR_CURRENT_LIMIT] on motor '7'",
+    "timestamp": 4.5557609999999995,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [UNDERVOLTAGE] on motor '7'",
+    "timestamp": 4.556903999999999,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [UNLICENSED_FEATURE_IN_USE] on motor '7'",
+    "timestamp": 4.558136,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [UNSTABLE_SUPPLY_VOLTAGE] on motor '7'",
+    "timestamp": 4.562577999999999,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [SUPPLY_CURRENT_LIMIT] on motor '7'",
+    "timestamp": 4.564124,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [BOOT_DURING_ENABLE] on motor '7'",
+    "timestamp": 4.565301,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [BRIDGE_BROWNOUT] on motor '7'",
+    "timestamp": 4.566196,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [DEVICE_TEMP] on motor '7'",
+    "timestamp": 4.567054,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [FIELD] on motor '7'",
+    "timestamp": 4.569951,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [FORWARD_HARD_LIMIT] on motor '7'",
+    "timestamp": 4.571063,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [FORWARD_SOFT_LIMIT] on motor '7'",
+    "timestamp": 4.572392,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [FUSED_SENSOR_OUT_OF_SYNC] on motor '7'",
+    "timestamp": 4.573409,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [HARDWARE] on motor '7'",
+    "timestamp": 4.574508,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [MISSING_DIFFERENTIAL_FX] on motor '7'",
+    "timestamp": 4.5757449999999995,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [MISSING_HARD_LIMIT_REMOTE] on motor '7'",
+    "timestamp": 4.580054,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [MISSING_SOFT_LIMIT_REMOTE] on motor '7'",
+    "timestamp": 4.581547,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [OVER_SUPPLY_VOLTAGE] on motor '7'",
+    "timestamp": 4.582844,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [PROCESSOR_TEMP] on motor '7'",
+    "timestamp": 4.584033,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [REMOTE_SENSOR_DATA_INVALID] on motor '7'",
+    "timestamp": 4.585185,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [REMOTE_SENSOR_POS_OVERFLOW] on motor '7'",
+    "timestamp": 4.586145,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [REMOTE_SENSOR_RESET] on motor '7'",
+    "timestamp": 4.5872079999999995,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [REVERSE_HARD_LIMIT] on motor '7'",
+    "timestamp": 4.588426,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [REVERSE_SOFT_LIMIT] on motor '7'",
+    "timestamp": 4.589708,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [STATIC_BRAKE_DISABLED] on motor '7'",
+    "timestamp": 4.590981,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [STATOR_CURRENT_LIMIT] on motor '7'",
+    "timestamp": 4.592182,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [UNDERVOLTAGE] on motor '7'",
+    "timestamp": 4.595181,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [UNLICENSED_FEATURE_IN_USE] on motor '7'",
+    "timestamp": 4.597379999999999,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [UNSTABLE_SUPPLY_VOLTAGE] on motor '7'",
+    "timestamp": 4.598554,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [SUPPLY_CURRENT_LIMIT] on motor '8'",
+    "timestamp": 4.617776,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [BOOT_DURING_ENABLE] on motor '8'",
+    "timestamp": 4.619187999999999,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [BRIDGE_BROWNOUT] on motor '8'",
+    "timestamp": 4.621021,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [DEVICE_TEMP] on motor '8'",
+    "timestamp": 4.622159,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [FIELD] on motor '8'",
+    "timestamp": 4.623997999999999,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [FORWARD_HARD_LIMIT] on motor '8'",
+    "timestamp": 4.625319,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [FORWARD_SOFT_LIMIT] on motor '8'",
+    "timestamp": 4.6294949999999995,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [FUSED_SENSOR_OUT_OF_SYNC] on motor '8'",
+    "timestamp": 4.633973,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [HARDWARE] on motor '8'",
+    "timestamp": 4.635744,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [MISSING_DIFFERENTIAL_FX] on motor '8'",
+    "timestamp": 4.636729,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [MISSING_HARD_LIMIT_REMOTE] on motor '8'",
+    "timestamp": 4.637684999999999,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [MISSING_SOFT_LIMIT_REMOTE] on motor '8'",
+    "timestamp": 4.6386199999999995,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [OVER_SUPPLY_VOLTAGE] on motor '8'",
+    "timestamp": 4.639838,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [PROCESSOR_TEMP] on motor '8'",
+    "timestamp": 4.6413649999999995,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [REMOTE_SENSOR_DATA_INVALID] on motor '8'",
+    "timestamp": 4.6472929999999995,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [REMOTE_SENSOR_POS_OVERFLOW] on motor '8'",
+    "timestamp": 4.648581,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [REMOTE_SENSOR_RESET] on motor '8'",
+    "timestamp": 4.649579999999999,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [REVERSE_HARD_LIMIT] on motor '8'",
+    "timestamp": 4.651821,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [REVERSE_SOFT_LIMIT] on motor '8'",
+    "timestamp": 4.653655,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [STATIC_BRAKE_DISABLED] on motor '8'",
+    "timestamp": 4.654909,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [STATOR_CURRENT_LIMIT] on motor '8'",
+    "timestamp": 4.656098,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [UNDERVOLTAGE] on motor '8'",
+    "timestamp": 4.657406,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [UNLICENSED_FEATURE_IN_USE] on motor '8'",
+    "timestamp": 4.658643,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [UNSTABLE_SUPPLY_VOLTAGE] on motor '8'",
+    "timestamp": 4.6639539999999995,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [SUPPLY_CURRENT_LIMIT] on motor '8'",
+    "timestamp": 4.665382,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [BOOT_DURING_ENABLE] on motor '8'",
+    "timestamp": 4.666767999999999,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [BRIDGE_BROWNOUT] on motor '8'",
+    "timestamp": 4.668063,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [DEVICE_TEMP] on motor '8'",
+    "timestamp": 4.669707,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [FIELD] on motor '8'",
+    "timestamp": 4.671275,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [FORWARD_HARD_LIMIT] on motor '8'",
+    "timestamp": 4.672616,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [FORWARD_SOFT_LIMIT] on motor '8'",
+    "timestamp": 4.6739429999999995,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [FUSED_SENSOR_OUT_OF_SYNC] on motor '8'",
+    "timestamp": 4.680096,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [HARDWARE] on motor '8'",
+    "timestamp": 4.681855,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [MISSING_DIFFERENTIAL_FX] on motor '8'",
+    "timestamp": 4.683246,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [MISSING_HARD_LIMIT_REMOTE] on motor '8'",
+    "timestamp": 4.684411,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [MISSING_SOFT_LIMIT_REMOTE] on motor '8'",
+    "timestamp": 4.685811,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [OVER_SUPPLY_VOLTAGE] on motor '8'",
+    "timestamp": 4.687031999999999,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [PROCESSOR_TEMP] on motor '8'",
+    "timestamp": 4.688184,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [REMOTE_SENSOR_DATA_INVALID] on motor '8'",
+    "timestamp": 4.689255,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [REMOTE_SENSOR_POS_OVERFLOW] on motor '8'",
+    "timestamp": 4.69057,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [REMOTE_SENSOR_RESET] on motor '8'",
+    "timestamp": 4.691964,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [REVERSE_HARD_LIMIT] on motor '8'",
+    "timestamp": 4.695536,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [REVERSE_SOFT_LIMIT] on motor '8'",
+    "timestamp": 4.69776,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [STATIC_BRAKE_DISABLED] on motor '8'",
+    "timestamp": 4.699031,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [STATOR_CURRENT_LIMIT] on motor '8'",
+    "timestamp": 4.700098,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [UNDERVOLTAGE] on motor '8'",
+    "timestamp": 4.70114,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [UNLICENSED_FEATURE_IN_USE] on motor '8'",
+    "timestamp": 4.702275,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [UNSTABLE_SUPPLY_VOLTAGE] on motor '8'",
+    "timestamp": 4.703425999999999,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [SUPPLY_CURRENT_LIMIT] on motor '9'",
+    "timestamp": 4.704985,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [BOOT_DURING_ENABLE] on motor '9'",
+    "timestamp": 4.705959,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [BRIDGE_BROWNOUT] on motor '9'",
+    "timestamp": 4.707018,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [DEVICE_TEMP] on motor '9'",
+    "timestamp": 4.708297,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [FIELD] on motor '9'",
+    "timestamp": 4.711848,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [FORWARD_HARD_LIMIT] on motor '9'",
+    "timestamp": 4.714528,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [FORWARD_SOFT_LIMIT] on motor '9'",
+    "timestamp": 4.716303,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [FUSED_SENSOR_OUT_OF_SYNC] on motor '9'",
+    "timestamp": 4.7178119999999995,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [HARDWARE] on motor '9'",
+    "timestamp": 4.718957,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [MISSING_DIFFERENTIAL_FX] on motor '9'",
+    "timestamp": 4.720122,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [MISSING_HARD_LIMIT_REMOTE] on motor '9'",
+    "timestamp": 4.72106,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [MISSING_SOFT_LIMIT_REMOTE] on motor '9'",
+    "timestamp": 4.72243,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [OVER_SUPPLY_VOLTAGE] on motor '9'",
+    "timestamp": 4.723536,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [PROCESSOR_TEMP] on motor '9'",
+    "timestamp": 4.724759,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [REMOTE_SENSOR_DATA_INVALID] on motor '9'",
+    "timestamp": 4.726763,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [REMOTE_SENSOR_POS_OVERFLOW] on motor '9'",
+    "timestamp": 4.729246,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [REMOTE_SENSOR_RESET] on motor '9'",
+    "timestamp": 4.732831,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [REVERSE_HARD_LIMIT] on motor '9'",
+    "timestamp": 4.73421,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [REVERSE_SOFT_LIMIT] on motor '9'",
+    "timestamp": 4.7355,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [STATIC_BRAKE_DISABLED] on motor '9'",
+    "timestamp": 4.736705,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [STATOR_CURRENT_LIMIT] on motor '9'",
+    "timestamp": 4.738136,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [UNDERVOLTAGE] on motor '9'",
+    "timestamp": 4.739444,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [UNLICENSED_FEATURE_IN_USE] on motor '9'",
+    "timestamp": 4.740587,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon fault [UNSTABLE_SUPPLY_VOLTAGE] on motor '9'",
+    "timestamp": 4.741757,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [SUPPLY_CURRENT_LIMIT] on motor '9'",
+    "timestamp": 4.747972,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [BOOT_DURING_ENABLE] on motor '9'",
+    "timestamp": 4.7496529999999995,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [BRIDGE_BROWNOUT] on motor '9'",
+    "timestamp": 4.751829,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [DEVICE_TEMP] on motor '9'",
+    "timestamp": 4.752955,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [FIELD] on motor '9'",
+    "timestamp": 4.754333,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [FORWARD_HARD_LIMIT] on motor '9'",
+    "timestamp": 4.755541,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [FORWARD_SOFT_LIMIT] on motor '9'",
+    "timestamp": 4.757032,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [FUSED_SENSOR_OUT_OF_SYNC] on motor '9'",
+    "timestamp": 4.758811,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [HARDWARE] on motor '9'",
+    "timestamp": 4.762504,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [MISSING_DIFFERENTIAL_FX] on motor '9'",
+    "timestamp": 4.764372,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [MISSING_HARD_LIMIT_REMOTE] on motor '9'",
+    "timestamp": 4.765887,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [MISSING_SOFT_LIMIT_REMOTE] on motor '9'",
+    "timestamp": 4.7669999999999995,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [OVER_SUPPLY_VOLTAGE] on motor '9'",
+    "timestamp": 4.768101,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [PROCESSOR_TEMP] on motor '9'",
+    "timestamp": 4.769476,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [REMOTE_SENSOR_DATA_INVALID] on motor '9'",
+    "timestamp": 4.770951999999999,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [REMOTE_SENSOR_POS_OVERFLOW] on motor '9'",
+    "timestamp": 4.772137,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [REMOTE_SENSOR_RESET] on motor '9'",
+    "timestamp": 4.773238999999999,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [REVERSE_HARD_LIMIT] on motor '9'",
+    "timestamp": 4.7745999999999995,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [REVERSE_SOFT_LIMIT] on motor '9'",
+    "timestamp": 4.784596,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [STATIC_BRAKE_DISABLED] on motor '9'",
+    "timestamp": 4.785953,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [STATOR_CURRENT_LIMIT] on motor '9'",
+    "timestamp": 4.787300999999999,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [UNDERVOLTAGE] on motor '9'",
+    "timestamp": 4.788565999999999,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [UNLICENSED_FEATURE_IN_USE] on motor '9'",
+    "timestamp": 4.790467,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "Talon sticky fault [UNSTABLE_SUPPLY_VOLTAGE] on motor '9'",
+    "timestamp": 4.791784,
+    "exception_type": null,
+    "traceback": null
+  }
+]

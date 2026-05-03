@@ -298,8 +298,7 @@ class AdaptiveRobot(wpilib.TimedRobot):
             self.onRobotInit()
         except Exception as e:
             wpilib.reportError(f"Error in onRobotInit: {e}")
-        
-        # Auto-discover all TelemetryPublishable, TunablePublishable, and Schedulable objects
+
         self._auto_discover_all_interfaces()
         
         # Create subschedulers with discovered objects
@@ -316,8 +315,7 @@ class AdaptiveRobot(wpilib.TimedRobot):
         self._schedulable_subscheduler = SchedulableSubscheduler(
             self._schedulables
         )
-        
-        # Create FaultManager to coordinate all subschedulers
+
         self._fault_manager = FaultManager(
             schedulable_subscheduler=self._schedulable_subscheduler,
             telemetry_subscheduler=self._telemetry_subscheduler,

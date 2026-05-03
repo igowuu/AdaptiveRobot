@@ -1,0 +1,1154 @@
+[
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [SUPPLY_CURRENT_LIMIT] on motor '5'",
+    "timestamp": 2.418332,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [BOOT_DURING_ENABLE] on motor '5'",
+    "timestamp": 2.419879,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [BRIDGE_BROWNOUT] on motor '5'",
+    "timestamp": 2.421903,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [DEVICE_TEMP] on motor '5'",
+    "timestamp": 2.423308,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [FIELD] on motor '5'",
+    "timestamp": 2.4248179999999997,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [FORWARD_HARD_LIMIT] on motor '5'",
+    "timestamp": 2.4264229999999998,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [FORWARD_SOFT_LIMIT] on motor '5'",
+    "timestamp": 2.428012,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [FUSED_SENSOR_OUT_OF_SYNC] on motor '5'",
+    "timestamp": 2.4294309999999997,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [HARDWARE] on motor '5'",
+    "timestamp": 2.431372,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [MISSING_DIFFERENTIAL_FX] on motor '5'",
+    "timestamp": 2.432709,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [MISSING_HARD_LIMIT_REMOTE] on motor '5'",
+    "timestamp": 2.434017,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [MISSING_SOFT_LIMIT_REMOTE] on motor '5'",
+    "timestamp": 2.435213,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [OVER_SUPPLY_VOLTAGE] on motor '5'",
+    "timestamp": 2.44066,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [PROCESSOR_TEMP] on motor '5'",
+    "timestamp": 2.442098,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [REMOTE_SENSOR_DATA_INVALID] on motor '5'",
+    "timestamp": 2.4431909999999997,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [REMOTE_SENSOR_POS_OVERFLOW] on motor '5'",
+    "timestamp": 2.4440049999999998,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [REMOTE_SENSOR_RESET] on motor '5'",
+    "timestamp": 2.444884,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [REVERSE_HARD_LIMIT] on motor '5'",
+    "timestamp": 2.4457709999999997,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [REVERSE_SOFT_LIMIT] on motor '5'",
+    "timestamp": 2.446827,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [STATIC_BRAKE_DISABLED] on motor '5'",
+    "timestamp": 2.4478969999999998,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [STATOR_CURRENT_LIMIT] on motor '5'",
+    "timestamp": 2.448881,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [UNDERVOLTAGE] on motor '5'",
+    "timestamp": 2.449775,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [UNLICENSED_FEATURE_IN_USE] on motor '5'",
+    "timestamp": 2.450522,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [UNSTABLE_SUPPLY_VOLTAGE] on motor '5'",
+    "timestamp": 2.4513469999999997,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [SUPPLY_CURRENT_LIMIT] on motor '6'",
+    "timestamp": 2.4536309999999997,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [BOOT_DURING_ENABLE] on motor '6'",
+    "timestamp": 2.455645,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [BRIDGE_BROWNOUT] on motor '6'",
+    "timestamp": 2.4572369999999997,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [DEVICE_TEMP] on motor '6'",
+    "timestamp": 2.458585,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [FIELD] on motor '6'",
+    "timestamp": 2.45987,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [FORWARD_HARD_LIMIT] on motor '6'",
+    "timestamp": 2.460768,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [FORWARD_SOFT_LIMIT] on motor '6'",
+    "timestamp": 2.461776,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [FUSED_SENSOR_OUT_OF_SYNC] on motor '6'",
+    "timestamp": 2.464474,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [HARDWARE] on motor '6'",
+    "timestamp": 2.466172,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [MISSING_DIFFERENTIAL_FX] on motor '6'",
+    "timestamp": 2.467583,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [MISSING_HARD_LIMIT_REMOTE] on motor '6'",
+    "timestamp": 2.4686109999999997,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [MISSING_SOFT_LIMIT_REMOTE] on motor '6'",
+    "timestamp": 2.475773,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [OVER_SUPPLY_VOLTAGE] on motor '6'",
+    "timestamp": 2.478941,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [PROCESSOR_TEMP] on motor '6'",
+    "timestamp": 2.480366,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [REMOTE_SENSOR_DATA_INVALID] on motor '6'",
+    "timestamp": 2.481893,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [REMOTE_SENSOR_POS_OVERFLOW] on motor '6'",
+    "timestamp": 2.4830039999999998,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [REMOTE_SENSOR_RESET] on motor '6'",
+    "timestamp": 2.483882,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [REVERSE_HARD_LIMIT] on motor '6'",
+    "timestamp": 2.484811,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [REVERSE_SOFT_LIMIT] on motor '6'",
+    "timestamp": 2.4860759999999997,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [STATIC_BRAKE_DISABLED] on motor '6'",
+    "timestamp": 2.490115,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [STATOR_CURRENT_LIMIT] on motor '6'",
+    "timestamp": 2.491478,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [UNDERVOLTAGE] on motor '6'",
+    "timestamp": 2.492438,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [UNLICENSED_FEATURE_IN_USE] on motor '6'",
+    "timestamp": 2.49354,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [UNSTABLE_SUPPLY_VOLTAGE] on motor '6'",
+    "timestamp": 2.494663,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [SUPPLY_CURRENT_LIMIT] on motor '5'",
+    "timestamp": 2.495971,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [BOOT_DURING_ENABLE] on motor '5'",
+    "timestamp": 2.5005949999999997,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [BRIDGE_BROWNOUT] on motor '5'",
+    "timestamp": 2.50198,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [DEVICE_TEMP] on motor '5'",
+    "timestamp": 2.503441,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [FIELD] on motor '5'",
+    "timestamp": 2.5053989999999997,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [FORWARD_HARD_LIMIT] on motor '5'",
+    "timestamp": 2.506675,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [FORWARD_SOFT_LIMIT] on motor '5'",
+    "timestamp": 2.5075879999999997,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [FUSED_SENSOR_OUT_OF_SYNC] on motor '5'",
+    "timestamp": 2.5084109999999997,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [HARDWARE] on motor '5'",
+    "timestamp": 2.509557,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [MISSING_DIFFERENTIAL_FX] on motor '5'",
+    "timestamp": 2.5106219999999997,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [MISSING_HARD_LIMIT_REMOTE] on motor '5'",
+    "timestamp": 2.512072,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [MISSING_SOFT_LIMIT_REMOTE] on motor '5'",
+    "timestamp": 2.514055,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [OVER_SUPPLY_VOLTAGE] on motor '5'",
+    "timestamp": 2.51722,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [PROCESSOR_TEMP] on motor '5'",
+    "timestamp": 2.518461,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [REMOTE_SENSOR_DATA_INVALID] on motor '5'",
+    "timestamp": 2.523411,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [REMOTE_SENSOR_POS_OVERFLOW] on motor '5'",
+    "timestamp": 2.526343,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [REMOTE_SENSOR_RESET] on motor '5'",
+    "timestamp": 2.52753,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [REVERSE_HARD_LIMIT] on motor '5'",
+    "timestamp": 2.5285569999999997,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [REVERSE_SOFT_LIMIT] on motor '5'",
+    "timestamp": 2.529551,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [STATIC_BRAKE_DISABLED] on motor '5'",
+    "timestamp": 2.5304949999999997,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [STATOR_CURRENT_LIMIT] on motor '5'",
+    "timestamp": 2.531564,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [UNDERVOLTAGE] on motor '5'",
+    "timestamp": 2.532532,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [UNLICENSED_FEATURE_IN_USE] on motor '5'",
+    "timestamp": 2.533484,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [UNSTABLE_SUPPLY_VOLTAGE] on motor '5'",
+    "timestamp": 2.534485,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [SUPPLY_CURRENT_LIMIT] on motor '6'",
+    "timestamp": 2.539665,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [BOOT_DURING_ENABLE] on motor '6'",
+    "timestamp": 2.540934,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [BRIDGE_BROWNOUT] on motor '6'",
+    "timestamp": 2.541946,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [DEVICE_TEMP] on motor '6'",
+    "timestamp": 2.542863,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [FIELD] on motor '6'",
+    "timestamp": 2.5439599999999998,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [FORWARD_HARD_LIMIT] on motor '6'",
+    "timestamp": 2.544953,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [FORWARD_SOFT_LIMIT] on motor '6'",
+    "timestamp": 2.545775,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [FUSED_SENSOR_OUT_OF_SYNC] on motor '6'",
+    "timestamp": 2.548572,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [HARDWARE] on motor '6'",
+    "timestamp": 2.550294,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [MISSING_DIFFERENTIAL_FX] on motor '6'",
+    "timestamp": 2.551387,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [MISSING_HARD_LIMIT_REMOTE] on motor '6'",
+    "timestamp": 2.5527729999999997,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [MISSING_SOFT_LIMIT_REMOTE] on motor '6'",
+    "timestamp": 2.555815,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [OVER_SUPPLY_VOLTAGE] on motor '6'",
+    "timestamp": 2.558219,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [PROCESSOR_TEMP] on motor '6'",
+    "timestamp": 2.559694,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [REMOTE_SENSOR_DATA_INVALID] on motor '6'",
+    "timestamp": 2.560815,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [REMOTE_SENSOR_POS_OVERFLOW] on motor '6'",
+    "timestamp": 2.562204,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [REMOTE_SENSOR_RESET] on motor '6'",
+    "timestamp": 2.563551,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [REVERSE_HARD_LIMIT] on motor '6'",
+    "timestamp": 2.5647469999999997,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [REVERSE_SOFT_LIMIT] on motor '6'",
+    "timestamp": 2.566097,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [STATIC_BRAKE_DISABLED] on motor '6'",
+    "timestamp": 2.567262,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [STATOR_CURRENT_LIMIT] on motor '6'",
+    "timestamp": 2.568459,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [UNDERVOLTAGE] on motor '6'",
+    "timestamp": 2.5698049999999997,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [UNLICENSED_FEATURE_IN_USE] on motor '6'",
+    "timestamp": 2.572857,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [UNSTABLE_SUPPLY_VOLTAGE] on motor '6'",
+    "timestamp": 2.5744309999999997,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [SUPPLY_CURRENT_LIMIT] on motor '7'",
+    "timestamp": 2.5769949999999997,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [BOOT_DURING_ENABLE] on motor '7'",
+    "timestamp": 2.577842,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [BRIDGE_BROWNOUT] on motor '7'",
+    "timestamp": 2.579122,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [DEVICE_TEMP] on motor '7'",
+    "timestamp": 2.580106,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [FIELD] on motor '7'",
+    "timestamp": 2.5833,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [FORWARD_HARD_LIMIT] on motor '7'",
+    "timestamp": 2.585067,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [FORWARD_SOFT_LIMIT] on motor '7'",
+    "timestamp": 2.586643,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [FUSED_SENSOR_OUT_OF_SYNC] on motor '7'",
+    "timestamp": 2.5892969999999997,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [HARDWARE] on motor '7'",
+    "timestamp": 2.590728,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [MISSING_DIFFERENTIAL_FX] on motor '7'",
+    "timestamp": 2.592119,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [MISSING_HARD_LIMIT_REMOTE] on motor '7'",
+    "timestamp": 2.5934209999999998,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [MISSING_SOFT_LIMIT_REMOTE] on motor '7'",
+    "timestamp": 2.5946979999999997,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [OVER_SUPPLY_VOLTAGE] on motor '7'",
+    "timestamp": 2.597467,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [PROCESSOR_TEMP] on motor '7'",
+    "timestamp": 2.599583,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [REMOTE_SENSOR_DATA_INVALID] on motor '7'",
+    "timestamp": 2.601541,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [REMOTE_SENSOR_POS_OVERFLOW] on motor '7'",
+    "timestamp": 2.606811,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [REMOTE_SENSOR_RESET] on motor '7'",
+    "timestamp": 2.611916,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [REVERSE_HARD_LIMIT] on motor '7'",
+    "timestamp": 2.61751,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [REVERSE_SOFT_LIMIT] on motor '7'",
+    "timestamp": 2.6268409999999998,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [STATIC_BRAKE_DISABLED] on motor '7'",
+    "timestamp": 2.628167,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [STATOR_CURRENT_LIMIT] on motor '7'",
+    "timestamp": 2.6298939999999997,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [UNDERVOLTAGE] on motor '7'",
+    "timestamp": 2.631643,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [UNLICENSED_FEATURE_IN_USE] on motor '7'",
+    "timestamp": 2.633491,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX fault [UNSTABLE_SUPPLY_VOLTAGE] on motor '7'",
+    "timestamp": 2.634769,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [SUPPLY_CURRENT_LIMIT] on motor '7'",
+    "timestamp": 2.645216,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [BOOT_DURING_ENABLE] on motor '7'",
+    "timestamp": 2.658403,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [BRIDGE_BROWNOUT] on motor '7'",
+    "timestamp": 2.660793,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [DEVICE_TEMP] on motor '7'",
+    "timestamp": 2.6635549999999997,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [FIELD] on motor '7'",
+    "timestamp": 2.666642,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [FORWARD_HARD_LIMIT] on motor '7'",
+    "timestamp": 2.670105,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [FORWARD_SOFT_LIMIT] on motor '7'",
+    "timestamp": 2.6730359999999997,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [FUSED_SENSOR_OUT_OF_SYNC] on motor '7'",
+    "timestamp": 2.675188,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [HARDWARE] on motor '7'",
+    "timestamp": 2.676568,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [MISSING_DIFFERENTIAL_FX] on motor '7'",
+    "timestamp": 2.6781989999999998,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [MISSING_HARD_LIMIT_REMOTE] on motor '7'",
+    "timestamp": 2.6794029999999998,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [MISSING_SOFT_LIMIT_REMOTE] on motor '7'",
+    "timestamp": 2.680478,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [OVER_SUPPLY_VOLTAGE] on motor '7'",
+    "timestamp": 2.681698,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [PROCESSOR_TEMP] on motor '7'",
+    "timestamp": 2.682849,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [REMOTE_SENSOR_DATA_INVALID] on motor '7'",
+    "timestamp": 2.683862,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [REMOTE_SENSOR_POS_OVERFLOW] on motor '7'",
+    "timestamp": 2.6896169999999997,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [REMOTE_SENSOR_RESET] on motor '7'",
+    "timestamp": 2.691181,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [REVERSE_HARD_LIMIT] on motor '7'",
+    "timestamp": 2.692875,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [REVERSE_SOFT_LIMIT] on motor '7'",
+    "timestamp": 2.6940999999999997,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [STATIC_BRAKE_DISABLED] on motor '7'",
+    "timestamp": 2.69561,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [STATOR_CURRENT_LIMIT] on motor '7'",
+    "timestamp": 2.6969749999999997,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [UNDERVOLTAGE] on motor '7'",
+    "timestamp": 2.698184,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [UNLICENSED_FEATURE_IN_USE] on motor '7'",
+    "timestamp": 2.6995,
+    "exception_type": null,
+    "traceback": null
+  },
+  {
+    "component_name": null,
+    "severity": "ERROR",
+    "description": "TalonFX sticky fault [UNSTABLE_SUPPLY_VOLTAGE] on motor '7'",
+    "timestamp": 2.700681,
+    "exception_type": null,
+    "traceback": null
+  }
+]

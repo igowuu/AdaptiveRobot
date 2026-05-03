@@ -1,9 +1,10 @@
 # AdaptiveRobot Framework
 
-> Autonomous, component-oriented, telemetry, and safety-first control.
+> Autonomous, telemetry, safety, and interface-oriented control.
 
 ## Quick Links
 
+- [Overview (start here!)](docs/OVERVIEW.md)
 - [Robot Guide](docs/features/ROBOT_GUIDE.md)
 - [Interface Guide](docs/features/INTERFACE_GUIDE.md)
 - [Requests Guide](docs/features/REQUESTS_GUIDE.md)
@@ -11,6 +12,13 @@
 - [Actions Guide](docs/features/ACTIONS_GUIDE.md)
 - [Motivation](docs/MOTIVATION.md)
 - [Future](docs/FUTURE.md)
+
+## Examples
+
+- [Basic Component](examples/simple_component/README.md)
+- [Drivetrain Robot](examples/drivetrain_robot/README.md)
+- [Arm Robot](examples/arm_robot/README.md)
+- [Competition Robot](examples/comp_tank_drive/README.md)
 
 ## Usage
 1. Clone the repo (`git clone https://github.com/igowuu/AdaptiveRobot.git`) 
