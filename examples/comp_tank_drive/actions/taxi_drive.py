@@ -1,7 +1,6 @@
 from adaptive_robot import AsyncAction
 
 from components.drivetrain.drivetrain import Drivetrain
-
 from actions.follow_trajectory import follow_trajectory
 
 

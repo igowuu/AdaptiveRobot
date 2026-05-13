@@ -16,7 +16,7 @@ from components.drivetrain.drivetrain_constants import (
     DriveRightPID
 )
 
-from adaptive_robot import AdaptiveComponent, RequestArbitrator, BasicPriority
+from adaptive_robot import AdaptiveComponent, RequestArbitrator, BasicPriority, profile_method
 
 
 class DriveMode(Enum):
@@ -193,6 +193,7 @@ class Drivetrain(AdaptiveComponent):
         self.io.set_left_voltage(left_velocity / DriveConstants.MAX_LINEAR_SPEED)
         self.io.set_right_voltage(right_velocity / DriveConstants.MAX_LINEAR_SPEED)
 
+    @profile_method
     def execute(self) -> None:
         """
         Method that directly moves the robot each iteration.

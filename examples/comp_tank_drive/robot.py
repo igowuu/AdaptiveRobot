@@ -1,4 +1,4 @@
-from adaptive_robot import AdaptiveRobot
+from adaptive_robot import AdaptiveRobot, ActionChooser
 
 from wpilib import Joystick
 
@@ -22,10 +22,14 @@ from components.shooter.shooter_controller import ShooterController
 from components.shooter.shooter_io.real_io import RealShooterIO
 from components.shooter.shooter_io.simulated_io import SimulatedShooterIO
 
-from components.game_sim.game_peice_sim import GamePieceSim
+from examples.comp_tank_drive.components.game_sim.game_piece_sim import GamePieceSim
 from components.game_sim.game_piece_controller import GamePieceController
 
 from actions.taxi_drive import taxi_drive
+from actions.collect_balls import collect_balls
+from actions.point_to_hub import point_to_hub
+
+from constants import JoystickButton
 
 
 class PerryV3(AdaptiveRobot):
@@ -58,9 +62,23 @@ class PerryV3(AdaptiveRobot):
         if self.isSimulation():
             self.game_piece_sim = GamePieceSim(self.drivetrain, self.intake_arm_io, self.shooter_io)
             self.game_piece_controller = GamePieceController(self.game_piece_sim, self.controller)
+        
+        self.action_chooser = ActionChooser()
+        self.action_chooser.add_option("taxi_drive", lambda: taxi_drive(self.drivetrain))
+        self.action_chooser.set_default("collect_balls", lambda: collect_balls(self.drivetrain))
+        self.action_chooser.publish()
+
+    def onTeleopPeriodic(self) -> None:
+        """
+        Runs each iteration when teleoperated mode is enabled.
+        """
+        if self.controller.getRawButtonPressed(JoystickButton.AIM_TO_HUB):
+            self.schedule_action(point_to_hub(self.drivetrain), "point_to_hub")
 
     def onAutonomousInit(self) -> None:
         """
         Runs once when autonomous mode is entered.
         """
-        self.schedule_action(taxi_drive(self.drivetrain), "taxi drive")
+        selected_action = self.action_chooser.get_selected_factory()
+        selected_action_name = self.action_chooser.get_selected_name()
+        self.schedule_action(selected_action(), selected_action_name)

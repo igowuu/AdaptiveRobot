@@ -6,6 +6,7 @@
 # See https://opensource.org/licenses/MIT for details.
 
 from typing import final, TypeAlias
+from dataclasses import dataclass
 
 import wpilib
 
@@ -18,6 +19,7 @@ from adaptive_robot.autonomous.async_actions import AsyncAction
 from adaptive_robot.autonomous.action_scheduler import ActionScheduler
 from adaptive_robot.faults.fault_scheduler import FaultLogger
 from adaptive_robot.fault_manager import FaultManager
+from adaptive_robot.profiling.profiling_subscheduler import ProfilingSubscheduler
 
 from adaptive_robot.interfaces.telemetry_interface.telemetry_publishable import TelemetryPublishable
 from adaptive_robot.interfaces.telemetry_interface.telemetry_subscheduler import TelemetrySubscheduler
@@ -39,6 +41,42 @@ class RobotDisable(Exception):
         super().__init__(description)
 
 
+@dataclass
+class RobotConfig:
+    """
+    Holds all configuration parameters for an AdaptiveRobot.
+    The user can alter this if desired.
+
+    :param period: The amount of seconds each robot iteration takes.  
+    :param fault_logging_folder: The folder in the directory in which the program is
+    run that fault files will be stored under.  
+    :param default_fault_threshold: The default amount of consecutive faults before a
+    Schedulable will become unhealthy. This can be changed per subclass via the `fault_threshold` property.  
+    :param profile_logging_folder: The folder in the directory in which the program is
+    run that profiling files will be stored under.  
+    :param profiling_enabled: Determines if anything in the program can be profiled.  
+    :param profile_logging_frequency: How often profiling will be automatically logged to a file.  
+    :param telemetry_rounding_digits: The amount of decimal digits that all telemetry published
+    in TelemetryPublishable interfaces will round to.  
+    :param auto_discover_interfaces: Determines if interfaces get auto-discovered recursively at 
+    initialization or not. Disabling this will require manual interface registration.  
+    :param verbose_discovery: Prints all discovered interfaces to the terminal.  
+    """
+    period: seconds = 0.02
+
+    fault_logging_folder: str = "faults/"
+    default_fault_threshold: int = 10
+
+    profile_logging_folder: str = "profiling/"
+    profiling_enabled: bool = True
+    profile_logging_frequency: seconds = 10
+
+    telemetry_rounding_digits: int = 5
+
+    auto_discover_interfaces: bool = True
+    verbose_discovery: bool = False
+
+
 class AdaptiveRobot(wpilib.TimedRobot):
     """
     Wrapper for TimedRobot that allows for a dynamic structure while enforcing safety measures 
@@ -46,26 +84,24 @@ class AdaptiveRobot(wpilib.TimedRobot):
 
     Users should inherit from this to declare a robot and must call the parent constructor.
     """
-    def __init__(
-        self, 
-        period: seconds = 0.02,
-        fault_logging_folder: str = "faults/"
-    ) -> None:
+    def __init__(self, config: RobotConfig = RobotConfig()) -> None:
         """
         Creates an AdaptiveRobot, which schedules components each iteration and
         enables the execution of all other Adaptive features.
 
-        :param period: The amount of seconds each robot loop takes.
-        :param fault_logging_folder: Folder to save JSON Fault entries for each run of the codebase.
+        :param config: The RobotConfig object, which can be customly created
+        by the user if desired.
         """
-        super().__init__(period)
+        super().__init__(config.period)
 
-        self._telemetry_publisher = TelemetryPublisher()
+        self._config = config
+
+        self._telemetry_publisher = TelemetryPublisher(config.telemetry_rounding_digits)
         self._telemetry_struct_publisher = TelemetryStructPublisher()
 
         self._action_scheduler = ActionScheduler()
 
-        self._fault_logger = FaultLogger(fault_logging_folder)
+        self._fault_logger = FaultLogger(config.fault_logging_folder)
 
         self._telemetry_publishables: list[TelemetryPublishable] = []
         self._tunable_publishables: list[TunablePublishable] = []
@@ -77,13 +113,19 @@ class AdaptiveRobot(wpilib.TimedRobot):
 
         self._fault_manager: FaultManager | None = None
 
+        self._profiling_subscheduler = ProfilingSubscheduler(
+            logging_folder=config.profile_logging_folder,
+            logging_enabled=config.profiling_enabled,
+            logging_frequency=config.profile_logging_frequency,
+            period=config.period
+        )
+
         self._scheduler_initialized = False
 
     def _discover_interface_implementers(self, interface_type: type[SUPPORTED_INTERFACE]) -> list[SUPPORTED_INTERFACE]:
         """
         Recursively discovers all objects in the robot that implement the given interface.
-        Avoids circular references and the robot itself.
-        
+
         :param interface_type: The interface class to search for (TelemetryPublishable, TunablePublishable, or Schedulable).
         :returns: List of all discovered implementers.
         """
@@ -98,8 +140,7 @@ class AdaptiveRobot(wpilib.TimedRobot):
 
             if isinstance(obj, interface_type):
                 implementers.append(obj)
-            
-            # Recursively traverse object's attributes
+
             if hasattr(obj, '__dict__'):
                 try:
                     for attr_value in obj.__dict__.values():
@@ -129,6 +170,22 @@ class AdaptiveRobot(wpilib.TimedRobot):
         for obj in self._discover_interface_implementers(Schedulable):
             if isinstance(obj, Schedulable) and obj not in self._schedulables:
                 self._schedulables.append(obj)
+        
+        if self._config.verbose_discovery:
+            telemetry_names = [obj.__class__.__name__ for obj in self._telemetry_publishables]
+            tunable_names = [obj.__class__.__name__ for obj in self._tunable_publishables]
+            schedulable_names = [obj.__class__.__name__ for obj in self._schedulables]
+            
+            report = (
+                "\n[AdaptiveRobot Discovery]\n"
+                f"  TelemetryPublishable: {len(self._telemetry_publishables)} {telemetry_names}\n"
+                f"  TunablePublishable: {len(self._tunable_publishables)} {tunable_names}\n"
+                f"  Schedulable: {len(self._schedulables)} {schedulable_names}\n"
+            )
+            wpilib.reportWarning(report)
+
+            if len(self._schedulables) == 0:
+                wpilib.reportWarning("[AdaptiveRobot] No Schedulables discovered.")
 
     @final
     def register_telemetry_publishable(self, obj: TelemetryPublishable) -> None:
@@ -228,8 +285,7 @@ class AdaptiveRobot(wpilib.TimedRobot):
             )
         if obj in self._schedulables:
             self._schedulables.remove(obj)
-    
-    # Backward compatibility aliases for AdaptiveComponent
+
     @final
     def register_component(self, component: AdaptiveComponent) -> None:
         """
@@ -256,15 +312,38 @@ class AdaptiveRobot(wpilib.TimedRobot):
         self.unregister_tunable_publishable(component)
 
     @final
+    def get_registered_telemetry_publishables(self) -> list[TelemetryPublishable]:
+        """
+        Returns all registered TelemetryPublishable interfaces.
+        """
+        return self._telemetry_publishables
+
+    @final
+    def get_registered_tunable_publishables(self) -> list[TunablePublishable]:
+        """
+        Returns all registered TunablePublishable interfaces.
+        """
+        return self._tunable_publishables
+    
+    @final
+    def get_registered_schedulables(self) -> list[Schedulable]:
+        """
+        Returns all registered Schedulable interfaces.
+        """
+        return self._schedulables
+
+    @final
     def schedule_action(self, action: AsyncAction, name: str) -> str | None:
         """
-        Schedules an AsyncAction to the scheduler to manage manage its 
-        lifecycle until finished or cancelled.
+        Schedules an autonomous action for this robot iteration.
+        Only one autonomous action can run at a time.
+        If another autonomous action is already running, this call returns None and logs a warning.
 
-        :returns: The provided name of the AsyncAction, or None if the AsyncAction 
-        had already been running.
+        :param action: The AsyncAction routine to run.
+        :param name: A descriptive name for the autonomous action.
+        :returns: The provided name of the AsyncAction, or None if another autonomous action is already running.
         """
-        return self._action_scheduler.schedule(action, name)
+        return self._action_scheduler.schedule_action(action, name)
 
     @final
     def cancel_action(self, name: str) -> str | None:
@@ -287,6 +366,22 @@ class AdaptiveRobot(wpilib.TimedRobot):
         return self._action_scheduler.cancel_all()
 
     @final
+    def action_is_running(self, name: str) -> bool:
+        """
+        Returns True if an Action with the provided name is currently running.
+        An Action is considered running if it has not finished naturally or been cancelled.
+        """
+        return self._action_scheduler.is_running(name)
+
+    @final
+    def get_running_actions(self) -> list[AsyncAction]:
+        """
+        Returns a list of all the currently running Actions.
+        An Action is considered running if it has not finished naturally or been cancelled.
+        """
+        return self._action_scheduler.get_running_actions()
+
+    @final
     def robotInit(self) -> None:
         """
         Calls the onRobotInit hook.  
@@ -299,7 +394,8 @@ class AdaptiveRobot(wpilib.TimedRobot):
         except Exception as e:
             wpilib.reportError(f"Error in onRobotInit: {e}")
 
-        self._auto_discover_all_interfaces()
+        if self._config.auto_discover_interfaces:
+            self._auto_discover_all_interfaces()
         
         # Create subschedulers with discovered objects
         self._telemetry_subscheduler = TelemetrySubscheduler(
@@ -313,13 +409,14 @@ class AdaptiveRobot(wpilib.TimedRobot):
         )
         
         self._schedulable_subscheduler = SchedulableSubscheduler(
-            self._schedulables
+            self._schedulables, self._config.default_fault_threshold
         )
 
         self._fault_manager = FaultManager(
             schedulable_subscheduler=self._schedulable_subscheduler,
             telemetry_subscheduler=self._telemetry_subscheduler,
             tunable_subscheduler=self._tunable_subscheduler,
+            profiling_subscheduler=self._profiling_subscheduler,
             action_scheduler=self._action_scheduler, 
             fault_logger=self._fault_logger
         )
@@ -331,6 +428,7 @@ class AdaptiveRobot(wpilib.TimedRobot):
         """
         Runs the FaultManager each iteration.  
         Disables the robot on a CRITICAL Fault.
+        Runs the profiling subscheduler each iteration.
         Calls the onRobotPeriodic hook each iteration.
 
         :raises RuntimeError: If the FaultManager was never initialized.

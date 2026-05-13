@@ -1,333 +1,322 @@
-# RequestArbitrator & Requests
+# Request Arbitration
 
 ## Overview
 
-The request-based arbitration system provides a clean way to manage competing commands to a single source. Multiple sources (teleop, autonomous, safety systems) can submit requests with different priorities, and the `RequestArbitrator` automatically selects the highest-priority active request each iteration.
+The request-based arbitration system solves the problem: what happens when multiple parts of your robot want to control the same thing at the same time?
 
-This eliminates the need for complex conditional logic and makes it easy to add new command sources without breaking existing code.
+Imagine your drivetrain getting requests from the driver (teleop), an autonomous routine (auto), and a safety system. Who wins? RequestArbitrator handles this by letting all three submit requests with priorities, then picking the winner automatically each loop.
 
 ## Quick Start
 
-Create an RequestArbitrator for each source (e.g. vx, vy, and omega would be separate) and submit requests from different sources:
+Create a `RequestArbitrator` for each output you want to control, then submit requests from different sources:
 
 ```python
 from adaptive_robot import AdaptiveComponent, RequestArbitrator, BasicPriority
 
-class Intake(AdaptiveComponent):
+class Drivetrain(AdaptiveComponent):
     def __init__(self) -> None:
         super().__init__()
-
-        self.percent_controller = RequestArbitrator()
-        self.motor = ...
-
-    def request_percent(
-        self,
-        percent: float,
-        priority: BasicPriority, 
-        source: str = "unknown"
-    ) -> None:
-        """
-        Requests a velocity to the intake's percent controller.
-        """
-        self.percent_controller.request(percent, priority.value, source)
-
+        self.speed_controller = RequestArbitrator()  # Arbitrate speed requests
+    
+    def request_speed(self, speed: float, priority: BasicPriority, source: str) -> None:
+        """Request a speed from any source."""
+        self.speed_controller.request(speed, priority.value, source)
+    
     def execute(self) -> None:
-        # Resolves the request with a higher PRIORITY value. 
-        # If PRIORITY values are equal, uses the most recent request as a tiebreaker for the winner.
-        request = self.speed_controller.resolve()
-        motor.set(request.value)
+        # Always runs the highest-priority request
+        active = self.speed_controller.resolve()
+        self.motor.set(active.value)
+```
+
+Multiple sources can request at the same time:
+
+```python
+# Teleop requests forward
+drivetrain.request_speed(0.5, BasicPriority.TELEOP, "teleop")
+
+# Autonomous also requests forward
+drivetrain.request_speed(0.3, BasicPriority.AUTO, "auto")
+
+# Safety system requests stop
+drivetrain.request_speed(0.0, BasicPriority.SAFETY, "safety")
+
+# Safety wins (priority 3 > auto priority 2 > teleop priority 1)
 ```
 
 ---
 
-## RequestArbitrator
+## Core Concepts
 
-### Constructor
+### Priority: Who Wins?
 
-#### `__init__(default_value: float = 0.0, default_priority: int = -1, default_source: str = 'default') -> None`
+When `resolve()` is called, the arbitrator picks based on:
 
-Creates an RequestArbitrator to manage request-based arbitration for a single source.
+1. **Highest priority number wins** - SAFETY (3) beats AUTO (2) beats TELEOP (1)
+2. **If tied priority, most recent timestamp wins** - Newer requests override older ones at the same priority
+3. **If tie-breaking still needed, most recently inserted wins** - The last one submitted in the same iteration
 
-**Parameters:**
-- `default_value`: The value returned when no active requests exist (default: `0.0`)
-- `default_priority`: The priority assigned to the default request (must be different from all submitted request priorities; default: `-1`)
-- `default_source`: The source name for the default request (default: `'default'`)
+### Timeout: Auto-Expire Old Requests
 
-**Example:**
+Each request has a timeout. If a request isn't resubmitted before time runs out, it's automatically removed. This is a safety feature so your robot won't retain old commands.
+
 ```python
-# Drivetrain speed controller defaults to 0.0 at priority -1
+# Request times out in 0.2 seconds if not resubmitted
+drivetrain.request_speed(0.5, BasicPriority.TELEOP, "teleop", timeout=0.2)
+
+# If the joystick input stops, the request expires automatically
+# Next resolve() will use a lower-priority request or the default
+```
+
+All requests can use different timeouts if desired.
+
+### Default Request: The Fallback
+
+When no active requests exist, the arbitrator returns a default request (usually 0.0 at priority -1). You set this when creating the arbitrator:
+
+```python
 speed_controller = RequestArbitrator(
-    default_value=0.0,
-    default_priority=-1,
-    default_source="drivetrain_speed"
-)
-```
-
-### Core Concepts
-
-#### Request Arbitration
-When multiple requests are active, the RequestArbitrator selects the winner based on:
-1. **Highest priority** wins
-2. **If tied**, the most recently submitted request wins (newer timestamp)
-3. **If same iteration** (tied timestamps), the most recently inserted wins
-
-#### Timeout Behavior
-Each request has a timeout. If a request is not resubmitted before its timeout expires, it is automatically removed. This prevents stale requests from controlling the source.
-
-**Example:**
-```python
-# Teleop request times out after 0.2 seconds if not resubmitted
-speed_controller.request(
-    value=0.5,
-    priority=BasicPriority.TELEOP.value,
-    source="teleop",
-    timeout=0.2
-)
-
-# So if no new request comes in within 0.2s, the controller reverts to default
-```
-
----
-
-## Request
-
-The immutable data class that represents a single request.
-
-```python
-@dataclass(frozen=True)
-class Request:
-    value: float              # The commanded value
-    priority: int             # Priority relative to other requests
-    timeout: seconds = 0.2    # How long this request remains active
-    source: str = "unknown"   # Name of the request source
-    timestamp: seconds        # When the request was created (auto-set)
-```
-
-**Common Usage:**
-```python
-request = speed_controller.resolve()
-print(f"Value: {request.value}")
-print(f"Priority: {request.priority}")
-print(f"Source: {request.source}")
-```
-
----
-
-## BasicPriority
-
-A convenience enum for common priority levels. You can use these values or define your own priority integers.
-
-```python
-class BasicPriority(Enum):
-    SAFETY = 3       # Highest priority - safety systems
-    AUTO = 2         # Mid priority - autonomous routines
-    TELEOP = 1       # Low priority - driver input
-```
-
-**Usage:**
-```python
-# Use the enum values
-self.controller.request(
-    value=safe_position,
-    priority=BasicPriority.SAFETY.value,
-    source="safety_limit"
-)
-
-# Or define custom priorities
-self.controller.request(
-    value=user_speed,
-    priority=CustomPriority.CUSTOM.value,
-    source="custom_source"
+    default_value=0.0,        # Safe default
+    default_priority=-1,      # Lower than any real request
+    default_source="default"
 )
 ```
 
 ---
 
-## RequestArbitrator API
+## API Reference
+
+### Creating an Arbitrator
+
+```python
+controller = RequestArbitrator(
+    default_value=0.0,        # Returned when no requests are active
+    default_priority=-1,      # Must be different from all submitted priorities
+    default_source="default"  # Name of the default request
+)
+```
 
 ### Submitting Requests
 
-##### `request(value: float, priority: int, source: str = "unknown", timeout: seconds = 0.2) -> None`
-
-Submits a request to the RequestArbitrator. If a request with the same source already exists, it is replaced.
-
-**Parameters:**
-- `value`: The commanded value for this request
-- `priority`: Priority level relative to other requests. Must be different from the default priority
-- `source`: Unique identifier for the request source (alphanumeric + underscores, max 50 chars)
-- `timeout`: How long this request remains active (seconds). Range: `0 < timeout <= 10.0`
-
-**Raises:**
-- `ValueError`: If source name is invalid or timeout is out of bounds
-- `RuntimeError`: If priority equals the default priority
-
-**Example:**
 ```python
-def onTeleopPeriodic(self) -> None:
-    speed = self.joystick.getLeftY()
-    self.speed_controller.request(
-        value=speed,
-        priority=BasicPriority.TELEOP.value,
-        source="teleop_driver",
-        timeout=0.2
-    )
+# Submit a request
+controller.request(
+    value=0.5,                              # The commanded value
+    priority=BasicPriority.TELEOP.value,   # 1 (TELEOP), 2 (AUTO), 3 (SAFETY)
+    source="teleop_left_stick",             # Unique name (alphanumeric + underscores, max 50 chars)
+    timeout=0.2                             # How long it stays active (0 < timeout <= 10.0)
+)
+
+# If you submit again from the same source, the old one is replaced
+# This is useful for continuous inputs (like joysticks)
 ```
 
-### Resolving Requests
+**Constraints:**
+- `source` must be unique, alphanumeric + underscores only, max 50 characters
+- `priority` must NOT equal the default priority
+- `timeout` must be between 0 (exclusive) and 10.0 seconds
 
-##### `resolve() -> Request`
+### Resolving (Getting the Winner)
 
-Returns the currently active request based on arbitration rules. Automatically removes timed-out requests.
-
-**Arbitration order:**
-1. Highest priority wins
-2. If tied, most recent timestamp wins
-3. If no valid requests, returns the default request
-
-**Returns:** The winning `Request`
-
-**Example:**
 ```python
-def execute(self) -> None:
-    active_request = self.speed_controller.resolve()
-    motor.set(active_request.value)
+# Get the active request
+active = controller.resolve()
 
-    print(f"Active source: {active_request.source}")
+print(f"Value: {active.value}")      # The commanded value
+print(f"Priority: {active.priority}") # Its priority level
+print(f"Source: {active.source}")    # Where it came from
 ```
 
-### Clearing Requests
+Automatically removes timed-out requests before deciding. If nothing is active, returns the default.
 
-##### `clear() -> None`
+### Clearing & Enabling
 
-Removes all pending requests. The next `resolve()` call will return the default request.
-
-**Example:**
 ```python
-def onDisabledInit(self) -> None:
-    self.speed_controller.clear()
-```
+# Remove all active requests (falls back to default)
+controller.clear()
 
-### Enabling & Disabling
+# Disable the controller (always returns default)
+controller.set_enabled(False)
 
-##### `set_enabled(enabled: bool) -> None`
+# Re-enable later
+controller.set_enabled(True)
 
-Enables or disables the RequestArbitrator. When disabled, `resolve()` always returns the default request and `request()` calls are ignored.
-
-**Parameters:**
-- `enabled`: True to enable, False to disable
-
-**Example:**
-```python
-def on_safety_fault(self) -> None:
-    # Disable the controller when safety fault occurs
-    self.speed_controller.set_enabled(False)
-
-def on_safety_recovered(self) -> None:
-    # Re-enable after fault is cleared
-    self.speed_controller.set_enabled(True)
-```
-
-##### `is_enabled() -> bool`
-
-Returns the current enabled state.
-
-**Example:**
-```python
-if not self.speed_controller.is_enabled():
-    print("Speed controller is disabled")
+# Check state
+if controller.is_enabled():
+    print("Controller is active")
 ```
 
 ### Introspection
 
-##### `get_default_request() -> Request`
-
-Returns the default request used when no valid requests are active.
-
-**Example:**
 ```python
-default = self.speed_controller.get_default_request()
-print(f"Default value: {default.value}")
-```
+# How many requests are currently active?
+count = controller.get_pending_request_count()
 
-##### `get_pending_request_count() -> int`
+# What's the default request?
+default = controller.get_default_request()
 
-Returns the number of currently active (non-timed-out) requests.
-
-**Example:**
-```python
-if self.speed_controller.get_pending_request_count() > 0:
-    print(f"Active requests: {self.speed_controller.get_pending_request_count()}")
-```
-
-##### `last_request` (property)
-
-Returns the most recently resolved request, even if it's no longer active.
-
-**Example:**
-```python
-prev = self.speed_controller.last_request
-print(f"Last source: {prev.source}")
+# What was the last resolved request?
+last = controller.last_request
+print(f"Last source: {last.source}")
 ```
 
 ---
 
-## Common Examples
+## Usage Examples
 
-### Multi Source Control
+Patterns from the competition example (`examples/comp_tank_drive`).
+
+### Example 1: Simple Drivetrain Arbitration
+
+Create request methods on your subsystem, then call them from controllers:
 
 ```python
 class Drivetrain(AdaptiveComponent):
-    def __init__(self) -> None:
+    def __init__(self, io):
         super().__init__()
-        self.left_speed = RequestArbitrator()
-        self.right_speed = RequestArbitrator()
+        self.io = io
+        self.linear_velocity_controller = RequestArbitrator()
+        self.angular_velocity_controller = RequestArbitrator()
     
-    def onTeleopPeriodic(self) -> None:
-        left = self.joystick.getLeftY()
-        right = self.joystick.getRightY()
-        
-        self.left_speed.request(left, BasicPriority.TELEOP.value, "teleop")
-        self.right_speed.request(right, BasicPriority.TELEOP.value, "teleop")
+    def request_linear_velocity(self, velocity, priority, source):
+        """Public method for requesting linear speed."""
+        self.linear_velocity_controller.request(velocity, priority.value, source)
     
-    def periodic(self) -> None:
-        left_request = self.left_speed.resolve()
-        right_request = self.right_speed.resolve()
+    def request_angular_velocity(self, velocity, priority, source):
+        """Public method for requesting angular speed."""
+        self.angular_velocity_controller.request(velocity, priority.value, source)
+    
+    def execute(self) -> None:
+        # Resolve and apply the highest-priority requests
+        linear = self.linear_velocity_controller.resolve().value
+        angular = self.angular_velocity_controller.resolve().value
         
-        self.left_motor.set(left_request.value)
-        self.right_motor.set(right_request.value)
+        # Command hardware with resolved values
+        wheel_speeds = self.kinematics.toWheelSpeeds(ChassisSpeeds(linear, 0, angular))
+        self.io.set_left_voltage(wheel_speeds.left)
+        self.io.set_right_voltage(wheel_speeds.right)
 ```
 
-### Autonomous with Safety Override
+### Example 2: Teleop Controller Requesting
+
+Controllers submit requests on behalf of drivers. Each request is tagged with the source:
 
 ```python
-def onAutonomousInit(self) -> None:
-    self.speed_controller.request(
-        value=0.5,
-        priority=BasicPriority.AUTO.value,
-        source="auto_drive"
-    )
-
-def onAutonomousPeriodic(self) -> None:
-    # Safety system can override
-    if self.too_close_to_wall():
-        self.speed_controller.request(
-            value=0.0,
-            priority=BasicPriority.SAFETY.value,
-            source="safety_wall_detector"
+class DrivetrainController(Schedulable):
+    def __init__(self, drivetrain: Drivetrain, controller: Joystick):
+        self.drivetrain = drivetrain
+        self.controller = controller
+    
+    def execute(self) -> None:
+        if not RobotState.isTeleop():
+            return
+        
+        # Read joystick
+        linear = self.controller.getRawAxis(0) * MAX_SPEED
+        angular = self.controller.getRawAxis(1) * MAX_ANGULAR
+        
+        # Request both
+        self.drivetrain.request_linear_velocity(
+            linear,
+            BasicPriority.TELEOP,
+            "teleop_driver"
+        )
+        self.drivetrain.request_angular_velocity(
+            angular,
+            BasicPriority.TELEOP,
+            "teleop_driver"
         )
 ```
 
-### Request Timeout Strategy
+### Example 3: Safety Override (Multiple Priorities)
+
+Different systems request at different priorities. Safety always wins:
 
 ```python
-# Teleop requests timeout quickly (operator might release joystick)
-self.speed_controller.request(speed, BasicPriority.TELEOP.value, "teleop", timeout=0.2)
+def onTeleopPeriodic(self) -> None:
+    # Teleop makes a request
+    self.drivetrain.request_linear_velocity(
+        joystick_input,
+        BasicPriority.TELEOP,
+        "teleop"
+    )
+    
+    # Safety system can override
+    if self.too_close_to_wall():
+        self.drivetrain.request_linear_velocity(
+            0.0,  # Stop
+            BasicPriority.SAFETY,
+            "wall_bumper"
+        )
 
-# Autonomous requests timeout longer
-self.speed_controller.request(speed, BasicPriority.AUTO.value, "auto_drive", timeout=1.0)
+def execute(self) -> None:
+    # resolve() picks the SAFETY request automatically
+    active = self.drivetrain.linear_velocity_controller.resolve()
+    self.motor.set(active.value)
+```
 
-# Safety requests timeout slowly
-self.speed_controller.request(safe_val, BasicPriority.SAFETY.value, "safety_limit", timeout=5.0)
+### Example 4: Autonomous Request with Different Timeout
+
+Auto routines use different timeouts than teleop:
+
+```python
+def onAutonomousInit(self) -> None:
+    # Auto request times out slower (routine runs longer)
+    self.drivetrain.request_linear_velocity(
+        0.5,
+        BasicPriority.AUTO,
+        "auto_drive",
+        timeout=1.0  # Longer timeout for autonomous
+    )
+
+def onTeleopPeriodic(self) -> None:
+    # Teleop requests are quick (driver input might stop)
+    self.drivetrain.request_linear_velocity(
+        joystick.getRawAxis(0),
+        BasicPriority.TELEOP,
+        "teleop_driver",
+        timeout=0.2  # Short timeout
+    )
+```
+
+### Example 5: Multiple Subsystems with Separate Arbitrators
+
+Each subsystem (drivetrain, intake, shooter) has its own arbitrators:
+
+```python
+class Intake(AdaptiveComponent):
+    def __init__(self, io):
+        super().__init__()
+        self.io = io
+        self.percent_controller = RequestArbitrator()  # Separate from drivetrain
+    
+    def request_percent(self, percent, priority, source):
+        self.percent_controller.request(percent, priority.value, source)
+
+class Shooter(AdaptiveComponent):
+    def __init__(self, io):
+        super().__init__()
+        self.io = io
+        self.velocity_controller = RequestArbitrator()  # Separate from everything else
+    
+    def request_velocity(self, velocity, priority, source):
+        self.velocity_controller.request(velocity, priority.value, source)
+
+# Each subsystem resolves independently
+intake_request = intake.percent_controller.resolve()
+shooter_request = shooter.velocity_controller.resolve()
+
+intake.io.set_voltage(intake_request.value)
+shooter.io.set_voltage(shooter_request.value)
 ```
 
 ---
+
+## Things to Remember
+
+- **Priority must be different from default.** By default, don't use -1 as a priority (you will get an error if the default priority is used elsewhere). Use positive integers (1, 2, 3, etc.)
+- **Timeout can't be 0 or greater than 10.** This prevents mistakes like timeout=0 (request expires immediately) or timeout=1000 (old requests hang around forever).
+- **Source names are strict.** Alphanumeric + underscores only. No spaces, no dashes, no special chars. The framework validates this.
+- **Requests are per-source.** If you call `request(..., source="teleop")` twice, the second call replaces the first. You can't have two requests from the same source active at once.
+- **resolve() always runs.** Call it every loop in `execute()`. Each call removes timed-out requests automatically.
+- **Priority wins over recency.** A higher-priority request always beats a newer lower-priority request. Don't rely on "newest" if priorities differ.
+- **The default never times out.** The default request has an infinite timeout (`timeout=inf`), so it's always there as a fallback.

@@ -78,6 +78,7 @@ class ShooterController(Schedulable):
 
             desired_velocity = calculate_optimal_velocity(target_translation)
             if desired_velocity.velocity is None:
+                self.shooter.request_velocity(0.0, BasicPriority.SAFETY, "safety")
                 return
 
             self.shooter.request_velocity(desired_velocity.velocity, BasicPriority.TELEOP, "teleop")

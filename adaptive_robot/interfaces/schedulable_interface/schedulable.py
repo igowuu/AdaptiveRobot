@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 from typing import final
 
 from adaptive_robot.interfaces.shared_interface_state import SharedHealthState
+from adaptive_robot.profiling.profile_method import profile_method
 
 
 class Schedulable(SharedHealthState, ABC):
@@ -13,10 +14,16 @@ class Schedulable(SharedHealthState, ABC):
     def __init_subclass__(cls) -> None:
         """
         Auto-initializes schedulable attributes when a subclass is created.
+        All execute() methods are automatically profiled.
         """
         super().__init_subclass__()
         cls._fault_threshold = cls.FAULT_THRESHOLD
         cls._is_locked = False
+
+        # Manually decorate any `execute()` implementations by default.
+        if 'execute' in cls.__dict__:
+            original_execute = cls.execute
+            cls.execute = profile_method(original_execute)
     
     @final
     @property
@@ -74,7 +81,7 @@ class Schedulable(SharedHealthState, ABC):
         Called each iteration while the object is unhealthy.
         """
         ...
-    
+
     @abstractmethod
     def execute(self) -> None:
         """

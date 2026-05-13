@@ -1,529 +1,500 @@
-# Interfaces
+# Interfaces & Components
 
 ## Overview
 
-AdaptiveRobot is built on four core interfaces that allow flexible robot architecture without forcing a single inheritance model. Instead of everything inheriting from one base class, components can implement the specific capabilities they need.
+Instead of forcing everything to inherit from one base class, AdaptiveRobot uses interfaces. Your component can implement only what it needs - telemetry publishing, tunables, scheduling, fault handling - or combine them all.
 
-**Core Interfaces:**
-- `Schedulable` - Lifecycle hooks and health tracking for iterative execution
-- `TelemetryPublishable` - Publish sensor data to NetworkTables each iteration
-- `TunablePublishable` - Expose tunable parameters adjustable via NetworkTables
-- `Faultable` - Report faults to the fault system
+This flexibility means you can write components that just run code each loop, or complex ones that publish telemetry, accept tunable parameters, and handle faults. Mix and match.
 
-`AdaptiveComponent` is a convenience class that inherits all four interfaces. You can either extend `AdaptiveComponent` or implement the specific interfaces your class needs.
+The easiest way is to inherit from `AdaptiveComponent`, which brings all four interfaces together. But if you want something lighter, just implement the interfaces you actually need.
 
 ## Quick Start
 
-Create a component by inheriting from `AdaptiveComponent` and implementing `execute()` (you must implement `execute()` since it's an abstract method):
+The simplest component inherits from `AdaptiveComponent` and implements `execute()`:
 
 ```python
 from adaptive_robot import AdaptiveComponent
 
 class Drivetrain(AdaptiveComponent):
-    def __init__(self) -> None:
+    def __init__(self, io) -> None:
         super().__init__()
-        self.left_motor = PWMSparkMax(0)
-        self.right_motor = PWMSparkMax(1)
+        self.io = io
+        self.motor_left = PWMSparkMax(0)
+        self.motor_right = PWMSparkMax(1)
     
     def execute(self) -> None:
-        # Hardware commands go here
-        self.left_motor.set(self.left_speed)
-        self.right_motor.set(self.right_speed)
-    
-    def publish_telemetry(self) -> None:
-        # Telemetry goes here
-        self.publish_value("Drivetrain/Left Speed", self.left_speed)
-        self.publish_value("Drivetrain/Right Speed", self.right_speed)
-
-# Register it automatically in AdaptiveRobot
-class MyRobot(AdaptiveRobot):
-    def onRobotInit(self) -> None:
-        self.drivetrain = Drivetrain()  # Auto-discovered into scheduler
+        # Command hardware each iteration
+        self.motor_left.set(0.5)
+        self.motor_right.set(0.5)
 ```
 
-Or, implement only the interfaces you need:
+That's it. The framework will discover it and run it 50 times per second.
+
+Want to add telemetry? Add `publish_telemetry()`:
 
 ```python
-from adaptive_robot import Schedulable, TelemetryPublishable
-
-class MyCustomSubsystem(Schedulable, TelemetryPublishable):
+class Drivetrain(AdaptiveComponent):
+    def __init__(self, io) -> None:
+        super().__init__()
+        self.io = io
+    
     def execute(self) -> None:
-        pass
+        self.motor_left.set(0.5)
     
     def publish_telemetry(self) -> None:
-        pass
+        self.publish_value("Drivetrain/LeftSpeed", self.io.get_left_speed())
+```
+
+Or if you only need scheduling without telemetry or tunables, implement just `Schedulable`:
+
+```python
+from adaptive_robot import Schedulable
+
+class MyController(Schedulable):
+    def execute(self) -> None:
+        pass  # Your code here
 ```
 
 ---
 
-## Schedulable Interface
+## The Four Interfaces
 
-### Lifecycle
+### Schedulable: Run Code Each Loop
 
-`Schedulable` objects follow a lifecycle that runs every robot iteration (50Hz by default):
+Use this if your component needs lifecycle hooks (`on_enabled()`, `execute()`, `on_faulted_periodic()`, etc).
 
-#### `on_enabled() -> None`
+**Methods:**
+- `on_enabled()` - Called once when robot enables
+- `on_disabled()` - Called once when robot disables
+- `execute()` - Called every loop while healthy (required)
+- `on_faulted_init()` - Called once when component becomes unhealthy
+- `on_faulted_periodic()` - Called every loop while unhealthy
+- `locked` (property) - Disable lifecycle calls (except telemetry)
 
-Called once when the robot transitions from disabled to enabled.
+**When to use:** Anything that needs to be scheduled and run each iteartion.
 
-- **When**: Exactly once per enable transition
-- **Purpose**: Initialize state for the enabled mode
-- **Use**: Reset PID controllers, zero encoders, enable motor safety
+### TelemetryPublishable: Publish Sensor Data
 
-**Example:**
-```python
-def on_enabled(self) -> None:
-    self.pid_controller.reset()
-    self.encoder.reset()
-    self.motor_safety.enable()
+Use this to send values to NetworkTables every loop (motor speeds, encoder positions, etc).
+
+**Methods:**
+- `publish_telemetry()` - Called every loop to publish data
+- `publish_value(key, value)` - Publish a simple value (int, float, bool, str)
+- `publish_struct_value(key, object)` - Publish a WPIStruct (Pose3d, etc)
+
+**When to use:** Whenever you want to log/monitor something in real-time.
+
+### TunablePublishable: Live-Tunable Parameters
+
+Use this to create values that can be changed in NetworkTables without redeploying.
+
+**Methods:**
+- `tunable(key, default)` - Create a tunable value
+- `tunablePID(kp, ki, kd, directory)` - Create a tunable PID controller
+
+**When to use:** For constants that you tweak during competition (speeds, gains, thresholds).
+
+### Faultable: Report Problems
+
+Use this to raise faults when something goes wrong.
+
+**Methods:**
+- `raise_fault(schedulable, severity, description, exception)` - Raise a fault
+
+**When to use:** When you detect hardware issues, timeouts, or anomalies.
+
+### AdaptiveComponent: All Four
+
+Combines all four interfaces. Inherit from this if you want the full feature set.
+
+---
+
+## Lifecycle & Execution Order
+
+When the robot runs, here's what happens each iteration:
+
+```
+1. Update tunable values from NetworkTables
+2. Publish telemetry (publish_telemetry() called on all components)
+3. Check enable/disable transitions
+4. If healthy: execute()
+   If unhealthy: on_faulted_periodic()
+5. Run any scheduled actions
 ```
 
-#### `on_disabled() -> None`
+**Important:** `publish_telemetry()` always runs, even if the component is unhealthy. This is intentional - you need to know what's broken via networktables if something breaks.
 
-Called once when the robot transitions from enabled to disabled.
+---
 
-- **When**: Exactly once per disable transition
-- **Purpose**: Safe shutdown for enabled mode
-- **Use**: Stop motors, save state, disable hardware
+## Schedulable in Detail
 
-**Example:**
+### Lifecycle Hooks
+
+| Method | Called | Use for |
+|--------|--------|---------|
+| `on_enabled()` | Once when robot enables | Set safe state, zero encoders, zero sensors |
+| `on_disabled()` | Once when robot disables | Stop motors, set safe state, cleanup |
+| `execute()` | Every loop while healthy | Command hardware, run control loops |
+| `on_faulted_init()` | Once when first unhealthy | Go to safe state (stop motors, etc) |
+| `on_faulted_periodic()` | Every loop while unhealthy | Hold safe state |
+
+### Health & Faults
+
+Each component is either HEALTHY or UNHEALTHY (faulted).
+
+When a component raises faults repeatedly, it gets marked unhealthy:
+- **HEALTHY:** Runs `execute()` normally
+- **UNHEALTHY:** Skips `execute()`, runs `on_faulted_periodic()` instead
+
+**Default fault threshold:** 10 consecutive faults. Change it per-component if needed:
+
 ```python
-def on_disabled(self) -> None:
-    self.left_motor.set(0)
-    self.right_motor.set(0)
-    self.save_telemetry_state()
-```
-
-#### `publish_telemetry() -> None`
-
-Called every iteration before `execute()`.
-
-- **When**: Every robot loop (50Hz by default)
-- **Purpose**: Publish sensor readings and state to NetworkTables
-- **Use**: Log motor speeds, positions, currents, temperatures, resolved Requests
-
-**Example:**
-```python
-def publish_telemetry(self) -> None:
-    self.publish_value("Arm/Position", self.encoder.getPosition())
-    self.publish_value("Arm/Current", self.motor.getOutputCurrent())
-    self.publish_value("Arm/Temperature", self.motor.getMotorTemperature())
-```
-
-#### `execute() -> None` (abstract)
-
-Called every iteration after `publish_telemetry()`.
-
-- **When**: Every robot loop (50Hz by default)
-- **Purpose**: Command hardware based on requests and state
-- **Use**: Set motor output, activate solenoids, run control loops
-
-**Example:**
-```python
-def execute(self) -> None:
-    # Get the active request from the request arbitrator
-    speed_request = self.speed_controller.resolve()
+class MyComponent(AdaptiveComponent):
+    def __init__(self):
+        super().__init__()
+        self.fault_threshold = 5  # More sensitive
     
-    # Command hardware
-    self.motor.set(speed_request.value)
+    def execute(self):
+        try:
+            sensor_value = self.encoder.get()
+        except TimeoutError as e:
+            self.raise_fault(self, FaultSeverity.ERROR, "Encoder timeout", e)
 ```
 
-#### `on_faulted_init() -> None`
+### Locking
 
-Called once when the component is first marked as unhealthy (faulted).
+Lock a component to prevent its lifecycle methods from running (except telemetry):
 
-- **When**: First time fault threshold is reached
-- **Purpose**: Enter safe state and disable hardware
-- **Use**: Retract mechanisms, disable motors, activate safety brakes
-
-**Example:**
 ```python
-def on_faulted_init(self) -> None:
-    # Component is unhealthy
-    self.motor.set(0)
-    self.brake.engage()
-```
-
-#### `on_faulted_periodic() -> None`
-
-Called every iteration while the component is unhealthy.
-
-- **When**: Every iteration, only if component is faulted
-- **Purpose**: Maintain safe state during fault
-- **Use**: Hold safe position, log diagnostics
-
-**Example:**
-```python
-def on_faulted_periodic(self) -> None:
-    # Keep hardware in safe state
-    self.motor.set(0)
-```
-
----
-
-## Component Context & Execution Flow
-
-### Execution Order Each Iteration
-
-```
-1. Update Tunable Values (TunablePublishable)
-2. Publish Telemetry (TelemetryPublishable)
-3. Call Activation Methods (Schedulable: on_enabled/on_disabled)
-4. Execute Schedulables (Schedulable: execute or on_faulted_periodic)
-5. Run Actions (AsyncAction)
-```
-
-### Interface Contexts
-
-Each interface uses a context object to manage shared state:
-
-**TelemetryContext** - Injected into each `TelemetryPublishable`
-```python
-@dataclass
-class TelemetryContext:
-    telemetry: TelemetryPublisher           # Publish simple cached values
-    struct_telemetry: TelemetryStructPublisher  # Publish WPIStruct objects
-```
-
-**TunableContext** - Injected into each `TunablePublishable`
-```python
-@dataclass
-class TunableContext:
-    tunables: list[TunableValue]           # Tunable parameters
-    tunable_pids: list[TunablePIDController]  # Tunable PID controllers
-```
-
-These are automatically injected and managed by the framework.
-
----
-
-## Health Management
-
-### Component Health Status
-
-Each component has a health state that determines which methods are called:
-
-- **HEALTHY**: `on_enabled()` → `execute()` → `publish_telemetry()`
-- **UNHEALTHY (FAULTED)**: `on_faulted_init()` → `on_faulted_periodic()`
-
-#### `is_healthy() -> bool`
-
-Returns True if the component is healthy.
-
-**Example:**
-```python
-if self.drivetrain.is_healthy():
-    print("Drivetrain is operational")
-else:
-    print("Drivetrain has faulted")
-```
-
-### Fault Threshold
-
-The `ComponentScheduler` tracks consecutive faults. When a component raises `fault_threshold` consecutive faults, it's automatically marked unhealthy.
-
-**Default threshold:** 10 consecutive faults
-
-**Example scenario:**
-```
-Iteration 1: execute() raises FaultException → consecutive_faults = 1
-Iteration 2: execute() raises FaultException → consecutive_faults = 2
-...
-Iteration 10: execute() raises FaultException → consecutive_faults = 10
-             → Component marked UNHEALTHY
-             → on_faulted_init() called
-Iteration 11+: on_faulted_periodic() called instead of execute()
-```
-
----
-
-## Component Locking
-
-### Locking and Unlocking Components
-
-Lock a component to prevent its hooks from being called (except `publish_telemetry()`).
-
-#### `locked` (property)
-
-Get or set the locked state.
-
-**Example:**
-```python
-# Lock a component
+# Lock when something is wrong
 self.drivetrain.locked = True
 
-if self.drivetrain.locked:
-    print("Drivetrain is locked")
-
-self.drivetrain.locked = False
-```
-
-**Use Case:**
-```python
-def onTeleopPeriodic(self) -> None:
-    if self.emergency_stop_pressed:
-        self.drivetrain.locked = True  # Prevent lifecycle calls
+# Locked components skip on_enabled/execute/on_faulted_periodic
+# But telemetry still publishes
 ```
 
 ---
 
-## Telemetry & Monitoring
+## TelemetryPublishable in Detail
 
 ### Publishing Values
 
-#### `publish_value(directory: str, value: primitive_type) -> None`
+Publish any primitive type (int, float, bool, str):
 
-Publishes a simple value (int, float, str, bool) to NetworkTables.
-
-**Parameters:**
-- `directory`: Path in NetworkTables (e.g., `"Drivetrain/leftSpeed"`)
-- `value`: The value to publish (int, float, str, or bool)
-
-**Example:**
 ```python
 def publish_telemetry(self) -> None:
-    self.publish_value("Arm/Position", self.encoder.getPosition())
-    self.publish_value("Arm/Is Healthy", self.is_healthy())
-    self.publish_value("Arm/Mode", "Automated")
+    self.publish_value("Motor/Speed", 0.5)              # float
+    self.publish_value("Intake/IsFull", True)            # bool
+    self.publish_value("Mode", "Climbing")               # str
 ```
 
-#### `publish_struct_value(directory: str, value: object) -> None`
+Or publish WPIStruct objects (Pose3d, Transform3d, etc):
 
-Publishes a WPIStruct object (Pose3d, Transform3d, etc) to NetworkTables.
-
-**Parameters:**
-- `directory`: Path in NetworkTables
-- `value`: The WPIStruct object (e.g., Pose3d, Field3d)
-
-**Performance Note:** WPIStruct publishing is heavier than simple values. Use sparingly.
-
-**Example:**
 ```python
 def publish_telemetry(self) -> None:
-    self.publish_value("Robot/X", self.pose.X())
-    # Or:
-    self.publish_struct_value("Robot/Pose", self.pose)
+    self.publish_struct_value("Robot/Pose", self.pose)   # Pose3d
 ```
+
+**Note:** WPIStruct publishing is heavier than simple values. Use it for important structural data, not every value.
 
 ---
 
-## Tunable Parameters
+## TunablePublishable in Detail
 
-Tunable parameters can be modified in real-time via NetworkTables without redeploying code.
+### Creating Tunables
 
-### Tunable Values
+Create a tunable value in `__init__()` and use `.value` to read it:
 
-#### `tunable(directory: str, default: TunableType) -> TunableValue`
-
-Creates a tunable value that updates from NetworkTables each iteration.
-
-**Parameters:**
-- `directory`: NetworkTables path (e.g., `"Tunables/Drivetrain/Speed"`)
-- `default`: Default value (int, float, str, or bool)
-
-**Example:**
 ```python
 class Drivetrain(AdaptiveComponent):
-    def __init__(self) -> None:
+    def __init__(self):
         super().__init__()
-        self.max_speed = self.tunable("Tunables/Drivetrain/MaxSpeed", 1.0)
-        self.acceleration = self.tunable("Tunables/Drivetrain/Accel", 0.1)
+        self.max_speed = self.tunable("Tunables/Drive/MaxSpeed", 1.0)
     
-    def execute(self) -> None:
-        # Values auto-update from NetworkTables each iteration
-        speed = self.max_speed.value * self.joystick.getRightY()
+    def execute(self):
+        # Value auto-updates from NetworkTables each loop
+        speed = self.joystick.getRawAxis(1) * self.max_speed.value
         self.motor.set(speed)
 ```
 
 ### Tunable PID Controllers
 
-#### `tunablePID(kp: float, ki: float, kd: float, directory: str = "Tunables/PIDController", period: float = 0.02) -> TunablePIDController`
+Create a tunable PID that updates gains from NetworkTables:
 
-Creates a PID controller with tunable gains that update from NetworkTables.
-
-**Parameters:**
-- `kp`: Proportional gain (≥ 0)
-- `ki`: Integral gain (≥ 0)
-- `kd`: Derivative gain (≥ 0)
-- `directory`: NetworkTables path for tunable gains
-- `period`: Update period in seconds (default: 0.02 = 20ms)
-
-**Example:**
 ```python
 class Arm(AdaptiveComponent):
-    def __init__(self) -> None:
+    def __init__(self):
         super().__init__()
         self.pid = self.tunablePID(
-            kp=0.1,
+            kp=1.0,
             ki=0.0,
-            kd=0.01,
+            kd=0.1,
             directory="Tunables/Arm/PID"
         )
-        self.encoder = Encoder(0, 1)
+        self.target = self.tunable("Tunables/Arm/Target", 0.0)
     
-    def execute(self) -> None:
-        current_position = self.encoder.getDistance()
-        output = self.pid.calculate(current_position, target=50)
+    def execute(self):
+        current = self.encoder.getDistance()
+        target = self.target.value
+        output = self.pid.calculate(current, target)
         self.motor.set(output)
 ```
 
-> As of the beta release on 4/18/26, tunables will NOT save after redeployment. This is guarenteed to be a feature once officially released.
+Now you can change kp, ki, kd, and target from NetworkTables during testing without redeploying.
 
 ---
 
-## Raising Faults from Components
+## Faultable in Detail
 
-Components inherit from `Faultable` and can raise faults. See [FAULTS_GUIDE.md](./FAULTS_GUIDE.md) for details.
+### Raising Faults
 
-**Example:**
+Raise a fault when something goes wrong:
+
 ```python
 from adaptive_robot.faults.faults import FaultSeverity
 
-class Motor(AdaptiveComponent):
+def execute(self):
+    voltage = self.motor.getVoltage()
+    if voltage > 13.0:
+        self.raise_fault(
+            schedulable=self,
+            severity=FaultSeverity.ERROR,
+            description=f"Motor overvoltage: {voltage}V"
+        )
+    
+    try:
+        data = self.encoder.read()
+    except TimeoutError as e:
+        self.raise_fault(
+            schedulable=self,
+            severity=FaultSeverity.CRITICAL,
+            description="Encoder communication lost",
+            exception=e
+        )
+```
+
+**Severity levels:**
+- `WARNING` - Minor issue, keep running
+- `ERROR` - Recoverable problem, component go to safe state if consecutively raised
+- `CRITICAL` - Major failure, robot will disable itself
+
+---
+
+## API Reference
+
+### Schedulable Methods
+
+```python
+# Check health
+if component.is_healthy():
+    print("Running normally")
+else:
+    print("Faulted")
+
+# Lock/unlock
+component.locked = True
+if component.locked:
+    print("Lifecycle methods skipped (except telemetry)")
+
+# Adjust fault threshold
+component.fault_threshold = 5  # More sensitive than default 10
+```
+
+### TelemetryPublishable Methods
+
+```python
+# Publish primitives
+self.publish_value("Key/Path", value)
+
+# Publish WPIStruct
+self.publish_struct_value("Pose/Key", pose_object)
+```
+
+### TunablePublishable Methods
+
+```python
+# Create a tunable value
+my_speed = self.tunable("Tunables/Speed", 1.0)
+print(my_speed.value)  # Read current value
+
+# Create a tunable PID
+my_pid = self.tunablePID(kp=0.5, ki=0, kd=0.1, directory="Tunables/PID")
+output = my_pid.calculate(current, target)
+```
+
+### Faultable Methods
+
+```python
+# Raise a fault
+self.raise_fault(
+    schedulable=self,
+    severity=FaultSeverity.ERROR,
+    description="What went wrong",
+    exception=optional_exception
+)
+```
+
+---
+
+## Usage Examples
+
+Patterns from `examples/comp_tank_drive`.
+
+### Example 1: Simple Component with Telemetry & Tuning
+
+The shooter is a great example of `AdaptiveComponent` with request arbitration:
+
+```python
+class Shooter(AdaptiveComponent):
+    def __init__(self, io) -> None:
+        super().__init__()
+        self.io = io
+        self.velocity_controller = RequestArbitrator()
+    
+    def request_velocity(self, velocity, priority, source):
+        """Public method for requesting velocity."""
+        self.velocity_controller.request(velocity, priority.value, source)
+    
+    def on_enabled(self) -> None:
+        """Safe defaults when enabled."""
+        self.io.set_voltage(0.0)
+    
     def execute(self) -> None:
-        voltage = self.motor_controller.getOutputVoltage()
-        if voltage > 13.0:
+        """Resolve request and command motor."""
+        resolved = self.velocity_controller.resolve().value
+        angular_velocity = resolved / ShooterConstants.FLYWHEEL_RADIUS
+        percent = angular_velocity / ShooterConstants.MAX_VELOCITY
+        self.io.set_voltage(percent * RobotController.getBatteryVoltage())
+    
+    def publish_telemetry(self) -> None:
+        """Publish state for debugging."""
+        self.publish_value("Shooter/Voltage", self.io.get_voltage())
+        resolved = self.velocity_controller.resolve()
+        self.publish_value("Shooter/ResolvedVelocity", resolved.value)
+        self.publish_value("Shooter/Source", resolved.source)
+```
+
+### Example 2: Component with Tunable PID
+
+The intake arm uses a tunable PID with gravity compensation:
+
+```python
+class IntakeArm(AdaptiveComponent):
+    def __init__(self, io) -> None:
+        super().__init__()
+        self.io = io
+        
+        # Tunable PID for angle control
+        self.pid = self.tunablePID(
+            kp=5.0,
+            ki=0.0,
+            kd=0.8,
+            directory="Tunables/IntakeArmPID"
+        )
+        
+        self.angle_controller = RequestArbitrator()
+    
+    def request_angle(self, angle, priority, source):
+        self.angle_controller.request(angle, priority.value, source)
+    
+    def execute(self) -> None:
+        target_angle = self.angle_controller.resolve().value
+        current_angle = self.io.get_position()
+        
+        # PID output + gravity compensation
+        output = self.pid.calculate(current_angle, target_angle)
+        self.io.set_voltage(output)
+    
+    def publish_telemetry(self) -> None:
+        self.publish_value("Arm/Position", self.io.get_position())
+        self.publish_value("Arm/Target", self.angle_controller.resolve().value)
+```
+
+### Example 3: Safe Defaults Pattern
+
+All competition components use `_safe_defaults()` for consistency:
+
+```python
+class Drivetrain(AdaptiveComponent):
+    def _safe_defaults(self) -> None:
+        """Always set safe values here."""
+        self.io.set_left_voltage(0.0)
+        self.io.set_right_voltage(0.0)
+    
+    def on_enabled(self) -> None:
+        self._safe_defaults()
+    
+    def on_disabled(self) -> None:
+        self._safe_defaults()
+    
+    def on_faulted_init(self) -> None:
+        self._safe_defaults()
+    
+    def on_faulted_periodic(self) -> None:
+        self._safe_defaults()
+```
+
+This pattern ensures that no matter what happens (enable, disable, fault), the robot always stops safely.
+
+### Example 4: Minimal Schedulable (No Telemetry)
+
+Sometimes you don't need all four interfaces. A simple controller just needs scheduling:
+
+```python
+from adaptive_robot import Schedulable
+
+class IntakeController(Schedulable):
+    def __init__(self, intake: Intake, controller: Joystick):
+        self.intake = intake
+        self.controller = controller
+    
+    def execute(self) -> None:
+        if not RobotState.isTeleop():
+            return
+        
+        if self.controller.getRawButton(JoystickButton.INTAKE_GRABBING):
+            self.intake.request_percent(1.0, BasicPriority.TELEOP, "teleop")
+        elif self.controller.getRawButton(JoystickButton.INTAKE_RELEASING):
+            self.intake.request_percent(-1.0, BasicPriority.TELEOP, "teleop")
+        else:
+            self.intake.request_percent(0.0, BasicPriority.TELEOP, "teleop")
+```
+
+### Example 5: Fault Handling
+
+Detect and report hardware issues:
+
+```python
+class Shooter(AdaptiveComponent):
+    def execute(self) -> None:
+        try:
+            velocity = self.io.get_velocity()
+        except CommunicationError as e:
             self.raise_fault(
-                component=self,
+                schedulable=self,
                 severity=FaultSeverity.ERROR,
-                description=f"Motor overvoltage: {voltage}V"
+                description="Failed to read shooter velocity",
+                exception=e
+            )
+            return
+        
+        # Check for overvoltage
+        voltage = self.io.get_voltage()
+        if voltage > 13.5:
+            self.raise_fault(
+                schedulable=self,
+                severity=FaultSeverity.WARNING,
+                description=f"Shooter overvoltage: {voltage}V"
             )
 ```
 
 ---
 
-## Common Patterns
+## Things to Remember
 
-### Multi-Source Control with RequestArbitrator
-
-```python
-from adaptive_robot.requests import RequestArbitrator, BasicPriority
-
-class Drivetrain(AdaptiveComponent):
-    def __init__(self) -> None:
-        super().__init__()
-        self.left_speed = RequestArbitrator()
-        self.right_speed = RequestArbitrator()
-        self.left_motor = PWMSparkMax(0)
-        self.right_motor = PWMSparkMax(1)
-    
-    def on_enabled(self) -> None:
-        self.left_speed.clear()
-        self.right_speed.clear()
-    
-    def execute(self) -> None:
-        left_request = self.left_speed.resolve()
-        right_request = self.right_speed.resolve()
-        
-        self.left_motor.set(left_request.value)
-        self.right_motor.set(right_request.value)
-    
-    def publish_telemetry(self) -> None:
-        left_request = self.left_speed.resolve()
-        self.publish_value("Drivetrain/Left Speed", left_request.value)
-        self.publish_value("Drivetrain/Left Source", left_request.source)
-```
-
-### Sensor Monitoring with Health Tracking
-
-```python
-class Arm(AdaptiveComponent):
-    def __init__(self) -> None:
-        super().__init__()
-        self.encoder = Encoder(0, 1)
-        self.consecutive_read_fails = 0
-    
-    def execute(self) -> None:
-        try:
-            position = self.encoder.getDistance()
-            self.consecutive_read_fails = 0
-        except TimeoutError as e:
-            self.consecutive_read_fails += 1
-            if self.consecutive_read_fails > 3:
-                self.raise_fault(
-                    component=self,
-                    severity=FaultSeverity.ERROR,
-                    description=f"Encoder timeout ({self.consecutive_read_fails} attempts)",
-                    exception=e
-                )
-    
-    def on_faulted_periodic(self) -> None:
-        self.motor.set(0)
-```
-
-### PID Control Loop
-
-```python
-class Elevator(AdaptiveComponent):
-    def __init__(self) -> None:
-        super().__init__()
-        self.motor = PWMSparkMax(0)
-        self.encoder = Encoder(0, 1)
-
-        self.pid = self.tunablePID(
-            kp=0.5,
-            ki=0.0,
-            kd=0.1,
-            directory="Tunables/Elevator/PID"
-        )
-
-        self.target_height = self.tunable("Tunables/Elevator/Target", 0.0)
-    
-    def execute(self) -> None:
-        current_height = self.encoder.getDistance()
-        target = self.target_height.value
-        
-        output = self.pid.calculate(current_height, target)
-        self.motor.set(output)
-    
-    def publish_telemetry(self) -> None:
-        self.publish_value("Elevator/Position", self.encoder.getDistance())
-        self.publish_value("Elevator/Target", self.target_height.value)
-```
-
-### Component Health Recovery
-
-```python
-class Intake(AdaptiveComponent):
-    def __init__(self) -> None:
-        super().__init__()
-        self.motor = PWMSparkMax(0)
-        self.beam_sensor = DigitalInput(0)
-    
-    def execute(self) -> None:
-        self.motor.set(self.speed_request)
-    
-    def on_faulted_init(self) -> None:
-        self.motor.set(0)
-    
-    def on_faulted_periodic(self) -> None:
-        # Keep hardware safe
-        self.motor.set(0)
-```
-
----
-
-## Timing & Constraints
-
-### Execution Guarantees
-
-- All components are executed at **50Hz by default** (configurable via `AdaptiveRobot(period=0.02)`)
-- `publish_telemetry()` runs **before** `execute()` every iteration
-- Components are executed **in registration order** (order they appear in `AdaptiveRobot`)
-
-### Important Constraints
-
-1. **Blocking Operations**: Avoid long-running or blocking code in component methods
-   ```python
-   # Bad - blocks scheduler
-   def execute(self):
-       time.sleep(1)  # Do not do this
-   
-   # Good - quick operations
-   def execute(self):
-       self.motor.set(self.request)
-   ```
-
-2. **NetworkTables Access**: Tunable and telemetry operations are thread-safe and fast (caching), but limited in the values they support (mostly primitive types).
-
----
+- **`execute()` must be implemented.** It's abstract on `AdaptiveComponent` and `Schedulable`. If you only need telemetry/tunables, don't inherit from those - use `TelemetryPublishable` or `TunablePublishable` instead.
+- **`publish_telemetry()` always runs.** Even if `execute()` is skipped (faulted, locked, etc), telemetry publishes. This is intentional so you can diagnose problems.
+- **Tunables persist.** Between session startups, your tunable values will persist in a file, and will be read on the next startup.
+- **Lock skips lifecycle, not telemetry.** If you lock a component, `on_enabled/execute/on_faulted_periodic` don't run, but `publish_telemetry()` still does.
+- **Execution order matters.** Components run in the order they're registered. If component B depends on component A's output, make sure A is registered first.
+- **Safe defaults pattern is recommended.** Call `_safe_defaults()` from `on_enabled`, `on_disabled`, `on_faulted_init`, and `on_faulted_periodic`. It ensures consistency.

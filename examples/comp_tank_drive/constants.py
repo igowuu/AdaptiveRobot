@@ -26,6 +26,7 @@ class JoystickButton:
     GAME_SIM_CLEAR = 7  # Clears all fuels from the simulated field.
     GAME_SIM_SHOOT = 8  # Shoots a ball directly from the robot in the simulated field.
 
+    AIM_TO_HUB = 9      # Commands the robot to face the blue hub.
 
 
 class JoystickAxis:

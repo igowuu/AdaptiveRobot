@@ -10,12 +10,15 @@ class SchedulableSubscheduler(Subscheduler):
     """
     Subscheduler that handles health and lifecycle execution.
     """
-    def __init__(self, schedulables: list[Schedulable]) -> None:
+    def __init__(self, schedulables: list[Schedulable], default_fault_threshold: int) -> None:
         self.schedulables = schedulables
         self._consecutive_faults: dict[Schedulable, int] = {
             schedulable: 0 for schedulable in self.schedulables
         }
         self.previously_enabled = False
+
+        for schedulable in schedulables:
+            schedulable.fault_threshold = default_fault_threshold
 
     def _record_schedulable_fault(self, schedulable: Schedulable) -> None:
         """

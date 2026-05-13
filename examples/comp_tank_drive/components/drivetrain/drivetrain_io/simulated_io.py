@@ -1,5 +1,7 @@
+import math
+
 from wpimath.geometry import Rotation2d
-from wpimath.units import volts, meters, meters_per_second
+from wpimath.units import volts, meters, meters_per_second, radians
 from wpimath.system.plant import DCMotor
 
 from components.drivetrain.drivetrain_io.io_base import DrivetrainIOBase
@@ -9,6 +11,13 @@ from wpilib import Timer
 from wpilib.simulation import DifferentialDrivetrainSim
 
 from adaptive_robot.utils.math_utils import clamp
+
+
+def normalize_angle(angle: radians) -> radians:
+    """
+    Normalizes an angle in radians to the range from negative pi to pi.
+    """
+    return (angle + math.pi) % (2 * math.pi) - math.pi
 
 
 class SimulatedDrivetrainIO(DrivetrainIOBase):
@@ -49,7 +58,8 @@ class SimulatedDrivetrainIO(DrivetrainIOBase):
         return self._desired_right_voltage
 
     def get_angle(self) -> Rotation2d:
-        return self._diff_drive_sim.getHeading()
+        normalized_angle = normalize_angle(self._diff_drive_sim.getHeading().radians())
+        return Rotation2d(normalized_angle)
     
     def set_left_voltage(self, voltage: volts) -> None:
         self._desired_left_voltage = voltage

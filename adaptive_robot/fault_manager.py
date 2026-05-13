@@ -5,6 +5,7 @@ from adaptive_robot.interfaces.schedulable_interface.schedulable_subscheduler im
 from adaptive_robot.interfaces.telemetry_interface.telemetry_subscheduler import TelemetrySubscheduler
 from adaptive_robot.interfaces.tunable_interface.tunable_subscheduler import TunableSubscheduler
 from adaptive_robot.autonomous.action_scheduler import ActionScheduler
+from adaptive_robot.profiling.profiling_subscheduler import ProfilingSubscheduler
 from adaptive_robot.faults.fault_scheduler import FaultLogger
 from adaptive_robot.faults.faults import Fault, FaultException, FaultSeverity
 
@@ -19,12 +20,14 @@ class FaultManager(Faultable):
         schedulable_subscheduler: SchedulableSubscheduler,
         telemetry_subscheduler: TelemetrySubscheduler,
         tunable_subscheduler: TunableSubscheduler,
-        action_scheduler: ActionScheduler, 
+        profiling_subscheduler: ProfilingSubscheduler,
+        action_scheduler: ActionScheduler,
         fault_logger: FaultLogger
     ) -> None:
         self._schedulable_subscheduler = schedulable_subscheduler
         self._telemetry_subscheduler = telemetry_subscheduler
         self._tunable_subscheduler = tunable_subscheduler
+        self._profiling_subscheduler = profiling_subscheduler
 
         self._action_scheduler = action_scheduler
         self._fault_logger = fault_logger
@@ -41,6 +44,7 @@ class FaultManager(Faultable):
             self._telemetry_subscheduler.run()
             self._schedulable_subscheduler.run(enabled)
             self._action_scheduler.run()
+            self._profiling_subscheduler.run(enabled)
             return False
         except FaultException as e:
             self._handle_fault(e)

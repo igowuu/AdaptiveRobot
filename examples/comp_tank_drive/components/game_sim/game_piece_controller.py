@@ -1,6 +1,6 @@
 from wpilib import Joystick, RobotState
 
-from components.game_sim.game_peice_sim import GamePieceSim
+from examples.comp_tank_drive.components.game_sim.game_piece_sim import GamePieceSim
 from constants import JoystickButton
 
 from adaptive_robot import Schedulable
@@ -21,9 +21,9 @@ class GamePieceController(Schedulable):
         if not RobotState.isTeleop():
             return
 
-        if self.controller.getRawButton(JoystickButton.GAME_SIM_CLEAR):
+        if self.controller.getRawButtonPressed(JoystickButton.GAME_SIM_CLEAR):
             self.game_piece_sim.clear_all_fuel()
-        if self.controller.getRawButton(JoystickButton.GAME_SIM_SPAWN):
+        if self.controller.getRawButtonPressed(JoystickButton.GAME_SIM_SPAWN):
             self.game_piece_sim.spawn_fuel_line()
         if self.controller.getRawButton(JoystickButton.GAME_SIM_SHOOT):
             self.game_piece_sim.shoot_fuel()

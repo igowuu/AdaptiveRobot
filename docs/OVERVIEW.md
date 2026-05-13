@@ -2,27 +2,31 @@
 
 AdaptiveRobot is a robot framework for FRC teams that want a cleaner way to write robot code without giving up safety, structure, or flexibility.
 
-At a high level, AdaptiveRobot wraps the normal WPILib robot lifecycle and adds a few things that teams usually end up building for themselves:
+At a high level, AdaptiveRobot wraps the normal WPILib robot lifecycle and adds:
 
 - a clear robot lifecycle
-- automatic component discovery
+- automatic component / interface discovery
 - request-based arbitration for shared outputs
 - built-in telemetry and tunables
+- built-in method profiling to diagnose loop overruns
 - automatic fault handling and logging
 - generator-based async actions for autonomous routines
+- utilities to detect common hardware faults and log them to a file
 
-The goal is simple: let a student write robot code in normal Python, but make the framework handle the repetitive pieces, the safety checks, and the bookkeeping.
+The goal: let a student write robot code in normal Python, but make the framework handle the repetitive pieces, the safety checks, while allowing for as much flexibility as possible.
 
-## Core Philosphy
+## Philosophy
 
-AdaptiveRobot is built around a few simple ideas:
+AdaptiveRobot is built around a few ideas:
 
-1. **Robot code should be organized by job, not by one huge file.**
+1. **Robot code should be organized by job, not by one large file.**
 2. **Multiple systems should be able to ask for the same output safely.**
 3. **Important values should be visible and adjustable at runtime.**
-4. **Failures should be logged and handled, not hidden or ignored.**
-5. **Autonomous should read like Python.**
-6. **Users should not be restricted when coding by the scheduler.**
+4. **Code should be profiled to detect loop overruns and other issues in the codebase.**
+5. **Failures should be logged and handled, not hidden or ignored.**
+6. **Autonomous should read like Python.**
+7. **Users should not be restricted when coding by the scheduler.**
+8. **Structure should not limit the users code or capability.**
 
 ## What AdaptiveRobot Gives You
 
@@ -37,26 +41,26 @@ AdaptiveRobot is built on top of `TimedRobot`. You override the `on...` methods 
 - `onAutonomousInit()`, `onAutonomousPeriodic()`, `onAutonomousExit()`
 - `onTestInit()`, `onTestPeriodic()`, `onTestExit()`
 
-The framework keeps the internal lifecycle methods final so the main scheduling logic stays consistent.
+The framework keeps the internal lifecycle methods unchangeable (@final) so the main scheduling logic stays consistent. Framework internals cannot be accidentally overriden by the user.
 
 ### 2. Adaptive Components and Interfaces
 
-Robot code is meant to be split into components. A component can take part in several systems at once by implementing framework interfaces:
+Robot code is meant to be split into interfaces and components. Interfaces are composable, so components only implement the behaviors they actually need:
 
 - `Schedulable` for periodic execution and health tracking
 - `TelemetryPublishable` for NetworkTables telemetry
 - `TunablePublishable` for runtime-adjustable values
 - `Faultable` for raising framework faults
 
-`AdaptiveComponent` is the legecy class that combines these ideas into one object.
+`AdaptiveComponent` is the legacy class that combines these ideas into one object.
 
 That means a drivetrain, intake, arm, shooter, or climber can all be written as their own class and still plug into the framework cleanly.
 
 ### 3. Auto-Discovery and Registration
 
-Objects created in `onRobotInit()` are automatically discovered if they implement the supported interfaces and are attached to the robot object.
+Objects created in `onRobotInit()` are automatically discovered if they implement the supported interfaces and are attached to the robot object. Further, any object in onRobotInit will be recursively traced to detect all implementers of interfaces.
 
-That reduces boilerplate, but you can still manually register objects when you want full control.
+That significantly reduces boilerplate, but you can still manually register objects when you want full control.
 
 ### 4. Request-Based Arbitration
 
@@ -90,7 +94,7 @@ Tunables let you change numbers like speeds, gains, offsets, and thresholds whil
 
 That means you can tune a drivetrain or arm without redeploying every time. The framework also supports tunable PID controllers so common control values can live in one place.
 
-Tunables can persist to disk on exit, so your values will not reset between redeploys.
+Tunables persist to disk on exit, so your values will not reset between redeploys.
 
 ### 7. Fault Handling and Logging
 
@@ -123,13 +127,17 @@ Schedulable objects track whether they are healthy or faulted. When something go
 
 This gives the robot a way to keep running safely even when one subsystem fails.
 
+## 10. Profiling
+
+Methods such as `execute()` and `publish_telemetry()` are automatically profiled by the framework. Additional methods can be profiled with the `@profile_method` decorator. Profiling data is periodically written to disk using the interval configured in `RobotConfig`.
+
 ## How It Fits Together
 
 In a typical robot, the flow looks like this:
 
 1. You create your robot class by inheriting from `AdaptiveRobot`.
-2. In `onRobotInit()`, you create your components.
-3. The framework discovers components and connects them to telemetry, tunables, scheduling, and fault handling.
+2. In `onRobotInit()`, you create your components / interfaces / any other universal objects.
+3. The framework discovers components and interfaces and connects them to telemetry, tunables, scheduling, and fault handling.
 4. During each robot loop, the framework runs the schedulers and your periodic hooks.
 5. If a fault happens, the framework logs it and reacts based on severity.
 6. If you schedule an autonomous action, the action scheduler runs it until it finishes or is cancelled.
@@ -163,6 +171,9 @@ If you want the deeper docs for each part, AdaptiveRobot is split into feature g
 - [Request arbitration and shared outputs](./features/REQUESTS_GUIDE.md)
 - [Fault handling and logging](./features/FAULTS_GUIDE.md)
 - [Interfaces and component structure](./features/INTERFACE_GUIDE.md)
+- [Profiling Guide](docs/features/PROFILING_GUIDE.md)
+- [SysID Guide](docs/features/SYSID_GUIDE.md)
+- [Utils Guide](docs/features/UTILS_GUIDE.md)
 
 ## Why Use It
 

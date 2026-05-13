@@ -4,6 +4,7 @@ from typing import Any, final
 
 from adaptive_robot.telemetry.telemetry import TelemetryPublisher, primitive_type
 from adaptive_robot.telemetry.struct_telemetry import TelemetryStructPublisher
+from adaptive_robot.profiling.profile_method import profile_method
 
 
 @dataclass
@@ -28,6 +29,11 @@ class TelemetryPublishable(ABC):
         cls._pending_telemetry_values: list[tuple[str, primitive_type]] = []
         cls._pending_struct_values: list[tuple[str, Any]] = []
         cls._telemetry_context: TelemetryContext | None = None
+
+        # Manually decorate any `publish_telemetry()` implementations by default.
+        if 'publish_telemetry' in cls.__dict__:
+            original_publish_telemetry = cls.publish_telemetry
+            cls.publish_telemetry = profile_method(original_publish_telemetry)
 
     @final
     @property
