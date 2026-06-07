@@ -1,4 +1,4 @@
-# AdaptiveRobot Framework
+# Experimental AdaptiveRobot Framework <DISCONTINUED>
 
 > Robot code that is easier to debug, safer under failure, and simpler to coordinate.
 
